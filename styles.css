@@ -1,11 +1,3 @@
-:root {
-  --primary-color: #000;
-  --secondary-color: #333;
-  --background-color: #fff;
-  --accent-color: #666;
-  --body-font: "Source Sans Pro", sans-serif;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -20,18 +12,76 @@ html, body {
 }
 
 body {
-  font-family: var(--body-font);
+  font-family: "Source Sans Pro", sans-serif;
   line-height: 1.6;
-  color: var(--primary-color);
   font-weight: 200;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--body-font);
+.essay-page {
+  color: #000;
+  background: #fff;
+}
+.essay-page .essay {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  font-family: "Source Sans Pro", sans-serif;
+  line-height: 1.8;
+}
+.essay-page .essay p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+.essay-page .essay .intro {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #333;
+}
+.essay-page .essay h2 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 2rem;
   font-weight: 900;
+  margin: 3rem 0 1.5rem;
+  color: #000;
+}
+.essay-page .essay .conclusion {
+  font-style: italic;
+  color: #333;
+  font-weight: 400;
+}
+.essay-page .essay .date {
+  margin-top: 4rem;
+  font-style: italic;
+  color: #666;
+  text-align: right;
+  font-weight: 200;
+}
+@media (max-width: 768px) {
+  .essay-page .essay {
+    margin: 3rem auto;
+  }
+  .essay-page .essay p {
+    font-size: 1.1rem;
+  }
+  .essay-page .essay .intro {
+    font-size: 1.2rem;
+  }
+  .essay-page .essay h2 {
+    font-size: 1.8rem;
+  }
 }
 
-header {
+body:not(.animation-page) {
+  color: #000;
+  background: #fff;
+  min-height: 100vh;
+}
+body:not(.animation-page) h1, body:not(.animation-page) h2, body:not(.animation-page) h3, body:not(.animation-page) h4, body:not(.animation-page) h5, body:not(.animation-page) h6 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 900;
+}
+body:not(.animation-page) header {
   position: fixed;
   width: 100%;
   background: rgba(255, 255, 255, 0.95);
@@ -40,32 +90,31 @@ header {
   z-index: 1000;
   top: 0;
 }
-header nav {
+body:not(.animation-page) header nav {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-header .logo {
+body:not(.animation-page) header nav .logo {
   font-size: 1.5rem;
   font-weight: 900;
   letter-spacing: 0.02em;
 }
-header .logo a {
-  color: var(--primary-color);
+body:not(.animation-page) header nav .logo a {
+  color: #000;
   text-decoration: none;
 }
-header .nav-links a {
-  color: var(--primary-color);
+body:not(.animation-page) header nav .nav-links a {
+  color: #000;
   text-decoration: none;
   font-weight: 200;
 }
-header .nav-links a:hover {
+body:not(.animation-page) header nav .nav-links a:hover {
   opacity: 0.7;
 }
-
-.hero-banner, .full-width-image {
+body:not(.animation-page) .hero-banner, body:not(.animation-page) .full-width-image {
   width: 100vw;
   height: 100vh;
   background-size: cover;
@@ -80,7 +129,7 @@ header .nav-links a:hover {
   color: white;
   text-align: center;
 }
-.hero-banner .overlay, .full-width-image .overlay {
+body:not(.animation-page) .hero-banner .overlay, body:not(.animation-page) .full-width-image .overlay {
   background: rgba(0, 0, 0, 0.7);
   padding: 4rem 2rem;
   width: 100%;
@@ -90,7 +139,7 @@ header .nav-links a:hover {
   justify-content: center;
   color: white;
 }
-.hero-banner h1, .full-width-image h1 {
+body:not(.animation-page) .hero-banner h1, body:not(.animation-page) .full-width-image h1 {
   font-size: 5rem;
   font-weight: 900;
   margin: 0 auto 1rem;
@@ -100,7 +149,7 @@ header .nav-links a:hover {
   line-height: 1;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-.hero-banner h2, .full-width-image h2 {
+body:not(.animation-page) .hero-banner h2, body:not(.animation-page) .full-width-image h2 {
   font-size: 1.8rem;
   font-weight: 200;
   max-width: 800px;
@@ -109,25 +158,22 @@ header .nav-links a:hover {
   letter-spacing: 0.04em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-
-.hero-trinity {
+body:not(.animation-page) .hero-trinity {
   background-image: url("images/trinity.jpg");
 }
-
-.reading-room {
+body:not(.animation-page) .reading-room {
   background-image: url("images/reading-room.jpg");
 }
-
-.concept {
+body:not(.animation-page) .concept {
   width: 100vw;
   text-align: center;
   padding: 6rem 2rem;
   background: #fff;
   margin: 0;
-  color: var(--primary-color);
+  color: #000;
 }
-.concept h2 {
-  font-family: var(--body-font);
+body:not(.animation-page) .concept h2 {
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 900;
   font-size: 3.5rem;
   margin-bottom: 2rem;
@@ -138,7 +184,7 @@ header .nav-links a:hover {
   margin-left: auto;
   margin-right: auto;
 }
-.concept p {
+body:not(.animation-page) .concept p {
   font-weight: 200;
   font-size: 1.2rem;
   max-width: 650px;
@@ -146,8 +192,7 @@ header .nav-links a:hover {
   margin-right: auto;
   line-height: 1.8;
 }
-
-.benefit-grid {
+body:not(.animation-page) .benefit-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -157,7 +202,7 @@ header .nav-links a:hover {
   color: #fff;
   justify-content: center;
 }
-.benefit-grid .benefit {
+body:not(.animation-page) .benefit-grid .benefit {
   flex: 0 1 calc(25% - 1.5rem);
   padding: 2rem;
   border: 1px solid hsla(0, 0%, 100%, 0.2);
@@ -165,7 +210,7 @@ header .nav-links a:hover {
   background: rgba(0, 0, 0, 0.5);
   min-width: 250px;
 }
-.benefit-grid .benefit h3 {
+body:not(.animation-page) .benefit-grid .benefit h3 {
   font-size: 2rem;
   font-weight: 900;
   margin-bottom: 1.2rem;
@@ -173,22 +218,21 @@ header .nav-links a:hover {
   line-height: 1.1;
   color: #fff;
 }
-.benefit-grid .benefit p {
+body:not(.animation-page) .benefit-grid .benefit p {
   color: #fff;
   font-weight: 200;
   font-size: 1.1rem;
   line-height: 1.8;
 }
-
-.signup {
+body:not(.animation-page) .signup {
   width: 100vw;
   background: #fff;
   padding: 6rem 2rem;
   text-align: center;
   margin: 0;
-  color: var(--primary-color);
+  color: #000;
 }
-.signup h2 {
+body:not(.animation-page) .signup h2 {
   font-size: 3.2rem;
   font-weight: 900;
   margin-bottom: 2rem;
@@ -197,192 +241,274 @@ header .nav-links a:hover {
   margin-left: auto;
   margin-right: auto;
 }
-.signup > * {
+body:not(.animation-page) .signup > * {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-
-form {
+body:not(.animation-page) form {
   max-width: 400px;
   margin: 2rem auto;
 }
-form input[type=email] {
+body:not(.animation-page) form input[type=email] {
   width: 100%;
   max-width: 300px;
   padding: 1rem;
   margin-bottom: 1rem;
   border: 1px solid #ddd;
-  font-family: var(--body-font);
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 200;
   font-size: 1rem;
 }
-form button {
+body:not(.animation-page) form button {
   padding: 1rem 2rem;
-  background: var(--primary-color);
+  background: #000;
   color: #fff;
   border: none;
   cursor: pointer;
   transition: opacity 0.3s;
-  font-family: var(--body-font);
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   font-size: 1rem;
 }
-form button:hover {
+body:not(.animation-page) form button:hover {
   opacity: 0.8;
 }
-
-.essay-page .hero-banner h1 {
-  font-size: 4.5rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.essay-page .hero-banner .author {
-  font-family: var(--body-font);
-  font-weight: 200;
-  font-size: 1.4rem;
-  letter-spacing: 0.04em;
-  margin-top: 2rem;
-}
-
-.essay {
-  max-width: 700px;
-  margin: 80px auto;
-  padding: 2rem;
-  line-height: 1.8;
-  font-weight: 200;
-}
-.essay h2 {
-  font-family: var(--body-font);
-  font-weight: 900;
-  font-size: 2.8rem;
-  margin: 3rem 0 1.5rem;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-}
-.essay .intro {
-  font-size: 1.4rem;
-  line-height: 1.6;
-  color: var(--secondary-color);
-  margin-bottom: 2rem;
-  font-weight: 400;
-}
-.essay p {
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.essay .conclusion {
-  font-size: 1.3rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #eee;
-  font-weight: 400;
-}
-.essay .date {
-  font-style: italic;
-  color: var(--accent-color);
-  margin-top: 3rem;
-  font-weight: 200;
-}
-
-footer {
+body:not(.animation-page) footer {
   text-align: center;
   padding: 2rem;
-  background: var(--primary-color);
+  background: #000;
   color: white;
 }
-
 @media (max-width: 1200px) {
-  .hero-banner h1, .full-width-image h1 {
+  body:not(.animation-page) .hero-banner h1, body:not(.animation-page) .full-width-image h1 {
     font-size: 4rem;
     padding: 0 2rem;
   }
-  .hero-banner h2, .full-width-image h2 {
+  body:not(.animation-page) .hero-banner h2, body:not(.animation-page) .full-width-image h2 {
     font-size: 1.6rem;
     padding: 0 2rem;
   }
-  .concept h2 {
+  body:not(.animation-page) .concept h2 {
     font-size: 3rem;
     padding: 0 2rem;
   }
-  .concept p {
+  body:not(.animation-page) .concept p {
     font-size: 1.1rem;
     padding: 0 2rem;
   }
-  .benefit-grid .benefit {
+  body:not(.animation-page) .benefit-grid .benefit {
     flex: 0 1 calc(50% - 1rem);
   }
 }
 @media (max-width: 768px) {
-  .hero-banner h1, .full-width-image h1 {
+  body:not(.animation-page) .hero-banner h1, body:not(.animation-page) .full-width-image h1 {
     font-size: 3rem;
   }
-  .hero-banner h2, .full-width-image h2 {
+  body:not(.animation-page) .hero-banner h2, body:not(.animation-page) .full-width-image h2 {
     font-size: 1.4rem;
   }
-  .concept h2 {
+  body:not(.animation-page) .concept h2 {
     font-size: 2.5rem;
   }
-  .concept p {
+  body:not(.animation-page) .concept p {
     font-size: 1rem;
   }
-  .benefit-grid {
+  body:not(.animation-page) .benefit-grid {
     padding: 0 1.5rem;
     gap: 1.5rem;
   }
-  .benefit-grid .benefit {
+  body:not(.animation-page) .benefit-grid .benefit {
     flex: 0 1 100%;
     max-width: 500px;
   }
-  .benefit-grid .benefit h3 {
+  body:not(.animation-page) .benefit-grid .benefit h3 {
     font-size: 1.8rem;
   }
-  .benefit-grid .benefit p {
+  body:not(.animation-page) .benefit-grid .benefit p {
     font-size: 1rem;
   }
-  .signup h2 {
+  body:not(.animation-page) .signup h2 {
     font-size: 2.5rem;
   }
-  header .logo {
+  body:not(.animation-page) header .logo {
     font-size: 1.2rem;
   }
-  header .nav-links a {
+  body:not(.animation-page) header .nav-links a {
     font-size: 0.9rem;
     margin-left: 1rem;
   }
 }
 @media (max-width: 480px) {
-  .hero-banner h1, .full-width-image h1 {
+  body:not(.animation-page) .hero-banner h1, body:not(.animation-page) .full-width-image h1 {
     font-size: 2.5rem;
   }
-  .hero-banner h2, .full-width-image h2 {
+  body:not(.animation-page) .hero-banner h2, body:not(.animation-page) .full-width-image h2 {
     font-size: 1.2rem;
   }
-  .concept {
+  body:not(.animation-page) .concept {
     padding: 4rem 1rem;
   }
-  .concept h2 {
+  body:not(.animation-page) .concept h2 {
     font-size: 2rem;
   }
-  .signup {
+  body:not(.animation-page) .signup {
     padding: 4rem 1rem;
   }
-  .signup h2 {
+  body:not(.animation-page) .signup h2 {
     font-size: 2rem;
   }
-  form input[type=email] {
+  body:not(.animation-page) form input[type=email] {
     max-width: 250px;
   }
-  form button {
+  body:not(.animation-page) form button {
     padding: 0.8rem 1.5rem;
     font-size: 0.9rem;
+  }
+}
+
+.animation-page {
+  background: #000;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+.animation-page .content-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.animation-page .content-wrapper {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.animation-page .main-text {
+  font-size: 4rem;
+  font-weight: 900;
+  text-align: center;
+  opacity: 1;
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1rem;
+  transform: translateY(0);
+}
+.animation-page .main-text.shifted {
+  transform: translateY(-40px);
+}
+.animation-page .answer-text {
+  font-size: 6rem;
+  font-weight: 900;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: rgba(255, 255, 255, 0.9);
+}
+.animation-page .answer-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.animation-page .institutions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+.animation-page .institution {
+  position: absolute;
+  opacity: 0;
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: 200;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  padding: 10px;
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  z-index: 3;
+}
+.animation-page .institution.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.animation-page .institution:hover {
+  color: rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 1000;
+}
+.animation-page .institution .tooltip {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 200px;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 1001;
+  margin-bottom: 10px;
+}
+.animation-page .institution:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-5px);
+}
+.animation-page .question-mark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20vw;
+  color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  pointer-events: none;
+}
+.animation-page .learn-more-button {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  opacity: 0;
+  z-index: 1001;
+}
+.animation-page .learn-more-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.animation-page .learn-more-button.visible {
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .animation-page .main-text {
+    font-size: 2.5rem;
+  }
+  .animation-page .answer-text {
+    font-size: 4rem;
+  }
+  .animation-page .institution .tooltip {
+    width: 160px;
+    font-size: 0.8rem;
   }
 }
 

@@ -1,0 +1,456 @@
+@use 'variables' as *;
+
+// Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $body-font;
+  line-height: 1.6;
+  font-weight: 200;
+}
+
+// Essay page styles
+.essay-page {
+  color: $primary-color;
+  background: #fff;
+
+  .essay {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    font-family: $body-font;
+    line-height: 1.8;
+
+    p {
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+      font-weight: 200;
+    }
+
+    .intro {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: $secondary-color;
+    }
+
+    h2 {
+      font-family: $body-font;
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 3rem 0 1.5rem;
+      color: $primary-color;
+    }
+
+    .conclusion {
+      font-style: italic;
+      color: $secondary-color;
+      font-weight: 400;
+    }
+
+    .date {
+      margin-top: 4rem;
+      font-style: italic;
+      color: $accent-color;
+      text-align: right;
+      font-weight: 200;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .essay {
+      margin: 3rem auto;
+      
+      p {
+        font-size: 1.1rem;
+      }
+      
+      .intro {
+        font-size: 1.2rem;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+// Main site styles
+body:not(.animation-page) {
+  color: $primary-color;
+  background: #fff;
+  min-height: 100vh;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $body-font;
+    font-weight: 900;
+  }
+
+  // Header
+  header {
+    position: fixed;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #eee;
+    z-index: 1000;
+    top: 0;
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        
+        a {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+
+      .nav-links {
+        a {
+          color: $primary-color;
+          text-decoration: none;
+          font-weight: 200;
+          
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+
+  // Hero sections
+  .hero-banner, .full-width-image {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4rem 2rem;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+    }
+
+    h1 {
+      font-size: 5rem;
+      font-weight: 900;
+      margin: 0 auto 1rem;
+      max-width: 1000px;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 200;
+      max-width: 800px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.04em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  // Background images
+  .hero-trinity {
+    background-image: url('images/trinity.jpg');
+  }
+
+  .reading-room {
+    background-image: url('images/reading-room.jpg');
+  }
+
+  // Content sections
+  .concept {
+    width: 100vw;
+    text-align: center;
+    padding: 6rem 2rem;
+    background: #fff;
+    margin: 0;
+    color: $primary-color;
+
+    h2 {
+      font-family: $body-font;
+      font-weight: 900;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    p {
+      font-weight: 200;
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+  }
+
+  // Benefits grid
+  .benefit-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    color: #fff;
+    justify-content: center;
+
+    .benefit {
+      flex: 0 1 calc(25% - 1.5rem);
+      padding: 2rem;
+      border: 1px solid hsla(0, 0%, 100%, 0.2);
+      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.5);
+      min-width: 250px;
+
+      h3 {
+        font-size: 2rem;
+        font-weight: 900;
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+        color: #fff;
+      }
+
+      p {
+        color: #fff;
+        font-weight: 200;
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+    }
+  }
+
+  // Signup section
+  .signup {
+    width: 100vw;
+    background: #fff;
+    padding: 6rem 2rem;
+    text-align: center;
+    margin: 0;
+    color: $primary-color;
+
+    h2 {
+      font-size: 3.2rem;
+      font-weight: 900;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    & > * {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // Form elements
+  form {
+    max-width: 400px;
+    margin: 2rem auto;
+
+    input[type="email"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      font-family: $body-font;
+      font-weight: 200;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: $primary-color;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      font-family: $body-font;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 1rem;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  // Footer
+  footer {
+    text-align: center;
+    padding: 2rem;
+    background: $primary-color;
+    color: white;
+  }
+
+  // Media queries for main site
+  @media (max-width: 1200px) {
+    .hero-banner, .full-width-image {
+      h1 {
+        font-size: 4rem;
+        padding: 0 2rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+        padding: 0 2rem;
+      }
+    }
+
+    .concept {
+      h2 {
+        font-size: 3rem;
+        padding: 0 2rem;
+      }
+      p {
+        font-size: 1.1rem;
+        padding: 0 2rem;
+      }
+    }
+
+    .benefit-grid {
+      .benefit {
+        flex: 0 1 calc(50% - 1rem);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-banner, .full-width-image {
+      h1 {
+        font-size: 3rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    .concept {
+      h2 {
+        font-size: 2.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .benefit-grid {
+      padding: 0 1.5rem;
+      gap: 1.5rem;
+
+      .benefit {
+        flex: 0 1 100%;
+        max-width: 500px;
+
+        h3 {
+          font-size: 1.8rem;
+        }
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .signup {
+      h2 {
+        font-size: 2.5rem;
+      }
+    }
+
+    header {
+      .logo {
+        font-size: 1.2rem;
+      }
+      .nav-links a {
+        font-size: 0.9rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-banner, .full-width-image {
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+
+    .concept {
+      padding: 4rem 1rem;
+      h2 {
+        font-size: 2rem;
+      }
+    }
+
+    .signup {
+      padding: 4rem 1rem;
+      h2 {
+        font-size: 2rem;
+      }
+    }
+
+    form {
+      input[type="email"] {
+        max-width: 250px;
+      }
+      button {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+} 
