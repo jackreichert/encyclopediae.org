@@ -116,7 +116,8 @@ body:not(.animation-page) header nav .nav-links a:hover {
 }
 body:not(.animation-page) .hero-banner, body:not(.animation-page) .full-width-image {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -131,9 +132,10 @@ body:not(.animation-page) .hero-banner, body:not(.animation-page) .full-width-im
 }
 body:not(.animation-page) .hero-banner .overlay, body:not(.animation-page) .full-width-image .overlay {
   background: rgba(0, 0, 0, 0.7);
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -158,6 +160,14 @@ body:not(.animation-page) .hero-banner h2, body:not(.animation-page) .full-width
   letter-spacing: 0.04em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+@media (max-width: 768px) {
+  body:not(.animation-page) .hero-banner, body:not(.animation-page) .full-width-image {
+    background-attachment: scroll;
+  }
+  body:not(.animation-page) .hero-banner .overlay, body:not(.animation-page) .full-width-image .overlay {
+    padding: 8rem 1rem;
+  }
+}
 body:not(.animation-page) .hero-trinity {
   background-image: url("images/trinity.jpg");
 }
@@ -165,7 +175,7 @@ body:not(.animation-page) .reading-room {
   background-image: url("images/reading-room.jpg");
 }
 body:not(.animation-page) .concept {
-  width: 100vw;
+  width: 100%;
   text-align: center;
   padding: 6rem 2rem;
   background: #fff;
@@ -192,13 +202,18 @@ body:not(.animation-page) .concept p {
   margin-right: auto;
   line-height: 1.8;
 }
+@media (max-width: 768px) {
+  body:not(.animation-page) .concept {
+    padding: 4rem 1.5rem;
+  }
+}
 body:not(.animation-page) .benefit-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 2rem;
   color: #fff;
   justify-content: center;
 }
@@ -223,6 +238,31 @@ body:not(.animation-page) .benefit-grid .benefit p {
   font-weight: 200;
   font-size: 1.1rem;
   line-height: 1.8;
+}
+@media (max-width: 1200px) {
+  body:not(.animation-page) .benefit-grid .benefit {
+    flex: 0 1 calc(50% - 1rem);
+  }
+}
+@media (max-width: 768px) {
+  body:not(.animation-page) .benefit-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  body:not(.animation-page) .benefit-grid .benefit {
+    flex: 0 1 100%;
+    max-width: 100%;
+    min-width: auto;
+    margin: 0.5rem 0;
+    padding: 1.5rem;
+  }
+  body:not(.animation-page) .benefit-grid .benefit h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+  body:not(.animation-page) .benefit-grid .benefit p {
+    font-size: 1rem;
+  }
 }
 body:not(.animation-page) .signup {
   width: 100vw;
