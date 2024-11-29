@@ -310,7 +310,7 @@ body:not(.animation-page) {
 
   // Signup section
   .signup {
-    width: 100vw;
+    width: 100%;
     background: #fff;
     padding: 6rem 2rem;
     text-align: center;
@@ -327,46 +327,125 @@ body:not(.animation-page) {
       margin-right: auto;
     }
 
-    & > * {
-      max-width: 1200px;
+    p {
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      margin-bottom: 2rem;
     }
   }
 
   // Form elements
-  form {
-    max-width: 400px;
+  form, .success-message {
+    width: 360px;
+    max-width: 100%;
     margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
 
-    input[type="email"] {
-      width: 100%;
-      max-width: 300px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ddd;
-      font-family: $body-font;
+  .success-message {
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      color: $primary-color;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: $secondary-color;
       font-weight: 200;
-      font-size: 1rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  input[type="email"],
+  input[type="text"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: white;
+    font-family: $body-font;
+    font-weight: 200;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
     }
 
-    button {
-      padding: 1rem 2rem;
-      background: $primary-color;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.3s;
-      font-family: $body-font;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      font-size: 1rem;
-
-      &:hover {
-        opacity: 0.8;
-      }
+    &::placeholder {
+      color: #999;
     }
+  }
+
+  button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: $body-font;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+
+  .error-message {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: left;
+    min-height: 1.2em;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    background: rgba(211, 47, 47, 0.05);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: -0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 320px;
+    padding: 1.5rem;
   }
 
   // Footer
@@ -479,19 +558,24 @@ body:not(.animation-page) {
     }
 
     .signup {
-      padding: 4rem 1rem;
+      padding: 4rem 1.5rem;
+      
       h2 {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
     }
 
     form {
-      input[type="email"] {
-        max-width: 250px;
-      }
-      button {
-        padding: 0.8rem 1.5rem;
+      width: 280px;
+      padding: 1.5rem;
+      
+      input[type="email"],
+      input[type="text"] {
         font-size: 0.9rem;
+      }
+      
+      button {
+        font-size: 0.85rem;
       }
     }
   }
