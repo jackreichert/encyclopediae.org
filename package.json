@@ -1,0 +1,13 @@
+{
+  "name": "encyclopediae",
+  "version": "1.0.0",
+  "description": "Decentralized academic knowledge project",
+  "scripts": {
+    "sass": "sass styles.scss:styles.css --watch",
+    "sass:build": "sass styles.scss:styles.css --style compressed",
+    "start": "npm run sass"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5"
+  }
+} 
