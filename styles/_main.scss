@@ -166,17 +166,19 @@ body:not(.animation-page) {
       flex-direction: column;
       justify-content: center;
       color: white;
+      padding-top: max(8rem, 15vh);
     }
 
     h1 {
-      font-size: 5rem;
+      font-size: clamp(2.5rem, 6vw, 5rem);
       font-weight: 900;
       margin: 0 auto 1rem;
       max-width: 1000px;
       text-transform: uppercase;
       letter-spacing: -0.03em;
-      line-height: 1;
+      line-height: 1.2;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      padding: 0 1rem;
     }
 
     h2 {
@@ -193,7 +195,12 @@ body:not(.animation-page) {
       background-attachment: scroll;
       
       .overlay {
-        padding: 8rem 1rem;
+        padding-top: max(6rem, 12vh);
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        padding: 0 1.5rem;
       }
     }
   }
