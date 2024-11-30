@@ -120,17 +120,18 @@
       }
     }
 
-    &:active .tooltip {
-      display: block;
+    &:active .tooltip,
+    &.touched .tooltip {
+      display: block !important;
     }
 
-    @media (hover: none) and (pointer: coarse) {
-      &:active .tooltip {
-        display: block;
-      }
-      
+    @media (hover: none) {
       &:hover .tooltip {
         display: none;
+      }
+      
+      &:active .tooltip {
+        display: block !important;
       }
     }
   }
