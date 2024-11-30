@@ -1,24 +1,23 @@
 /* global turnstile */
 
-// Turnstile initialization
-document.addEventListener('DOMContentLoaded', function() {
-  turnstile.ready(function() {
-    turnstile.render('#turnstile-widget', {
-      sitekey: '0x4AAAAAAA1K8IGQ_E7ccSHG',
-      theme: 'light',
-      callback: function(token) {
-        // Store token without logging
-        window.turnstileToken = token;
-      },
-      'error-callback': function(error) {
-        const errorElement = document.getElementById('emailError');
-        if (errorElement) {
-          errorElement.textContent = 'Verification failed. Please try again.';
-        }
+// Wait for both DOM and Turnstile to be ready
+window.onloadTurnstileCallback = function() {
+  const widgetId = turnstile.render('#turnstile-widget', {
+    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
+    theme: 'light',
+    callback: function(token) {
+      window.turnstileToken = token;
+    },
+    'error-callback': function(error) {
+      const errorElement = document.getElementById('emailError');
+      if (errorElement) {
+        errorElement.textContent = 'Verification failed. Please try again.';
       }
-    });
+      // Reset on error
+      turnstile.reset(widgetId);
+    }
   });
-});
+};
 
 // Form submission
 document.getElementById('signupForm').addEventListener('submit', async function(e) {
