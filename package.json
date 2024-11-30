@@ -1,14 +1,18 @@
 {
   "name": "encyclopediae",
   "version": "1.0.0",
+  "private": true,
   "description": "Decentralized academic knowledge project",
   "scripts": {
     "sass": "sass styles.scss:styles.css --watch",
     "sass:build": "sass styles.scss:styles.css --style compressed",
     "build": "npm run sass:build",
-    "start": "npm run sass"
+    "start": "npm run sass",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "eslint": "^8.57.0"
   }
 } 
