@@ -54,6 +54,7 @@ export default {
         const formData = new FormData();
         formData.append('secret', env.TURNSTILE_SECRET_KEY);
         formData.append('response', token);
+        formData.append('remoteip', request.headers.get('cf-connecting-ip'));
 
         const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
           method: 'POST',
