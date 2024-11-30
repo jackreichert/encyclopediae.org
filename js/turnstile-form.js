@@ -2,24 +2,30 @@
 
 // Turnstile initialization
 document.addEventListener('DOMContentLoaded', function () {
-  turnstile.ready(function () {
-    turnstile.render('#turnstile-widget', {
-      sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
-      theme: 'light',
-      action: 'signup',
-      appearance: 'interaction-only',
-      callback: function (token) {
-        // Store token without logging
-        window.turnstileToken = token;
-      },
-      'error-callback': function () {
-        const errorElement = document.getElementById('emailError');
-        if (errorElement) {
-          errorElement.textContent = 'Verification failed. Please try again.';
-        }
-      }
-    });
-  });
+  // Wait a short moment to ensure Turnstile is fully loaded
+  setTimeout(() => {
+    if (typeof turnstile !== 'undefined') {
+      turnstile.ready(function () {
+        turnstile.render('#turnstile-widget', {
+          sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
+          theme: 'light',
+          retry: 'auto',
+          refresh_expired: 'auto',
+          callback: function (token) {
+            window.turnstileToken = token;
+          },
+          'error-callback': function () {
+            const errorElement = document.getElementById('emailError');
+            if (errorElement) {
+              errorElement.textContent = 'Verification failed. Please try again.';
+            }
+          }
+        });
+      });
+    } else {
+      console.error('Turnstile failed to load');
+    }
+  }, 1000);
 });
 
 // Form submission
@@ -78,4 +84,22 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
     turnstile.reset(); // Always reset on error
   }
-}); 
+});
+
+window.onloadTurnstileCallback = function () {
+  turnstile.render('#turnstile-widget', {
+    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
+    theme: 'light',
+    retry: 'auto',
+    refresh_expired: 'auto',
+    callback: function (token) {
+      window.turnstileToken = token;
+    },
+    'error-callback': function () {
+      const errorElement = document.getElementById('emailError');
+      if (errorElement) {
+        errorElement.textContent = 'Verification failed. Please try again.';
+      }
+    }
+  });
+}; 
