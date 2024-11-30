@@ -1,7 +1,8 @@
 document.getElementById('signupForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const name = document.getElementById('name').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
     const institution = document.getElementById('institution').value.trim();
     const email = document.getElementById('email').value.trim();
     const errorElement = document.getElementById('emailError');
@@ -33,7 +34,8 @@ document.getElementById('signupForm').addEventListener('submit', async function(
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name,
+                firstName,
+                lastName,
                 institution,
                 email,
                 token,

@@ -17,7 +17,7 @@ export default {
     }
 
     try {
-      const { email, name, institution, timestamp, token } = await request.json();
+      const { email, firstName, lastName, institution, timestamp, token } = await request.json();
 
       // Basic validation
       if (!email || typeof email !== 'string') {
@@ -50,7 +50,8 @@ export default {
       // Store the signup data
       await env.SIGNUPS.put(key, JSON.stringify({
         email,
-        name: name || '',
+        firstName: firstName || '',
+        lastName: lastName || '',
         institution: institution || '',
         timestamp
       }));
