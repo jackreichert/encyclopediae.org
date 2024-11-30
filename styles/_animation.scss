@@ -119,6 +119,20 @@
         padding: 12px;
       }
     }
+
+    &:active .tooltip {
+      display: block;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      &:active .tooltip {
+        display: block;
+      }
+      
+      &:hover .tooltip {
+        display: none;
+      }
+    }
   }
 
   .question-mark {
