@@ -83,7 +83,6 @@ export default {
         const formData = new FormData();
         formData.append('secret', env.TURNSTILE_SECRET_KEY);
         formData.append('response', token);
-        formData.append('remoteip', request.headers.get('cf-connecting-ip'));
 
         const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
           method: 'POST',
@@ -91,8 +90,13 @@ export default {
         });
 
         const outcome = await result.json();
+        console.log('Turnstile verification result:', outcome);
+
         if (!outcome.success) {
-          return new Response(JSON.stringify({ error: 'Invalid Turnstile token' }), { 
+          return new Response(JSON.stringify({ 
+            error: 'Invalid Turnstile token',
+            details: outcome 
+          }), { 
             status: 400,
             headers: {
               ...corsHeaders,
@@ -131,6 +135,7 @@ export default {
         });
 
       } catch (error) {
+        console.error('Worker error:', error);
         return new Response(JSON.stringify({ error: error.message || 'Internal server error' }), {
           status: 500,
           headers: {

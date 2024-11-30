@@ -82,7 +82,9 @@
                 <div class="cf-turnstile" 
                     data-sitekey="0x4AAAAAAA1K8IGQ_E7ccSHG"
                     data-theme="light"
-                    data-retry="auto"></div>
+                    data-retry="auto"
+                    data-action="signup"
+                    data-callback="onTurnstileSuccess"></div>
                 <button type="submit">Join the Initiative</button>
                 <div id="emailError" class="error-message"></div>
             </form>
@@ -94,5 +96,10 @@
     </footer>
 
     <script src="script.js?v=2"></script>
+    <script>
+    function onTurnstileSuccess(token) {
+        console.log("Turnstile callback success");
+    }
+    </script>
 </body>
 </html>
