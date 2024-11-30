@@ -24,26 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  const firstName = document.getElementById('firstName').value.trim();
-  const lastName = document.getElementById('lastName').value.trim();
-  const institution = document.getElementById('institution').value.trim();
-  const email = document.getElementById('email').value.trim();
   const errorElement = document.getElementById('emailError');
-
-  // Email validation
-  if (!email) {
-    errorElement.textContent = 'Please enter your email address';
-    return;
-  }
-
-  // Basic email format validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    errorElement.textContent = 'Please enter a valid email address';
-    return;
-  }
-
   const token = window.turnstileToken;
+
+  // Clear any previous error
+  errorElement.textContent = '';
+
   if (!token) {
     errorElement.textContent = 'Please complete the human verification';
     return;
@@ -56,10 +42,10 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName,
-        lastName,
-        institution,
-        email,
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        institution: document.getElementById('institution').value.trim(),
+        email: document.getElementById('email').value.trim(),
         token,
         timestamp: new Date().toISOString()
       })
@@ -67,6 +53,12 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
     if (!response.ok) {
       const errorData = await response.json();
+      // If it's a Turnstile error, reset the widget
+      if (errorData.details?.['error-codes']?.includes('timeout-or-duplicate')) {
+        turnstile.reset(); // Reset the widget
+        errorElement.textContent = 'Verification expired. Please verify again.';
+        return;
+      }
       throw new Error(errorData.error || 'Submission failed');
     }
 
@@ -82,7 +74,6 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
   } catch (error) {
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
-    // Reset the Turnstile widget on error
-    turnstile.reset();
+    turnstile.reset(); // Always reset on error
   }
 }); 
