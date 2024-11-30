@@ -145,17 +145,8 @@
         </div>
     </article>
 
-    <!-- Add Turnstile script -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
-    <script>
-    window.onTurnstileLoad = function () {
-        if (typeof turnstile !== 'undefined') {
-            initTurnstile();
-        } else {
-            console.error('Turnstile failed to load');
-        }
-    };
-    </script>
-    <script src="js/turnstile-form.js?v=3"></script>
+    <!-- Update the script order -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="js/turnstile-form.js?v=4"></script>
 </body>
 </html>

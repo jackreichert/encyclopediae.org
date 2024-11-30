@@ -16,33 +16,27 @@ function initTurnstile() {
   widgetId = turnstile.render('#turnstile-widget', {
     sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
     theme: 'light',
-    retry: 'auto',
-    refresh_expired: 'auto',
+    retry: 'never',
+    refresh_expired: 'manual',
     appearance: 'always',
     callback: function (token) {
       console.log('Turnstile callback received');
       window.turnstileToken = token;
     },
-    'expired-callback': function () {
-      console.log('Token expired, refreshing...');
+    'expired-callback': function() {
+      console.log('Token expired');
       window.turnstileToken = null;
-      turnstile.reset(widgetId);
+      const errorElement = document.getElementById('emailError');
+      if (errorElement) {
+        errorElement.textContent = 'Verification expired. Please refresh and try again.';
+      }
     },
-    'error-callback': function (error) {
+    'error-callback': function(error) {
       console.error('Turnstile error:', error);
       window.turnstileToken = null;
-      if (widgetId) {
-        turnstile.reset(widgetId);
-      }
       const errorElement = document.getElementById('emailError');
       if (errorElement) {
         errorElement.textContent = 'Verification failed. Please try again.';
-      }
-    },
-    'timeout-callback': function () {
-      console.log('Challenge timed out, refreshing...');
-      if (widgetId) {
-        turnstile.reset(widgetId);
       }
     }
   });
@@ -51,9 +45,17 @@ function initTurnstile() {
 // Form submission handler
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
   e.preventDefault();
-    
-  const message = document.getElementById('message').value.trim();
+  
   const errorElement = document.getElementById('emailError');
+  errorElement.textContent = ''; // Clear previous errors
+  
+  // Validate token first
+  if (!window.turnstileToken) {
+    errorElement.textContent = 'Please complete the verification challenge';
+    return;
+  }
+
+  const message = document.getElementById('message').value.trim();
 
   // Validate message length
   if (message.length > 1500) {
@@ -67,21 +69,6 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     return;
   }
 
-  // Reset the widget before submission to ensure fresh token
-  if (widgetId) {
-    turnstile.reset(widgetId);
-  }
-    
-  // Wait briefly for new token
-  await new Promise(resolve => setTimeout(resolve, 1000));
-    
-  const token = window.turnstileToken;
-    
-  if (!token) {
-    errorElement.textContent = 'Please complete the verification again';
-    return;
-  }
-    
   try {
     const response = await fetch('https://signup.encyclopediae.workers.dev', {
       method: 'POST',
@@ -94,15 +81,21 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         institution: document.getElementById('institution').value.trim(),
         email: document.getElementById('email').value.trim(),
         message: message,
-        token,
+        token: window.turnstileToken,
         timestamp: new Date().toISOString()
       })
     });
 
+    // Clear token after use to prevent reuse
+    const usedToken = window.turnstileToken;
+    window.turnstileToken = null;
+    
     if (!response.ok) {
       const errorData = await response.json();
       if (errorData.details?.['error-codes']?.includes('timeout-or-duplicate')) {
-        turnstile.reset();
+        if (widgetId) {
+          turnstile.reset(widgetId);
+        }
         errorElement.textContent = 'Verification expired. Please verify again.';
         return;
       }
@@ -120,16 +113,13 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     form.parentNode.replaceChild(successMessage, form);
 
   } catch (error) {
+    console.error('Submission error:', error);
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
-    turnstile.reset();
+    if (widgetId) {
+      turnstile.reset(widgetId);
+    }
   }
 });
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Don't initialize here anymore
-  });
-} else {
-  // Don't initialize here anymore
-} 
+// Initialize when the script loads
+initTurnstile(); 
