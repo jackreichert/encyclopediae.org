@@ -113,11 +113,21 @@ body:not(.animation-page) {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      
+      @media (max-width: 480px) {
+        flex-direction: column;  // Stack logo and nav vertically
+        gap: 0.75rem;           // Space between logo and nav
+        padding: 0.5rem 0;      // Add some vertical padding
+      }
 
       .logo {
         font-size: 1.5rem;
         font-weight: 900;
         letter-spacing: 0.02em;
+        
+        @media (max-width: 480px) {
+          font-size: 1.3rem;
+        }
         
         a {
           color: $primary-color;
@@ -129,12 +139,28 @@ body:not(.animation-page) {
         display: flex;
         gap: 2rem;
         
+        @media (max-width: 768px) {
+          gap: 1.5rem;
+        }
+        
+        @media (max-width: 480px) {
+          gap: 1.25rem;         // Slightly reduce gap on mobile
+          justify-content: center; // Center the nav items
+          width: 100%;          // Full width for better spacing
+          padding: 0.25rem 0;   // Add some vertical padding
+        }
+        
         a {
           color: $primary-color;
           text-decoration: none;
           font-weight: 200;
           position: relative;
           padding-bottom: 2px;
+          white-space: nowrap;  // Prevent text wrapping
+          
+          @media (max-width: 480px) {
+            font-size: 0.95rem; // Slightly smaller font on mobile
+          }
           
           &:hover {
             opacity: 0.7;
@@ -158,7 +184,7 @@ body:not(.animation-page) {
     }
   }
 
-  // Hero sections
+  // Hero sections with adjusted mobile spacing
   .hero-banner, .full-width-image {
     width: 100vw;
     min-height: 100vh;
@@ -186,37 +212,45 @@ body:not(.animation-page) {
       justify-content: center;
       color: white;
       padding-top: max(8rem, 15vh);
-    }
 
-    h1 {
-      font-size: clamp(1.8rem, 5vw, 5rem);
-      font-weight: 900;
-      margin: 0 auto;
-      max-width: 90%;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      white-space: normal;
-      overflow: visible;
-      text-overflow: clip;
-      padding: 0 1rem;
-      word-wrap: break-word;
-      word-break: keep-all;
-      hyphens: none;
-    }
+      @media (max-width: 480px) {
+        padding-top: max(10rem, 20vh); // Increased padding for mobile nav
+        padding-bottom: 6rem; // Ensure enough space at bottom
+        min-height: 100vh; // Maintain full height
+        justify-content: flex-start; // Start content after the nav
+      }
 
-    h2 {
-      font-size: 1.8rem;
-      font-weight: 200;
-      max-width: 800px;
-      margin: 0 auto;
-      color: rgba(255, 255, 255, 0.9);
-      letter-spacing: 0.04em;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        margin-bottom: 1.5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        word-break: keep-all;
+        hyphens: none;
+        overflow-wrap: break-word;
+        padding: 0 1rem;
+        
+        @media (max-width: 480px) {
+          font-size: clamp(2rem, 7vw, 3rem);
+          padding: 0 0.5rem;
+          line-height: 1.2;
+        }
+      }
+
+      h2 {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-weight: 200;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
     }
 
     @media (max-width: 768px) {
-      background-attachment: scroll;
+      background-attachment: scroll; // Better mobile performance
       
       .overlay {
         padding: max(6rem, 12vh) 1rem 4rem;
@@ -680,8 +714,15 @@ body:not(.animation-page) {
   section {
     margin-bottom: 4rem;
 
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 2rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
     h2 {
-      font-size: 2rem;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
       margin-bottom: 1.5rem;
       font-weight: 900;
     }

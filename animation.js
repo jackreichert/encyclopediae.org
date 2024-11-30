@@ -161,7 +161,19 @@ function initAnimation() {
             ${inst.name}
             <div class="tooltip">${inst.strength}</div>
         `;
-        
+    
+    // Add touch event handlers for mobile/tablet
+    el.addEventListener('touchstart', function(e) {
+      e.preventDefault(); // Prevent default touch behavior
+      const tooltip = this.querySelector('.tooltip');
+      // Hide all other tooltips first
+      document.querySelectorAll('.tooltip.active').forEach(t => {
+        if (t !== tooltip) t.classList.remove('active');
+      });
+      // Toggle current tooltip
+      tooltip.classList.toggle('active');
+    });
+
     // Random font size between 20 and 30 pixels
     const randomSize = Math.floor(Math.random() * 11) + 20; // Random number between 20 and 30
     el.style.fontSize = `${randomSize}px`;

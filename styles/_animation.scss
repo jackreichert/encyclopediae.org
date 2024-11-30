@@ -61,7 +61,7 @@
   .institution {
     position: absolute;
     opacity: 0;
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 200;
     transform: translate(-50%, -50%) scale(0.8);
     transition: all 0.8s $transition-bezier;
@@ -77,34 +77,42 @@
     }
 
     &:hover {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 1);
       transform: translate(-50%, -50%) scale(1.1);
       z-index: 1000;
     }
 
     .tooltip {
       position: absolute;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      padding: 1rem;
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 10px;
+      border-radius: 4px;
       font-size: 0.9rem;
-      width: 200px;
-      bottom: 100%;
+      width: max-content;
+      max-width: 200px;
+      top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      pointer-events: none;
-      z-index: 1001;
-      margin-bottom: 10px;
+      margin-top: 5px;
+      z-index: 1000;
+      display: none;
+
+      &.active {
+        display: block;
+      }
     }
 
     &:hover .tooltip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(-5px);
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .tooltip {
+        width: 160px;
+        font-size: 0.8rem;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 12px;
+      }
     }
   }
 
