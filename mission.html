@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
     <header>
@@ -84,7 +84,8 @@
                     data-theme="light"
                     data-retry="auto"
                     data-action="signup"
-                    data-callback="onTurnstileSuccess"></div>
+                    data-callback="onTurnstileSuccess"
+                    data-error-callback="onTurnstileError"></div>
                 <button type="submit">Join the Initiative</button>
                 <div id="emailError" class="error-message"></div>
             </form>
@@ -97,9 +98,18 @@
 
     <script src="script.js?v=2"></script>
     <script>
-    function onTurnstileSuccess(token) {
-        console.log("Turnstile callback success");
-    }
+    window.onTurnstileSuccess = function(token) {
+        console.log("Turnstile success, token length:", token.length);
+    };
+
+    window.onTurnstileError = function(error) {
+        console.error("Turnstile error:", error);
+    };
+
+    // Reset Turnstile on form error
+    window.turnstileReset = function() {
+        turnstile.reset();
+    };
     </script>
 </body>
 </html>
