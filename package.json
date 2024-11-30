@@ -5,6 +5,7 @@
   "scripts": {
     "sass": "sass styles.scss:styles.css --watch",
     "sass:build": "sass styles.scss:styles.css --style compressed",
+    "build": "npm run sass:build",
     "start": "npm run sass"
   },
   "devDependencies": {
