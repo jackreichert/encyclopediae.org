@@ -51,17 +51,17 @@ export default {
         }
 
         // Verify Turnstile token
-        const formData = new FormData();
+        const formData = new URLSearchParams();
         formData.append('secret', env.TURNSTILE_SECRET_KEY);
         formData.append('response', token);
         formData.append('remoteip', request.headers.get('cf-connecting-ip'));
 
         const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-          method: 'POST',
           body: formData,
+          method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
-          }
+          },
         });
 
         const outcome = await result.json();
