@@ -18,6 +18,13 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         errorElement.textContent = 'Please enter a valid email address';
         return;
     }
+
+    // Get the Turnstile token
+    const token = turnstile.getResponse();
+    if (!token) {
+        errorElement.textContent = 'Please complete the human verification';
+        return;
+    }
     
     try {
         const response = await fetch('https://signup.encyclopediae.workers.dev', {
@@ -29,6 +36,7 @@ document.getElementById('signupForm').addEventListener('submit', async function(
                 name,
                 institution,
                 email,
+                token,
                 timestamp: new Date().toISOString()
             })
         });
@@ -46,7 +54,12 @@ document.getElementById('signupForm').addEventListener('submit', async function(
             <p>We'll notify you when we launch.</p>
         `;
         form.parentNode.replaceChild(successMessage, form);
+
+        // Reset the Turnstile widget
+        turnstile.reset();
     } catch (error) {
         errorElement.textContent = 'There was a problem submitting your information. Please try again.';
+        // Reset the Turnstile widget on error
+        turnstile.reset();
     }
 }); 

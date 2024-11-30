@@ -1,6 +1,6 @@
-name = "signup"
+name = "signup-worker"
 main = "worker.js"
-compatibility_date = "2023-12-01"
+compatibility_date = "2023-11-30"
 
 # KV namespace binding will be set via environment variable
 # Do not commit actual KV ID to the repository 

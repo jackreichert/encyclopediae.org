@@ -17,11 +17,31 @@ export default {
     }
 
     try {
-      const { email, name, institution, timestamp } = await request.json();
+      const { email, name, institution, timestamp, token } = await request.json();
 
       // Basic validation
       if (!email || typeof email !== 'string') {
         return new Response("Invalid email", { status: 400 });
+      }
+
+      if (!token) {
+        return new Response("Missing Turnstile token", { status: 400 });
+      }
+
+      // Verify Turnstile token
+      const formData = new FormData();
+      formData.append('secret', env.TURNSTILE_SECRET_KEY);
+      formData.append('response', token);
+      formData.append('remoteip', request.headers.get('cf-connecting-ip'));
+
+      const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        body: formData
+      });
+
+      const outcome = await result.json();
+      if (!outcome.success) {
+        return new Response("Invalid Turnstile token", { status: 400 });
       }
 
       // Create a unique key using the email
