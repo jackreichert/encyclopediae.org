@@ -2,25 +2,31 @@
 
 let widgetId = null;
 
-// Wait for DOM and Turnstile to be ready
+// Initialize Turnstile widget
 function initTurnstile() {
-  if (typeof turnstile === 'undefined') {
-    console.log('Waiting for Turnstile to load...');
-    setTimeout(initTurnstile, 100);
-    return;
+  console.log('Initializing Turnstile widget...');
+  if (widgetId) {
+    turnstile.remove(widgetId);
   }
 
-  console.log('Initializing Turnstile widget...');
   widgetId = turnstile.render('#turnstile-widget', {
     sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
     theme: 'light',
-    retry: 'never',
+    retry: 'auto',
+    refresh_expired: 'auto',
+    timeout: 5,  // 5 second timeout
     callback: function (token) {
       console.log('Turnstile callback received');
       window.turnstileToken = token;
     },
+    'expired-callback': function () {
+      console.log('Token expired, refreshing...');
+      window.turnstileToken = null;
+      turnstile.reset(widgetId);
+    },
     'error-callback': function (error) {
       console.error('Turnstile error:', error);
+      window.turnstileToken = null;
       if (widgetId) {
         turnstile.reset(widgetId);
       }
@@ -32,27 +38,26 @@ function initTurnstile() {
   });
 }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initTurnstile);
-
-// Form submission
+// Form submission handler
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
   e.preventDefault();
-
-  const errorElement = document.getElementById('emailError');
+    
+  // Reset the widget before submission to ensure fresh token
+  if (widgetId) {
+    turnstile.reset(widgetId);
+  }
+    
+  // Wait briefly for new token
+  await new Promise(resolve => setTimeout(resolve, 1000));
+    
   const token = window.turnstileToken;
-
-  // Clear any previous error
-  errorElement.textContent = '';
-
+  const errorElement = document.getElementById('emailError');
+    
   if (!token) {
-    errorElement.textContent = 'Please complete the human verification';
-    if (widgetId) {
-      turnstile.reset(widgetId);
-    }
+    errorElement.textContent = 'Please complete the verification again';
     return;
   }
-
+    
   try {
     const response = await fetch('https://signup.encyclopediae.workers.dev', {
       method: 'POST',
@@ -85,13 +90,20 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     const successMessage = document.createElement('div');
     successMessage.className = 'success-message';
     successMessage.innerHTML = `
-            <h3>Thank you for joining us!</h3>
-            <p>We'll notify you when we launch.</p>
-        `;
+                <h3>Thank you for joining us!</h3>
+                <p>We'll notify you when we launch.</p>
+            `;
     form.parentNode.replaceChild(successMessage, form);
 
   } catch (error) {
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
     turnstile.reset(); // Always reset on error
   }
-}); 
+});
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTurnstile);
+} else {
+  initTurnstile();
+} 

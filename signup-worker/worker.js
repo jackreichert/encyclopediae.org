@@ -51,14 +51,6 @@ export default {
         }
 
         // Verify Turnstile token
-        console.log({
-          type: 'turnstile_debug',
-          hasSecret: !!env.TURNSTILE_SECRET_KEY,
-          secretLength: env.TURNSTILE_SECRET_KEY?.length,
-          envKeys: Object.keys(env),  // See what env vars are available
-          timestamp: new Date().toISOString()
-        });
-
         const formData = new URLSearchParams();
         formData.append('secret', env.TURNSTILE_SECRET_KEY);
         formData.append('response', token);
@@ -73,21 +65,35 @@ export default {
         });
 
         const outcome = await result.json();
-        
+        console.log('Turnstile verification result:', {
+          success: outcome.success,
+          errorCodes: outcome['error-codes'],
+          hasSecret: !!env.TURNSTILE_SECRET_KEY,
+          secretLength: env.TURNSTILE_SECRET_KEY?.length
+        });
+
         if (!outcome.success) {
-          console.error('Turnstile verification failed:', outcome);
-          return new Response(JSON.stringify({ 
+          // If it's a timeout/duplicate, send a specific message
+          if (outcome['error-codes']?.includes('timeout-or-duplicate')) {
+            return new Response(JSON.stringify({
+              error: 'Verification expired. Please try again.',
+              code: 'EXPIRED_TOKEN',
+              details: outcome
+            }), {
+              status: 400,
+              headers: { ...corsHeaders, ...securityHeaders, 'Content-Type': 'application/json' }
+            });
+          }
+          
+          // Other errors
+          return new Response(JSON.stringify({
             error: 'Invalid Turnstile token',
             details: outcome,
             hasSecret: !!env.TURNSTILE_SECRET_KEY,
             secretLength: env.TURNSTILE_SECRET_KEY?.length
-          }), { 
+          }), {
             status: 400,
-            headers: {
-              ...corsHeaders,
-              ...securityHeaders,
-              'Content-Type': 'application/json'
-            }
+            headers: { ...corsHeaders, ...securityHeaders, 'Content-Type': 'application/json' }
           });
         }
 
