@@ -2,19 +2,25 @@
 
 let widgetId = null;
 
-window.onloadTurnstileCallback = function () {
-  if (widgetId) {
-    turnstile.remove(widgetId);
+// Wait for DOM and Turnstile to be ready
+function initTurnstile() {
+  if (typeof turnstile === 'undefined') {
+    console.log('Waiting for Turnstile to load...');
+    setTimeout(initTurnstile, 100);
+    return;
   }
-    
+
+  console.log('Initializing Turnstile widget...');
   widgetId = turnstile.render('#turnstile-widget', {
     sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
     theme: 'light',
     retry: 'never',
     callback: function (token) {
+      console.log('Turnstile callback received');
       window.turnstileToken = token;
     },
-    'error-callback': function () {
+    'error-callback': function (error) {
+      console.error('Turnstile error:', error);
       if (widgetId) {
         turnstile.reset(widgetId);
       }
@@ -24,7 +30,10 @@ window.onloadTurnstileCallback = function () {
       }
     }
   });
-};
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', initTurnstile);
 
 // Form submission
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
