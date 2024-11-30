@@ -1,63 +1,45 @@
 export default {
   async fetch(request, env) {
-    // Updated CORS headers to allow both domains
+    // Allow both www and non-www versions
+    const allowedOrigins = [
+      'https://encyclopediae.org',
+      'https://www.encyclopediae.org'
+    ];
+
+    const origin = request.headers.get('Origin');
     const corsHeaders = {
-      "Access-Control-Allow-Origin": request.headers.get("Origin") || "https://encyclopediae.org",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Credentials": "true"
+      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
     };
 
-    // Handle CORS preflight
-    if (request.method === "OPTIONS") {
+    // Handle preflight requests
+    if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // For GET requests (testing/admin only)
-    if (request.method === "GET") {
-      try {
-        const list = await env.SIGNUPS.list();
-        
-        // Fetch the actual data for each key
-        const data = await Promise.all(
-          list.keys.map(async (key) => {
-            const value = await env.SIGNUPS.get(key.name);
-            return {
-              key: key.name,
-              data: JSON.parse(value)
-            };
-          })
-        );
-        
-        return new Response(JSON.stringify(data, null, 2), {
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json"
-          }
-        });
-      } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
-          status: 500,
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json"
-          }
-        });
-      }
-    }
-
-    // Your existing POST handling code...
-    if (request.method === "POST") {
+    if (request.method === 'POST') {
       try {
         const { email, firstName, lastName, institution, timestamp, token } = await request.json();
 
-        // Basic validation
         if (!email || typeof email !== 'string') {
-          return new Response("Invalid email", { status: 400 });
+          return new Response(JSON.stringify({ error: 'Invalid email' }), { 
+            status: 400,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            }
+          });
         }
 
         if (!token) {
-          return new Response("Missing Turnstile token", { status: 400 });
+          return new Response(JSON.stringify({ error: 'Missing Turnstile token' }), { 
+            status: 400,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            }
+          });
         }
 
         // Verify Turnstile token
@@ -73,13 +55,17 @@ export default {
 
         const outcome = await result.json();
         if (!outcome.success) {
-          return new Response("Invalid Turnstile token", { status: 400 });
+          return new Response(JSON.stringify({ error: 'Invalid Turnstile token' }), { 
+            status: 400,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            }
+          });
         }
 
-        // Create a unique key using the email
+        // Store the data
         const key = `signup:${email}`;
-
-        // Store the signup data with the new fields
         await env.SIGNUPS.put(key, JSON.stringify({
           email,
           firstName: firstName || '',
@@ -91,23 +77,25 @@ export default {
         return new Response(JSON.stringify({ success: true }), {
           headers: {
             ...corsHeaders,
-            "Content-Type": "application/json",
-          },
+            'Content-Type': 'application/json'
+          }
         });
+
       } catch (error) {
-        return new Response(JSON.stringify({ error: "Internal server error" }), {
+        return new Response(JSON.stringify({ error: error.message || 'Internal server error' }), {
           status: 500,
           headers: {
             ...corsHeaders,
-            "Content-Type": "application/json",
-          },
+            'Content-Type': 'application/json'
+          }
         });
       }
     }
 
-    return new Response("Method not allowed", { 
+    // Handle any other methods
+    return new Response('Method not allowed', { 
       status: 405,
       headers: corsHeaders
     });
-  },
+  }
 }; 
