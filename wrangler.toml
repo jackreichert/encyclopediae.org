@@ -1,3 +1,7 @@
 name = "signup"
 main = "signup-worker/worker.js"
 compatibility_date = "2024-11-29"
+
+kv_namespaces = [
+  { binding = "SIGNUPS", id = "2f13b43b3d4a41e89973a2ca7204b626" }
+]

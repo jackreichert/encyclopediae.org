@@ -179,12 +179,15 @@ function initAnimation() {
 
     while (!validPosition && attempts < maxAttempts) {
       // Calculate position in a circular pattern
-      const totalCircles = 3;
+      const totalCircles = window.innerWidth < 768 ? 2 : 3;  // Fewer circles on mobile
       const itemsPerCircle = Math.ceil((shuffledInstitutions.length - 1) / totalCircles);
       const currentCircle = Math.floor((index - 1) / itemsPerCircle);
       const positionInCircle = (index - 1) % itemsPerCircle;
             
-      const baseDistance = 25 + (currentCircle * 15);
+      // Adjust baseDistance for mobile
+      const baseDistance = window.innerWidth < 768 
+        ? (20 + (currentCircle * 12))  // Smaller spacing on mobile
+        : (25 + (currentCircle * 15)); // Original spacing for desktop
       const angleStep = (2 * Math.PI) / itemsPerCircle;
       const angle = positionInCircle * angleStep + (currentCircle * (Math.PI / itemsPerCircle));
             
