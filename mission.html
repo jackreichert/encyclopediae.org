@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
 </head>
 <body>
     <header>
@@ -79,9 +79,7 @@
                 <input type="text" id="lastName" placeholder="Last name (optional)">
                 <input type="text" id="institution" placeholder="Your academic institution (optional)">
                 <input type="email" id="email" placeholder="Email address" required>
-                <div class="cf-turnstile" 
-                     data-sitekey="0x4AAAAAAA1LWBtap2vUCeCA"
-                     data-callback="onTurnstileSuccess"></div>
+                <div id="turnstile-widget"></div>
                 <button type="submit">Join the Initiative</button>
                 <div id="emailError" class="error-message"></div>
             </form>
@@ -92,29 +90,6 @@
         <p>© 2024 encyclopediae.org</p>
     </footer>
 
-    <script src="script.js?v=2"></script>
-    <script>
-        function onTurnstileSuccess(token) {
-            console.log("Turnstile token received");
-            window.turnstileToken = token;
-        }
-    </script>
-
-    <script>
-        // Update your form submission code
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (!window.turnstileToken) {
-                document.getElementById('emailError').textContent = 'Please complete the human verification';
-                return;
-            }
-
-            // ... rest of your form submission code ...
-            const token = window.turnstileToken;
-            
-            // ... send the request ...
-        });
-    </script>
+    <script src="turnstile-form.js"></script>
 </body>
 </html>

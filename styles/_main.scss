@@ -177,10 +177,12 @@ body:not(.animation-page) {
       text-transform: uppercase;
       letter-spacing: -0.02em;
       line-height: 1.1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
       padding: 0 1rem;
+      word-wrap: break-word;
+      hyphens: auto;
     }
 
     h2 {
@@ -202,12 +204,14 @@ body:not(.animation-page) {
 
       h1 {
         font-size: clamp(1.5rem, 4vw, 2rem);
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
         padding: 0;
         margin: 0 auto;
         max-width: 95%;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        word-wrap: break-word;
+        hyphens: auto;
       }
     }
   }
