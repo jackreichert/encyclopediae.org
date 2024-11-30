@@ -150,29 +150,38 @@ function startAnimation() {
 // Initialize animation
 function initAnimation() {
   const container = document.querySelector('.institutions');
-  const mainText = document.querySelector('.main-text');
   const shuffledInstitutions = shuffleArray([...institutions]);
 
-  // Create and position institutions
   shuffledInstitutions.forEach((inst, index) => {
     const el = document.createElement('div');
     el.className = 'institution';
     el.innerHTML = `
-            ${inst.name}
-            <div class="tooltip">${inst.strength}</div>
-        `;
+      ${inst.name}
+      <div class="tooltip">${inst.strength}</div>
+    `;
     
-    // Add touch event handlers for mobile/tablet
+    // Improved touch handling
     el.addEventListener('touchstart', function(e) {
-      e.preventDefault(); // Prevent default touch behavior
+      e.preventDefault();
       const tooltip = this.querySelector('.tooltip');
-      // Hide all other tooltips first
+      
+      // Hide all other tooltips
       document.querySelectorAll('.tooltip.active').forEach(t => {
         if (t !== tooltip) t.classList.remove('active');
       });
+      
       // Toggle current tooltip
       tooltip.classList.toggle('active');
-    });
+    }, { passive: false });
+
+    // Hide tooltips when touching outside
+    document.addEventListener('touchstart', function(e) {
+      if (!e.target.closest('.institution')) {
+        document.querySelectorAll('.tooltip.active').forEach(t => {
+          t.classList.remove('active');
+        });
+      }
+    }, { passive: true });
 
     // Random font size between 20 and 30 pixels
     const randomSize = Math.floor(Math.random() * 11) + 20; // Random number between 20 and 30
