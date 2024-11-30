@@ -2,6 +2,10 @@
 
 let widgetId = null;
 
+function countWords(str) {
+  return str.trim().split(/\s+/).length;
+}
+
 // Initialize Turnstile widget
 function initTurnstile() {
   console.log('Initializing Turnstile widget...');
@@ -14,7 +18,7 @@ function initTurnstile() {
     theme: 'light',
     retry: 'auto',
     refresh_expired: 'auto',
-    timeout: 5,  // 5 second timeout
+    timeout: 5,
     callback: function (token) {
       console.log('Turnstile callback received');
       window.turnstileToken = token;
@@ -42,6 +46,21 @@ function initTurnstile() {
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
   e.preventDefault();
     
+  const message = document.getElementById('message').value.trim();
+  const errorElement = document.getElementById('emailError');
+
+  // Validate message length
+  if (message.length > 1500) {
+    errorElement.textContent = 'Message must be less than 1500 characters';
+    return;
+  }
+
+  // Validate word count
+  if (countWords(message) > 250) {
+    errorElement.textContent = 'Message must be less than 250 words';
+    return;
+  }
+
   // Reset the widget before submission to ensure fresh token
   if (widgetId) {
     turnstile.reset(widgetId);
@@ -51,7 +70,6 @@ document.getElementById('signupForm').addEventListener('submit', async function 
   await new Promise(resolve => setTimeout(resolve, 1000));
     
   const token = window.turnstileToken;
-  const errorElement = document.getElementById('emailError');
     
   if (!token) {
     errorElement.textContent = 'Please complete the verification again';
@@ -69,6 +87,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         lastName: document.getElementById('lastName').value.trim(),
         institution: document.getElementById('institution').value.trim(),
         email: document.getElementById('email').value.trim(),
+        message: message,
         token,
         timestamp: new Date().toISOString()
       })
@@ -76,9 +95,8 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
     if (!response.ok) {
       const errorData = await response.json();
-      // If it's a Turnstile error, reset the widget
       if (errorData.details?.['error-codes']?.includes('timeout-or-duplicate')) {
-        turnstile.reset(); // Reset the widget
+        turnstile.reset();
         errorElement.textContent = 'Verification expired. Please verify again.';
         return;
       }
@@ -90,14 +108,14 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     const successMessage = document.createElement('div');
     successMessage.className = 'success-message';
     successMessage.innerHTML = `
-                <h3>Thank you for joining us!</h3>
-                <p>We'll notify you when we launch.</p>
-            `;
+      <h3>Thank you for your message!</h3>
+      <p>We'll be in touch soon.</p>
+    `;
     form.parentNode.replaceChild(successMessage, form);
 
   } catch (error) {
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
-    turnstile.reset(); // Always reset on error
+    turnstile.reset();
   }
 });
 

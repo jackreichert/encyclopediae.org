@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://challenges.cloudflare.com; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';">
+    
+    <!-- SEO meta tags -->
+    <meta name="description" content="Discover how the Encyclopediae Foundation coordinates with universities worldwide to create diverse, expert-driven knowledge repositories.">
+    <meta name="keywords" content="encyclopedia network, academic collaboration, university knowledge, institutional diversity">
+    <meta name="author" content="encyclopediae.org">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="How It Works - The Encyclopediae Foundation">
+    <meta property="og:description" content="Learn how universities worldwide collaborate to create diverse knowledge repositories under the Encyclopediae initiative.">
+    <meta property="og:image" content="https://encyclopediae.org/path/to/your/social-share-image.jpg">
+    <meta property="og:url" content="https://encyclopediae.org/how-it-works.html">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How It Works - The Encyclopediae Foundation">
+    <meta name="twitter:description" content="Learn how universities worldwide collaborate to create diverse knowledge repositories.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://encyclopediae.org/how-it-works.html">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@900&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=3">
+    
+    <title>How It Works - The Encyclopediae Foundation</title>
+</head>
+<body class="how-it-works-page">
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">encyclopediae.org</a>
+            </div>
+            <div class="nav-links">
+                <a href="mission.html">Our Mission</a>
+                <a href="wikipedia.html">Why Change?</a>
+                <a href="how-it-works.html" class="active">How It Works</a>
+            </div>
+        </nav>
+    </header>
+
+    <article class="how-it-works">
+        <header class="simple-header">
+            <h1>How It Works</h1>
+            <h2>A Collaborative Network of University-Driven Encyclopedias</h2>
+        </header>
+
+        <div class="content-wrapper">
+            <section class="foundation">
+                <h2>The Foundation's Role</h2>
+                <p>The Encyclopediae Foundation coordinates between participating universities, facilitating collaboration while preserving each institution's unique voice. We provide the technical infrastructure that enables diverse knowledge creation while expanding membership to universities worldwide.</p>
+            </section>
+
+            <div class="process-grid">
+                <section class="process-card">
+                    <h2>University Champions</h2>
+                    <p>Each participating university appoints an annual champion who:</p>
+                    <ul>
+                        <li>Coordinates their institution's contribution strategy</li>
+                        <li>Works with department heads to identify areas of expertise</li>
+                        <li>Collaborates with other university champions</li>
+                        <li>Ensures quality and consistency of contributions</li>
+                    </ul>
+                </section>
+
+                <section class="process-card">
+                    <h2>Departmental Leadership</h2>
+                    <p>Department heads take ownership of their areas of expertise:</p>
+                    <ul>
+                        <li>Guide content creation in their field</li>
+                        <li>Ensure academic rigor and accuracy</li>
+                        <li>Coordinate with faculty members</li>
+                        <li>Highlight departmental research strengths</li>
+                    </ul>
+                </section>
+
+                <section class="process-card">
+                    <h2>Classroom Integration</h2>
+                    <p>Faculty members integrate encyclopedia development into their curriculum:</p>
+                    <ul>
+                        <li>Each class collaboratively develops one encyclopedia page per course</li>
+                        <li>Students work together to research, write, and refine their shared contribution</li>
+                        <li>Faculty guide the integration of current research into encyclopedic knowledge</li>
+                        <li>Peer review process teaches academic collaboration and editorial skills</li>
+                    </ul>
+                </section>
+            </div>
+
+            <section class="process-card full-width">
+                <h2>Technical Implementation</h2>
+                <p>The Encyclopediae Foundation develops a unifying interface that:</p>
+                <ul>
+                    <li>Celebrates the diversity of academic perspectives</li>
+                    <li>Preserves institutional identity</li>
+                    <li>Enables cross-referencing between universities</li>
+                    <li>Maintains consistent quality standards</li>
+                </ul>
+            </section>
+
+            <section class="join">
+                <h2>Join the Initiative</h2>
+                <p>Universities interested in participating in this groundbreaking initiative are invited to contact the Encyclopediae Foundation. We welcome discussions with university administrators, department heads, and faculty members.</p>
+                
+                <form class="contact-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="institution">Institution</label>
+                        <input type="text" id="institution" name="institution" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <div id="turnstile-widget"></div>
+                    <div id="emailError" class="error-message"></div>
+                    
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </section>
+        </div>
+    </article>
+
+    <!-- Add Turnstile script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
+    <script>
+    window.onTurnstileLoad = function () {
+        initTurnstile();
+    };
+    </script>
+    <script src="js/turnstile-form.js?v=3"></script>
+</body>
+</html>

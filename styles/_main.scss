@@ -126,13 +126,32 @@ body:not(.animation-page) {
       }
 
       .nav-links {
+        display: flex;
+        gap: 2rem;
+        
         a {
           color: $primary-color;
           text-decoration: none;
           font-weight: 200;
+          position: relative;
+          padding-bottom: 2px;
           
           &:hover {
             opacity: 0.7;
+          }
+
+          &.active {
+            font-weight: 400;
+            
+            &:after {
+              content: '';
+              position: absolute;
+              bottom: -2px;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background: $primary-color;
+            }
           }
         }
       }
@@ -170,7 +189,7 @@ body:not(.animation-page) {
     }
 
     h1 {
-      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-size: clamp(1.8rem, 5vw, 5rem);
       font-weight: 900;
       margin: 0 auto;
       max-width: 90%;
@@ -204,7 +223,7 @@ body:not(.animation-page) {
       }
 
       h1 {
-        font-size: clamp(2rem, 6vw, 3rem);
+        font-size: clamp(1.5rem, 4vw, 2rem);
         padding: 0;
         margin: 0 auto;
         max-width: 95%;
@@ -222,8 +241,12 @@ body:not(.animation-page) {
     background-image: url('images/trinity.jpg');
   }
 
-  .reading-room {
-    background-image: url('images/reading-room.jpg');
+  .john-work-garrett {
+    background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
+  }
+
+  .royal-portuguese {
+    background-image: url('images/royal-portuguese-reading-room.jpg');
   }
 
   // Content sections
@@ -602,4 +625,137 @@ body:not(.animation-page) {
       }
     }
   }
+}
+
+// Hero banners
+.hero-banner {
+  position: relative;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 900;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 200;
+    }
+  }
+}
+
+// Background images
+.royal-portuguese {
+  background-image: url('images/royal-portuguese-reading-room.jpg');
+}
+
+.mission {
+  background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
+}
+
+// Mission page specific styles
+.mission-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+
+  section {
+    margin-bottom: 4rem;
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 900;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 200;
+    }
+  }
+
+  .goals {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+        padding-left: 1.5rem;
+        position: relative;
+        font-weight: 200;
+
+        &:before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .hero-banner {
+    height: 40vh;
+  }
+}
+
+.cta-funnel {
+    max-width: 800px;
+    margin: 3rem auto;
+    display: flex;
+    gap: 2rem;
+    text-align: center;
+    
+    .cta-step {
+        flex: 1;
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 200;
+        }
+    }
+
+    // Stack on mobile
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: $primary-color;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-2px);
+    }
 } 

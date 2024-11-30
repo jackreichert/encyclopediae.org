@@ -27,9 +27,16 @@
     <title>What's Better Than Wikipedia? - Encyclopediae.org</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@900&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="styles.css?v=3">
     <link rel="preload" href="/path/to/your/mission-image.jpg?v=3" as="image">
+    <style>
+        .main-text {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+    </style>
 </head>
 <body class="animation-page">
     <div class="content-container">
@@ -38,7 +45,7 @@
             <div class="answer-text">All of them.</div>
         </div>
         <div class="institutions"></div>
-        <a href="mission.html?v=3" class="learn-more-button">Learn More</a>
+        <a href="mission.html" class="learn-more-button">Learn More</a>
     </div>
     <script src="/js/animation.js?v=3"></script>
 </body>

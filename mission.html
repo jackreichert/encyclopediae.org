@@ -8,101 +8,74 @@
         connect-src 'self' https://*.cloudflare.com https://signup.encyclopediae.workers.dev https://challenges.cloudflare.com;
         script-src 'self' https://*.cloudflare.com https://challenges.cloudflare.com 'unsafe-inline';
         style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
-        img-src 'self' data: https://*.cloudflare.com;
-        frame-src 'self' https://challenges.cloudflare.com;">
-    <title>Our Mission - Encyclopediae.org</title>
+        img-src 'self' data: https://*.cloudflare.com;">
+    <title>Our Mission - Restoring Academic Diversity to Encyclopedia Creation</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation, where each university brings unique perspectives and methodologies.">
+    <meta name="keywords" content="academic diversity, encyclopedia creation, university knowledge, institutional diversity, academic research, scholarly traditions">
+    <meta name="author" content="encyclopediae.org">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://encyclopediae.org/mission.html">
+    <meta property="og:title" content="Our Mission - Restoring Academic Diversity to Encyclopedia Creation">
+    <meta property="og:description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation.">
+    <meta property="og:image" content="https://encyclopediae.org/images/mission-library.jpg">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://encyclopediae.org/mission.html">
+    <meta name="twitter:title" content="Our Mission - Restoring Academic Diversity to Encyclopedia Creation">
+    <meta name="twitter:description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation.">
+    <meta name="twitter:image" content="https://encyclopediae.org/images/mission-library.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://encyclopediae.org/mission.html">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css?v=3">
-    <script>
-        // Add explicit error handling for Turnstile loading
-        window.addEventListener('error', function(e) {
-            if (e.filename.includes('turnstile')) {
-                console.error('Turnstile loading error:', e);
-            }
-        });
-    </script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-    <meta name="description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation, where each university brings unique perspectives and methodologies.">
-    <meta name="keywords" content="encyclopedia, academic knowledge, Wikipedia alternative, institutional diversity, academic research">
-    <meta name="author" content="encyclopediae.org">
-    <meta property="og:title" content="Our Mission - Encyclopediae.org">
-    <meta property="og:description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation.">
-    <meta property="og:image" content="https://encyclopediae.org/path/to/your/social-share-image.jpg">
-    <meta property="og:url" content="https://encyclopediae.org/mission.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Our Mission - Encyclopediae.org">
-    <meta name="twitter:description" content="Join the academic knowledge revolution. We're restoring institutional diversity to encyclopedia creation.">
-    <link rel="canonical" href="https://encyclopediae.org/mission.html">
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-                <a href="index.html?v=3">encyclopediae.org</a>
+                <a href="index.html">encyclopediae.org</a>
             </div>
             <div class="nav-links">
-                <a href="wikipedia.html?v=3">What's wrong with Wikipedia?</a>
+                <a href="mission.html" class="active">Our Mission</a>                
+                <a href="wikipedia.html">Why Change?</a>
+                <a href="how-it-works.html">How It Works</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <section class="hero-banner hero-trinity">
-            <div class="overlay">
-                <h1>Restoring Academic Diversity to Encyclopedia Creation</h1>
-                <h2>Each university brings unique perspectives, methodologies, and scholarly traditions</h2>
+    <div class="hero-banner hero-trinity">
+        <div class="overlay">
+            <h1>Restoring Academic Diversity to Encyclopedia Creation</h1>
+            <h2>Each university brings unique perspectives, methodologies, and scholarly traditions</h2>
+        </div>
+    </div>
+
+    <div class="concept">
+        <h2>Ready to Learn More?</h2>
+        <p>Discover how we're building a better future for knowledge creation</p>
+        <div class="cta-funnel">
+            <div class="cta-step">
+                <p>Learn why centralized knowledge is a problem</p>
+                <a href="wikipedia.html" class="cta-button">Why Change?</a>
             </div>
-        </section>
-
-        <section class="concept">
-            <h2>The Problem of Centralized Knowledge</h2>
-            <p>Wikipedia's centralization has created a single filter for human knowledge. Consider Copernicus's heliocentric model - in his time, established institutions considered his ideas fringe and dangerous. If Wikipedia had existed then, his theory might have been dismissed as "lacking reliable sources." When we centralize knowledge through a single filter, we risk silencing the next revolutionary idea.</p>
-        </section>
-
-        <section class="full-width-image reading-room">
-            <div class="overlay">
-                <div class="benefit-grid">
-                    <div class="benefit">
-                        <h3>Methodological Pluralism</h3>
-                        <p>Different academic traditions approach the same subjects through distinct methodological lenses. Where the London School of Economics presents Keynesian theory, Chicago champions Friedman's viewpoint.</p>
-                    </div>
-                    <div class="benefit">
-                        <h3>Institutional Expertise</h3>
-                        <p>Universities can emphasize their areas of historical strength, preserving and developing unique scholarly traditions that might otherwise be labeled as "fringe" or "lacking reliable sources."</p>
-                    </div>
-                    <div class="benefit">
-                        <h3>Scholarly Autonomy</h3>
-                        <p>Academic institutions can maintain their intellectual independence, free from the pressure to conform to a single "neutral" narrative.</p>
-                    </div>
-                    <div class="benefit">
-                        <h3>Research Integration</h3>
-                        <p>Direct connection between current research and encyclopedic knowledge, ensuring revolutionary ideas have space to develop before reaching consensus.</p>
-                    </div>
-                </div>
+            <div class="cta-step">
+                <p>See how universities can participate</p>
+                <a href="how-it-works.html" class="cta-button">How It Works</a>
             </div>
-        </section>
-
-        <section class="concept">
-            <h2>A Network of Knowledge</h2>
-            <p>Imagine a world where each university maintains its own encyclopedia, creating a rich tapestry of academic perspectives. Where competing viewpoints can develop fully without having to compromise or merge into a single "neutral" narrative.</p>
-        </section>
-
-        <section class="signup">
-            <h2>Join the Academic Knowledge Revolution</h2>
-            <p>Help restore institutional diversity to encyclopedic knowledge</p>
-            <form id="signupForm">
-                <input type="text" id="firstName" placeholder="First name (optional)">
-                <input type="text" id="lastName" placeholder="Last name (optional)">
-                <input type="text" id="institution" placeholder="Your academic institution (optional)">
-                <input type="email" id="email" placeholder="Email address" required>
-                <div id="turnstile-widget"></div>
-                <button type="submit">Join the Initiative</button>
-                <div id="emailError" class="error-message"></div>
-            </form>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <footer>
         <p>© 2024 encyclopediae.org</p>

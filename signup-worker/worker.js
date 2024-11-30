@@ -26,7 +26,7 @@ export default {
 
     if (request.method === 'POST') {
       try {
-        const { email, firstName, lastName, institution, timestamp, token } = await request.json();
+        const { email, firstName, lastName, institution, timestamp, token, message } = await request.json();
 
         if (!email || typeof email !== 'string') {
           return new Response(JSON.stringify({ error: 'Invalid email' }), { 
@@ -105,6 +105,7 @@ export default {
             firstName: firstName || '',
             lastName: lastName || '',
             institution: institution || '',
+            message: message || '',
             timestamp
           };
           
