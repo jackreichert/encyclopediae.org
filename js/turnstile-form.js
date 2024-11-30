@@ -121,7 +121,9 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initTurnstile);
+  document.addEventListener('DOMContentLoaded', () => {
+    // Don't initialize here anymore
+  });
 } else {
-  initTurnstile();
+  // Don't initialize here anymore
 } 
