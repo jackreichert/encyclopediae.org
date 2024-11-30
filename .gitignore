@@ -6,3 +6,4 @@ dist/
 .dev.vars
 # Wrangler specific
 .wrangler/
+wrangler.toml
