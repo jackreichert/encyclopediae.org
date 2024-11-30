@@ -1,5 +1,27 @@
 export default {
   async fetch(request, env) {
+    // Test endpoint for verifying secrets (remove after testing)
+    if (request.method === "GET") {
+      try {
+        // Check if secrets exist (without revealing their values)
+        const secretsStatus = {
+          kv_namespace: !!env.KV_NAMESPACE_ID,
+          turnstile: !!env.TURNSTILE_SECRET_KEY
+        };
+        
+        return new Response(JSON.stringify(secretsStatus, null, 2), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: error.message }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    }
+
     // Allow both www and non-www versions
     const allowedOrigins = [
       'https://encyclopediae.org',
@@ -20,6 +42,21 @@ export default {
 
     if (request.method === 'POST') {
       try {
+        // Rate limiting
+        const ip = request.headers.get('cf-connecting-ip');
+        const rateLimitKey = `rate_limit:${ip}`;
+        const existing = await env.SIGNUPS.get(rateLimitKey);
+
+        if (existing) {
+          return new Response(JSON.stringify({ error: 'Please wait before submitting again' }), {
+            status: 429,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            }
+          });
+        }
+
         const { email, firstName, lastName, institution, timestamp, token } = await request.json();
 
         if (!email || typeof email !== 'string') {
@@ -64,9 +101,9 @@ export default {
           });
         }
 
-        // Store the data
-        const key = `signup:${email}`;
-        await env.SIGNUPS.put(key, JSON.stringify({
+        // Store the signup data
+        const signupKey = `signup:${email}`;
+        await env.SIGNUPS.put(signupKey, JSON.stringify({
           email,
           firstName: firstName || '',
           lastName: lastName || '',
@@ -74,9 +111,21 @@ export default {
           timestamp
         }));
 
+        // Set rate limit
+        await env.SIGNUPS.put(rateLimitKey, '1', { expirationTtl: 60 }); // 1 minute cooldown
+
+        const securityHeaders = {
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+        };
+
         return new Response(JSON.stringify({ success: true }), {
           headers: {
             ...corsHeaders,
+            ...securityHeaders,
             'Content-Type': 'application/json'
           }
         });
