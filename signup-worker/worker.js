@@ -76,7 +76,7 @@ export default {
           });
         }
 
-        // Store in KV
+        // Store in KV using the binding
         try {
           const signupKey = `signup:${email}`;
           const signupData = {
@@ -87,16 +87,18 @@ export default {
             timestamp
           };
           
+          // Use the KV binding directly
           await env.SIGNUPS.put(signupKey, JSON.stringify(signupData));
           
           return new Response(JSON.stringify({ success: true }), {
             headers: { ...corsHeaders, ...securityHeaders, 'Content-Type': 'application/json' }
           });
         } catch (kvError) {
-          console.error('KV Error:', kvError);
+          console.error('KV Error:', kvError, env.SIGNUPS);
           return new Response(JSON.stringify({ 
             error: 'Failed to store signup',
-            details: kvError.message 
+            details: kvError.message,
+            hasKV: !!env.SIGNUPS
           }), {
             status: 500,
             headers: { ...corsHeaders, ...securityHeaders, 'Content-Type': 'application/json' }

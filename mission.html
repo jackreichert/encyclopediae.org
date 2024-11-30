@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
     <header>
@@ -79,7 +79,9 @@
                 <input type="text" id="lastName" placeholder="Last name (optional)">
                 <input type="text" id="institution" placeholder="Your academic institution (optional)">
                 <input type="email" id="email" placeholder="Email address" required>
-                <div id="turnstile-container"></div>
+                <div class="cf-turnstile" 
+                     data-sitekey="0x4AAAAAAA1LWBtap2vUCeCA"
+                     data-callback="onTurnstileSuccess"></div>
                 <button type="submit">Join the Initiative</button>
                 <div id="emailError" class="error-message"></div>
             </form>
@@ -92,19 +94,10 @@
 
     <script src="script.js?v=2"></script>
     <script>
-        window.onloadTurnstileCallback = function() {
-            turnstile.render('#turnstile-container', {
-                sitekey: '0x4AAAAAAA1K8IGQ_E7ccSHG',
-                theme: 'light',
-                callback: function(token) {
-                    console.log("Turnstile success, token received");
-                    window.turnstileToken = token;
-                },
-                'error-callback': function(error) {
-                    console.error("Turnstile error:", error);
-                }
-            });
-        };
+        function onTurnstileSuccess(token) {
+            console.log("Turnstile token received");
+            window.turnstileToken = token;
+        }
     </script>
 
     <script>
