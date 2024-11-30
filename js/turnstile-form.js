@@ -121,5 +121,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
   }
 });
 
-// Initialize when the script loads
-initTurnstile(); 
+// Remove the direct initTurnstile() call and replace with:
+window.onloadTurnstileCallback = function () {
+  initTurnstile();
+}; 
