@@ -44,7 +44,8 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Submission failed');
         }
 
         // Success case
@@ -57,10 +58,9 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         `;
         form.parentNode.replaceChild(successMessage, form);
 
-        // Reset the Turnstile widget
-        turnstile.reset();
     } catch (error) {
-        errorElement.textContent = 'There was a problem submitting your information. Please try again.';
+        console.error('Submission error:', error);
+        errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
         // Reset the Turnstile widget on error
         turnstile.reset();
     }
