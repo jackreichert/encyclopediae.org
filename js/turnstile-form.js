@@ -1,26 +1,7 @@
 /* global turnstile */
 
-// Wait for both DOM and Turnstile to be ready
-window.onloadTurnstileCallback = function() {
-  const widgetId = turnstile.render('#turnstile-widget', {
-    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
-    theme: 'light',
-    callback: function(token) {
-      window.turnstileToken = token;
-    },
-    'error-callback': function(error) {
-      const errorElement = document.getElementById('emailError');
-      if (errorElement) {
-        errorElement.textContent = 'Verification failed. Please try again.';
-      }
-      // Reset on error
-      turnstile.reset(widgetId);
-    }
-  });
-};
-
-// Form submission
-document.getElementById('signupForm').addEventListener('submit', async function(e) {
+// Form submission handler
+const handleSubmit = async function(e) {
   e.preventDefault();
     
   const firstName = document.getElementById('firstName').value.trim();
@@ -81,7 +62,33 @@ document.getElementById('signupForm').addEventListener('submit', async function(
 
   } catch (error) {
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
-    // Reset the Turnstile widget on error
-    turnstile.reset();
+    if (window.turnstileWidget) {
+      turnstile.reset(window.turnstileWidget);
+    }
   }
-}); 
+};
+
+// Initialize form handler
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('signupForm');
+  if (form) {
+    form.addEventListener('submit', handleSubmit);
+  }
+});
+
+// Turnstile callback
+window.onloadTurnstileCallback = function() {
+  window.turnstileWidget = turnstile.render('#turnstile-widget', {
+    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
+    theme: 'light',
+    callback: function(token) {
+      window.turnstileToken = token;
+    },
+    'error-callback': function() {
+      const errorElement = document.getElementById('emailError');
+      if (errorElement) {
+        errorElement.textContent = 'Verification failed. Please try again.';
+      }
+    }
+  });
+}; 
