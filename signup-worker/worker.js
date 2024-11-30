@@ -58,7 +58,10 @@ export default {
 
         const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
         });
 
         const outcome = await result.json();

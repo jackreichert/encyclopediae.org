@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     turnstile.render('#turnstile-widget', {
       sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
       theme: 'light',
+      action: 'signup',
+      appearance: 'interaction-only',
       callback: function (token) {
         // Store token without logging
         window.turnstileToken = token;
