@@ -18,7 +18,7 @@ function initTurnstile() {
     theme: 'light',
     retry: 'auto',
     refresh_expired: 'auto',
-    timeout: 5,
+    appearance: 'always',
     callback: function (token) {
       console.log('Turnstile callback received');
       window.turnstileToken = token;
@@ -37,6 +37,12 @@ function initTurnstile() {
       const errorElement = document.getElementById('emailError');
       if (errorElement) {
         errorElement.textContent = 'Verification failed. Please try again.';
+      }
+    },
+    'timeout-callback': function () {
+      console.log('Challenge timed out, refreshing...');
+      if (widgetId) {
+        turnstile.reset(widgetId);
       }
     }
   });

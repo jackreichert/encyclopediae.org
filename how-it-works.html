@@ -144,9 +144,10 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
     <script>
     window.onTurnstileLoad = function () {
-        // Only initialize once Turnstile is fully loaded
         if (typeof turnstile !== 'undefined') {
             initTurnstile();
+        } else {
+            console.error('Turnstile failed to load');
         }
     };
     </script>
