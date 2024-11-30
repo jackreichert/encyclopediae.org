@@ -1,32 +1,30 @@
 /* global turnstile */
 
-// Turnstile initialization
-document.addEventListener('DOMContentLoaded', function () {
-  // Wait a short moment to ensure Turnstile is fully loaded
-  setTimeout(() => {
-    if (typeof turnstile !== 'undefined') {
-      turnstile.ready(function () {
-        turnstile.render('#turnstile-widget', {
-          sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
-          theme: 'light',
-          retry: 'auto',
-          refresh_expired: 'auto',
-          callback: function (token) {
-            window.turnstileToken = token;
-          },
-          'error-callback': function () {
-            const errorElement = document.getElementById('emailError');
-            if (errorElement) {
-              errorElement.textContent = 'Verification failed. Please try again.';
-            }
-          }
-        });
-      });
-    } else {
-      console.error('Turnstile failed to load');
+let widgetId = null;
+
+window.onloadTurnstileCallback = function () {
+  if (widgetId) {
+    turnstile.remove(widgetId);
+  }
+    
+  widgetId = turnstile.render('#turnstile-widget', {
+    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
+    theme: 'light',
+    retry: 'never',
+    callback: function (token) {
+      window.turnstileToken = token;
+    },
+    'error-callback': function () {
+      if (widgetId) {
+        turnstile.reset(widgetId);
+      }
+      const errorElement = document.getElementById('emailError');
+      if (errorElement) {
+        errorElement.textContent = 'Verification failed. Please try again.';
+      }
     }
-  }, 1000);
-});
+  });
+};
 
 // Form submission
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
@@ -40,6 +38,9 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
   if (!token) {
     errorElement.textContent = 'Please complete the human verification';
+    if (widgetId) {
+      turnstile.reset(widgetId);
+    }
     return;
   }
 
@@ -84,22 +85,4 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
     turnstile.reset(); // Always reset on error
   }
-});
-
-window.onloadTurnstileCallback = function () {
-  turnstile.render('#turnstile-widget', {
-    sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
-    theme: 'light',
-    retry: 'auto',
-    refresh_expired: 'auto',
-    callback: function (token) {
-      window.turnstileToken = token;
-    },
-    'error-callback': function () {
-      const errorElement = document.getElementById('emailError');
-      if (errorElement) {
-        errorElement.textContent = 'Verification failed. Please try again.';
-      }
-    }
-  });
-}; 
+}); 

@@ -51,6 +51,14 @@ export default {
         }
 
         // Verify Turnstile token
+        console.log({
+          type: 'turnstile_debug',
+          hasSecret: !!env.TURNSTILE_SECRET_KEY,
+          secretLength: env.TURNSTILE_SECRET_KEY?.length,
+          envKeys: Object.keys(env),  // See what env vars are available
+          timestamp: new Date().toISOString()
+        });
+
         const formData = new URLSearchParams();
         formData.append('secret', env.TURNSTILE_SECRET_KEY);
         formData.append('response', token);
@@ -67,9 +75,12 @@ export default {
         const outcome = await result.json();
         
         if (!outcome.success) {
+          console.error('Turnstile verification failed:', outcome);
           return new Response(JSON.stringify({ 
             error: 'Invalid Turnstile token',
-            details: outcome 
+            details: outcome,
+            hasSecret: !!env.TURNSTILE_SECRET_KEY,
+            secretLength: env.TURNSTILE_SECRET_KEY?.length
           }), { 
             status: 400,
             headers: {
