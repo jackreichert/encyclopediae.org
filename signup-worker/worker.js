@@ -2,8 +2,24 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 
 export default {
   async fetch(request, env) {
+    // Handle CORS preflight requests
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        headers: {
+          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        }
+      });
+    }
+
     if (request.method !== 'POST') {
-      return new Response('Method not allowed', { status: 405 });
+      return new Response('Method not allowed', { 
+        status: 405,
+        headers: {
+          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+        }
+      });
     }
 
     try {
@@ -41,12 +57,15 @@ export default {
       // Send notification email
       await sendNotificationEmail(submission, env);
 
-      return new Response('Success', { 
+      const response = new Response('Success', { 
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
         }
       });
+      response.headers.set('Access-Control-Allow-Origin', 'https://encyclopediae.org');
+      return response;
 
     } catch (error) {
       console.error('Submission error:', error);
