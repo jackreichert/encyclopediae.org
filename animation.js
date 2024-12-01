@@ -152,7 +152,12 @@ function initAnimation() {
   const container = document.querySelector('.institutions');
   const shuffledInstitutions = shuffleArray([...institutions]);
 
-  shuffledInstitutions.forEach((inst, index) => {
+  // Increase number of institutions on mobile while keeping it manageable
+  const isMobile = window.innerWidth < 768;
+  const maxInstitutions = isMobile ? 25 : institutions.length; // Increased from 15 to 25
+  const institutionsToShow = shuffledInstitutions.slice(0, maxInstitutions);
+
+  institutionsToShow.forEach((inst, index) => {
     const el = document.createElement('div');
     el.className = 'institution';
     el.innerHTML = `
@@ -160,60 +165,47 @@ function initAnimation() {
       <div class="tooltip">${inst.strength}</div>
     `;
     
-    // Improved touch handling
-    el.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      const tooltip = this.querySelector('.tooltip');
-      
-      // Hide all other tooltips
-      document.querySelectorAll('.tooltip.active').forEach(t => {
-        if (t !== tooltip) t.classList.remove('active');
-      });
-      
-      // Toggle current tooltip
-      tooltip.classList.toggle('active');
-    }, { passive: false });
-
-    // Hide tooltips when touching outside
-    document.addEventListener('touchstart', function(e) {
-      if (!e.target.closest('.institution')) {
-        document.querySelectorAll('.tooltip.active').forEach(t => {
-          t.classList.remove('active');
-        });
-      }
-    }, { passive: true });
-
-    // Random font size between 20 and 30 pixels
-    const randomSize = Math.floor(Math.random() * 11) + 20; // Random number between 20 and 30
+    // Further reduce font sizes for mobile to fit more institutions
+    const minSize = isMobile ? 12 : 20;  // Reduced from 14 to 12
+    const maxSize = isMobile ? 18 : 30;  // Reduced from 22 to 18
+    const randomSize = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
     el.style.fontSize = `${randomSize}px`;
         
     let validPosition = false;
     let attempts = 0;
     const maxAttempts = 50;
 
-    // Special position for first institution
+    // Adjust positioning for mobile
     if (index === 0) {
-      el.style.left = '15%';
-      el.style.top = '15%';
+      el.style.left = isMobile ? '10%' : '15%';
+      el.style.top = isMobile ? '10%' : '15%';
       container.appendChild(el);
       return;
     }
 
     while (!validPosition && attempts < maxAttempts) {
-      // Calculate position in a circular pattern
-      const totalCircles = 3;
-      const itemsPerCircle = Math.ceil((shuffledInstitutions.length - 1) / totalCircles);
+      // Adjust circular pattern for more efficient space usage
+      const totalCircles = isMobile ? 3 : 3;  // Increased from 2 to 3 circles
+      const itemsPerCircle = Math.ceil((institutionsToShow.length - 1) / totalCircles);
       const currentCircle = Math.floor((index - 1) / itemsPerCircle);
       const positionInCircle = (index - 1) % itemsPerCircle;
             
-      const baseDistance = 25 + (currentCircle * 15);
+      // Tighten the spacing between circles on mobile
+      const baseDistance = isMobile ? 
+        (15 + (currentCircle * 10)) :  // Reduced from 20/12 to 15/10
+        (25 + (currentCircle * 15));
+      
       const angleStep = (2 * Math.PI) / itemsPerCircle;
       const angle = positionInCircle * angleStep + (currentCircle * (Math.PI / itemsPerCircle));
             
       const left = 50 + Math.cos(angle) * baseDistance;
       const top = 50 + Math.sin(angle) * baseDistance;
             
-      if (left >= 5 && left <= 95 && top >= 5 && top <= 95) {
+      // Adjust boundaries for mobile
+      const minBoundary = isMobile ? 2 : 5;
+      const maxBoundary = isMobile ? 98 : 95;
+      
+      if (left >= minBoundary && left <= maxBoundary && top >= minBoundary && top <= maxBoundary) {
         if (isPositionValid(el, left, top)) {
           el.style.left = `${left}%`;
           el.style.top = `${top}%`;
