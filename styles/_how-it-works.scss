@@ -213,6 +213,30 @@
         cursor: pointer;
         font-weight: 500;
         margin-top: 1rem;
+        position: relative;
+
+        span {
+          display: none;
+        }
+
+        span.default {
+          display: block;
+        }
+
+        &.loading {
+          .loading { display: block; }
+          .default, .success, .error { display: none; }
+        }
+
+        &.success {
+          .success { display: block; }
+          .default, .loading, .error { display: none; }
+        }
+
+        &.error {
+          .error { display: block; }
+          .default, .loading, .success { display: none; }
+        }
       }
 
       .form-description {
