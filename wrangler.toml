@@ -1,13 +1,28 @@
+# Root wrangler.toml
+
+[env.signup]
 name = "signup-worker"
 main = "signup-worker/worker.js"
 compatibility_date = "2023-01-01"
 
-[vars]
-NOTIFICATION_EMAIL = "your@email.com"
-GOOGLE_SHEET_ID = "your-sheet-id"
-GOOGLE_SERVICE_ACCOUNT_EMAIL = "your-service-account@project.iam.gserviceaccount.com"
+[env.signup.vars]
+NOTIFICATION_EMAIL = "notifications@encyclopediae.org"
+SENDING_DOMAIN = "encyclopediae.org"
+GOOGLE_SHEET_ID = "15JGiLaUTWdV5nyoXNmTJA42GnegQdaARNM4Dnk_flMk"
+GOOGLE_SERVICE_ACCOUNT_EMAIL = "encyclopediae-sheets@encyclopediae-initiative.iam.gserviceaccount.com"
 
-# Add these secrets using wrangler:
-# wrangler secret put TURNSTILE_SECRET
-# wrangler secret put GOOGLE_PRIVATE_KEY
-# wrangler secret put SENDGRID_API_KEY
+[[env.signup.bindings]]
+name = "EMAIL"
+type = "send_email"
+
+[env.email]
+name = "email-worker"
+main = "email-worker/worker.js"
+compatibility_date = "2023-01-01"
+
+[env.email.vars]
+SENDING_DOMAIN = "encyclopediae.org"
+
+[[env.email.bindings]]
+name = "EMAIL"
+type = "send_email"

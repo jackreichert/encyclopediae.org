@@ -16,6 +16,17 @@ export default {
         return new Response('Invalid token', { status: 400 });
       }
 
+      // Add input validation
+      if (!formData.get('email')) {
+        return new Response('Email is required', { status: 400 });
+      }
+
+      // Optional: validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.get('email'))) {
+        return new Response('Invalid email format', { status: 400 });
+      }
+
       // Prepare submission data
       const submission = {
         email: formData.get('email'),
@@ -30,10 +41,21 @@ export default {
       // Send notification email
       await sendNotificationEmail(submission, env);
 
-      return new Response('Success', { status: 200 });
+      return new Response('Success', { 
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
     } catch (error) {
       console.error('Submission error:', error);
+      if (error.message.includes('Google')) {
+        return new Response('Unable to save submission. Please try again later.', { status: 500 });
+      }
+      if (error.message.includes('email')) {
+        return new Response('Email notification failed. Please try again later.', { status: 500 });
+      }
       return new Response('Internal error', { status: 500 });
     }
   }
@@ -69,6 +91,7 @@ async function verifyTurnstileToken(token, secret) {
   return outcome;
 }
 
+
 async function saveToGoogleSheets(submission, env) {
   const doc = new GoogleSpreadsheet(env.GOOGLE_SHEET_ID);
   await doc.useServiceAccountAuth({
@@ -87,11 +110,12 @@ async function saveToGoogleSheets(submission, env) {
   });
 }
 
+
 async function sendNotificationEmail(submission, env) {
   const email = {
     to: env.NOTIFICATION_EMAIL,
-    from: 'noreply@yourdomain.com',
-    subject: 'New Signup on Academic Search',
+    from: `notifications@${env.SENDING_DOMAIN}`,
+    subject: 'New Signup on Encyclopediae',
     text: `
       New signup received:
       Email: ${submission.email}
@@ -101,15 +125,10 @@ async function sendNotificationEmail(submission, env) {
     `
   };
 
-  await fetch('https://api.sendgrid.com/v3/mail/send', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${env.SENDGRID_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ personalizations: [{ to: [{ email: email.to }] }], 
-      from: { email: email.from },
-      subject: email.subject,
-      content: [{ type: 'text/plain', value: email.text }] })
+  await env.EMAIL.send({
+    to: email.to,
+    from: email.from,
+    subject: email.subject,
+    text: email.text,
   });
 } 
