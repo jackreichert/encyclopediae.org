@@ -105,19 +105,8 @@
       }
     }
 
-    @media (hover: hover) {
-      &:hover .tooltip {
-        display: block;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .tooltip {
-        width: 160px;
-        font-size: 0.8rem;
-        background: rgba(0, 0, 0, 0.95);
-        padding: 12px;
-      }
+    &:hover .tooltip {
+      display: block;
     }
 
     &:active .tooltip,
@@ -125,13 +114,9 @@
       display: block !important;
     }
 
-    @media (hover: none) {
+    @media (hover: none) and (pointer: coarse) {
       &:hover .tooltip {
         display: none;
-      }
-      
-      &:active .tooltip {
-        display: block !important;
       }
     }
   }
