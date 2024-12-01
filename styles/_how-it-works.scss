@@ -79,10 +79,11 @@
       padding: 0;
 
       li {
-        margin: 0.5rem 0;
+        margin: 0.8rem 0;
         padding-left: 1.5rem;
         position: relative;
         font-weight: 200;
+        line-height: 1.4;
 
         &:before {
           content: "•";
@@ -123,10 +124,11 @@
       margin: 0 auto;
 
       li {
-        margin: 0.5rem 0;
+        margin: 0.8rem 0;
         padding-left: 1.5rem;
         position: relative;
         font-weight: 200;
+        line-height: 1.4;
 
         &:before {
           content: "•";
