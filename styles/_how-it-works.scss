@@ -160,8 +160,9 @@
       max-width: 500px;
       margin: 2rem auto;
       padding: 2rem;
-      background: var(--color-background-alt);
+      background: #ffffff;
       border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       
       h3 {
         text-align: center;
@@ -173,7 +174,7 @@
         
         &.required label::after {
           content: "*";
-          color: var(--color-primary);
+          color: #cc0000;
           margin-left: 4px;
         }
       }
@@ -187,13 +188,13 @@
       input, textarea {
         width: 100%;
         padding: 0.75rem;
-        border: 1px solid var(--color-border);
+        border: 1px solid #ddd;
         border-radius: 4px;
-        background: var(--color-background);
+        background: #ffffff;
         
         &:focus {
           outline: none;
-          border-color: var(--color-primary);
+          border-color: #0066cc;
         }
       }
 
@@ -205,31 +206,19 @@
       .submit-button {
         width: 100%;
         padding: 0.75rem;
-        background: var(--color-primary);
+        background: #0066cc;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        position: relative;
-        overflow: hidden;
-
-        span {
-          display: none;
-          &.default { display: block; }
-        }
-
-        &.loading .loading { display: block; }
-        &.loading .default { display: none; }
-        &.success .success { display: block; }
-        &.success .default { display: none; }
-        &.error .error { display: block; }
-        &.error .default { display: none; }
+        font-weight: 500;
+        margin-top: 1rem;
       }
 
       .form-description {
         text-align: center;
         margin-bottom: 2rem;
-        color: var(--color-text-secondary);
+        color: #666666;
         font-size: 0.95rem;
       }
 
