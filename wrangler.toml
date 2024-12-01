@@ -1,7 +1,13 @@
-name = "signup"
+name = "signup-worker"
 main = "signup-worker/worker.js"
-compatibility_date = "2024-11-29"
+compatibility_date = "2023-01-01"
 
-kv_namespaces = [
-  { binding = "SIGNUPS", id = "2f13b43b3d4a41e89973a2ca7204b626" }
-]
+[vars]
+NOTIFICATION_EMAIL = "your@email.com"
+GOOGLE_SHEET_ID = "your-sheet-id"
+GOOGLE_SERVICE_ACCOUNT_EMAIL = "your-service-account@project.iam.gserviceaccount.com"
+
+# Add these secrets using wrangler:
+# wrangler secret put TURNSTILE_SECRET
+# wrangler secret put GOOGLE_PRIVATE_KEY
+# wrangler secret put SENDGRID_API_KEY

@@ -13,115 +13,99 @@ function initTurnstile() {
     turnstile.remove(widgetId);
   }
 
-  widgetId = turnstile.render('#turnstile-widget', {
+  widgetId = turnstile.render('#turnstile-wrapper', {
     sitekey: '0x4AAAAAAA1LWBtap2vUCeCA',
     theme: 'light',
     retry: 'never',
     refresh_expired: 'manual',
-    appearance: 'always',
-    callback: function (token) {
+    callback: function(token) {
       console.log('Turnstile callback received');
       window.turnstileToken = token;
     },
     'expired-callback': function() {
       console.log('Token expired');
       window.turnstileToken = null;
-      const errorElement = document.getElementById('emailError');
-      if (errorElement) {
-        errorElement.textContent = 'Verification expired. Please refresh and try again.';
-      }
     },
     'error-callback': function(error) {
       console.error('Turnstile error:', error);
       window.turnstileToken = null;
-      const errorElement = document.getElementById('emailError');
-      if (errorElement) {
-        errorElement.textContent = 'Verification failed. Please try again.';
-      }
     }
   });
 }
 
-// Form submission handler
-document.getElementById('signupForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
+async function handleFormSubmit(event) {
+  event.preventDefault();
+  const form = event.target;
+  const button = form.querySelector('button');
   
-  const errorElement = document.getElementById('emailError');
-  errorElement.textContent = ''; // Clear previous errors
-  
-  // Validate token first
-  if (!window.turnstileToken) {
-    errorElement.textContent = 'Please complete the verification challenge';
-    return;
-  }
-
-  const message = document.getElementById('message').value.trim();
-
-  // Validate message length
-  if (message.length > 1500) {
-    errorElement.textContent = 'Message must be less than 1500 characters';
-    return;
-  }
-
-  // Validate word count
-  if (countWords(message) > 250) {
-    errorElement.textContent = 'Message must be less than 250 words';
-    return;
-  }
-
   try {
-    const response = await fetch('https://signup.encyclopediae.workers.dev', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: document.getElementById('firstName').value.trim(),
-        lastName: document.getElementById('lastName').value.trim(),
-        institution: document.getElementById('institution').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        message: message,
-        token: window.turnstileToken,
-        timestamp: new Date().toISOString()
-      })
-    });
-
-    // Clear token after use to prevent reuse
-    const usedToken = window.turnstileToken;
-    window.turnstileToken = null;
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      if (errorData.details?.['error-codes']?.includes('timeout-or-duplicate')) {
-        if (widgetId) {
-          turnstile.reset(widgetId);
-        }
-        errorElement.textContent = 'Verification expired. Please verify again.';
-        return;
-      }
-      throw new Error(errorData.error || 'Submission failed');
+    // Check if we have a valid token
+    if (!window.turnstileToken) {
+      throw new Error('Please complete the verification challenge');
     }
 
-    // Success case
-    const form = document.getElementById('signupForm');
-    const successMessage = document.createElement('div');
-    successMessage.className = 'success-message';
-    successMessage.innerHTML = `
-      <h3>Thank you for your message!</h3>
-      <p>We'll be in touch soon.</p>
-    `;
-    form.parentNode.replaceChild(successMessage, form);
+    button.classList.add('loading');
+    
+    const formData = new FormData(form);
+    formData.append('token', window.turnstileToken);
 
-  } catch (error) {
-    console.error('Submission error:', error);
-    errorElement.textContent = error.message || 'There was a problem submitting your information. Please try again.';
+    const response = await fetch('/signup', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) throw new Error('Submission failed');
+
+    // Clear token after successful use
+    window.turnstileToken = null;
     if (widgetId) {
       turnstile.reset(widgetId);
     }
+
+    button.classList.remove('loading');
+    button.classList.add('success');
+    form.reset();
+
+    setTimeout(() => {
+      button.classList.remove('success');
+    }, 3000);
+
+  } catch (error) {
+    console.error('Form submission error:', error);
+    button.classList.remove('loading');
+    button.classList.add('error');
+    
+    // Reset Turnstile on error
+    if (widgetId) {
+      turnstile.reset(widgetId);
+    }
+    
+    setTimeout(() => {
+      button.classList.remove('error');
+    }, 3000);
+  }
+}
+
+// Handle message checkbox toggle
+document.getElementById('has-message').addEventListener('change', function(e) {
+  const messageGroup = document.querySelector('.message-group');
+  const messageInput = document.getElementById('message');
+  
+  if (e.target.checked) {
+    messageGroup.style.display = 'block';
+    setTimeout(() => messageGroup.classList.add('visible'), 10);
+  } else {
+    messageGroup.classList.remove('visible');
+    setTimeout(() => {
+      messageGroup.style.display = 'none';
+      messageInput.value = ''; // Clear the message when hidden
+    }, 300);
   }
 });
 
-// Remove the direct initTurnstile() call and replace with:
-window.onloadTurnstileCallback = function () {
+document.getElementById('signup-form').addEventListener('submit', handleFormSubmit);
+
+// Initialize Turnstile when the script loads
+window.onloadTurnstileCallback = function() {
   initTurnstile();
 }; 

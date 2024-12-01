@@ -29,7 +29,7 @@
     margin: 0 auto;
   }
 
-  .foundation {
+  .initiative {
     margin-bottom: 4rem;
     
     h2 {
@@ -156,53 +156,109 @@
       font-weight: 200;
     }
 
-    .contact-form {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: left;
+    .signup-form {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--color-background-alt);
+      border-radius: 8px;
       
-      .form-group {
+      h3 {
+        text-align: center;
         margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
         
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 400;
-        }
-        
-        input, textarea {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-family: inherit;
-          font-size: 1rem;
-          
-          &:focus {
-            outline: none;
-            border-color: $primary-color;
-          }
-        }
-        
-        textarea {
-          min-height: 150px;
-          resize: vertical;
+        &.required label::after {
+          content: "*";
+          color: var(--color-primary);
+          margin-left: 4px;
         }
       }
-      
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      input, textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        background: var(--color-background);
+        
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary);
+        }
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
       .submit-button {
-        background: $primary-color;
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--color-primary);
         color: white;
         border: none;
-        padding: 1rem 2rem;
         border-radius: 4px;
-        font-size: 1rem;
-        font-weight: 600;
         cursor: pointer;
-        transition: transform 0.2s ease;
+        position: relative;
+        overflow: hidden;
+
+        span {
+          display: none;
+          &.default { display: block; }
+        }
+
+        &.loading .loading { display: block; }
+        &.loading .default { display: none; }
+        &.success .success { display: block; }
+        &.success .default { display: none; }
+        &.error .error { display: block; }
+        &.error .default { display: none; }
+      }
+
+      .form-description {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .checkbox-group {
+        margin: 1.5rem 0;
+
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          
+          input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+
+      .message-group {
+        transition: all 0.3s ease;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
         
-        &:hover {
-          transform: translateY(-2px);
+        &.visible {
+          max-height: 200px;
+          opacity: 1;
+          margin-bottom: 1rem;
         }
       }
     }
