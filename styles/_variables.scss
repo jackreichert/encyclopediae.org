@@ -7,5 +7,34 @@ $primary-color: #000;
 $secondary-color: #333;
 $accent-color: #666;
 
+// Spacing
+$container-max-width: 1200px;
+$container-padding: 2rem;
+$section-spacing: 4rem;
+
+// Breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1200px;
+
 // Animation
-$transition-bezier: cubic-bezier(0.4, 0, 0.2, 1); 
+$transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Mixins
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: $breakpoint-desktop) {
+    @content;
+  }
+}
