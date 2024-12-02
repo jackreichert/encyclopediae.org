@@ -291,8 +291,29 @@ body:not(.animation-page) {
     @extend .form-base;
     // Add only specific overrides
 
-    .cf-turnstile {
-      margin: 0 auto;
+    .turnstile-wrapper {
+      width: 100%;
+      max-width: 300px;      
+      margin: 1rem auto;     
+      overflow: visible;     // Changed from hidden to visible to show border
+      
+      iframe {
+        max-width: 100%;     
+        margin: 0 auto;      
+        display: block;      
+      }
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;          
+      max-width: 320px;     
+      padding: 1.5rem;
+      
+      .turnstile-wrapper {
+        transform: scale(0.9);  
+        transform-origin: center;
+        margin: 1rem -15px;    // Add negative margin to compensate for scaling
+      }
     }
 
     .success-message {
