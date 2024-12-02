@@ -77,23 +77,24 @@ export default {
       const submissionId = crypto.randomUUID();
       await env.SIGNUPS.put(submissionId, JSON.stringify(submission));
 
-      try {
-        // Try to save to Google Sheets
-        await saveToGoogleSheets(submission, env);
-      } catch (error) {
-        console.error('Google Sheets error:', error);
-        // Don't fail the submission if Google Sheets fails
-      }
+      // Google Sheets temporarily disabled
+      // try {
+      //   await saveToGoogleSheets(submission, env);
+      // } catch (error) {
+      //   console.error('Google Sheets error:', error);
+      // }
       
       // Send notification email
       try {
         await sendNotificationEmail(submission, env);
       } catch (error) {
         console.error('Email notification error:', error);
-        // Don't fail the submission if email fails
       }
 
-      return new Response(JSON.stringify({ success: true }), { 
+      return new Response(JSON.stringify({ 
+        success: true,
+        message: 'Submission saved successfully'
+      }), { 
         status: 200,
         headers: corsHeaders
       });
@@ -146,7 +147,7 @@ async function saveToGoogleSheets(submission, env) {
   // Auth with service account
   await doc.useServiceAccountAuth({
     client_email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    private_key: env.GOOGLE_PRIVATE_KEY ? env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n') : '',
   });
   
   // Load the sheet
@@ -177,10 +178,10 @@ async function sendNotificationEmail(submission, env) {
     `
   };
 
-  await env.EMAIL.send({
-    to: email.to,
-    from: email.from,
-    subject: email.subject,
-    text: email.text,
-  });
+  if (env.EMAIL && typeof env.EMAIL.send === 'function') {
+    await env.EMAIL.send(email);
+  } else {
+    console.error('Email binding not available');
+    throw new Error('Email service not configured');
+  }
 } 
