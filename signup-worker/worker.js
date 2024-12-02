@@ -115,30 +115,29 @@ export default {
 };
 
 async function verifyTurnstileToken(token, secret) {
-  if (!token) {
-    throw new Error('Missing Turnstile token');
-  }
-
-  const formData = new URLSearchParams();
+  let formData = new URLSearchParams();
   formData.append('secret', secret);
   formData.append('response', token);
 
-  const response = await fetch(
+  const result = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
     {
       method: 'POST',
-      body: formData,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: formData.toString(),
     }
   );
 
-  const outcome = await response.json();
-  
+  const outcome = await result.json();
+  console.log('Turnstile verification response:', outcome);
+
   if (!outcome.success) {
-    console.error('Turnstile verification failed:', outcome);
-    throw new Error('Invalid verification token');
+    console.error('Turnstile verification failed:', {
+      error_codes: outcome['error-codes']
+    });
+    throw new Error(outcome['error-codes']?.join(', ') || 'Invalid verification token');
   }
 
   return outcome;

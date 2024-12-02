@@ -1,4 +1,4 @@
-# Root wrangler.toml
+# Root wrangler.toml (wrangler v3.88.0^)
 
 [env.signup]
 name = "signup-worker"
@@ -31,3 +31,6 @@ SENDING_DOMAIN = "encyclopediae.org"
 [[env.email.bindings]]
 name = "EMAIL"
 type = "send_email"
+
+[observability.logs]
+enabled = true
