@@ -51,7 +51,7 @@ async function handleFormSubmit(event) {
     const formData = new FormData(form);
     formData.append('cf-turnstile-response', window.turnstileToken);
 
-    const response = await fetch('/signup', {
+    const response = await fetch('https://encyclopediae.org/signup', {
       method: 'POST',
       body: formData
     });

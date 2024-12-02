@@ -5,6 +5,11 @@ name = "signup-worker"
 main = "signup-worker/worker.js"
 compatibility_date = "2024-01-01"
 
+# Add routes for signup worker
+[[env.signup.routes]]
+pattern = "encyclopediae.org/signup*"
+zone_name = "encyclopediae.org"
+
 [env.signup.vars]
 NOTIFICATION_EMAIL = "notifications@encyclopediae.org"
 SENDING_DOMAIN = "encyclopediae.org"
