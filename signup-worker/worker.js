@@ -2,23 +2,23 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 
 export default {
   async fetch(request, env) {
+    const allowedOrigins = ['https://encyclopediae.org', 'https://www.encyclopediae.org'];
+    const origin = request.headers.get('Origin') || 'https://encyclopediae.org';
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
     // Handle CORS preflight requests
     if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        headers: {
-          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        }
-      });
+      return new Response(null, { headers: corsHeaders });
     }
 
     if (request.method !== 'POST') {
       return new Response('Method not allowed', { 
         status: 405,
-        headers: {
-          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-        }
+        headers: corsHeaders
       });
     }
 
@@ -36,10 +36,7 @@ export default {
       if (!email) {
         return new Response(JSON.stringify({ error: 'Email is required' }), { 
           status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-          }
+          headers: corsHeaders
         });
       }
 
@@ -48,10 +45,7 @@ export default {
       if (!emailRegex.test(email)) {
         return new Response(JSON.stringify({ error: 'Invalid email format' }), { 
           status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-          }
+          headers: corsHeaders
         });
       }
 
@@ -59,10 +53,7 @@ export default {
       if (!token) {
         return new Response(JSON.stringify({ error: 'Please complete the verification challenge' }), { 
           status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-          }
+          headers: corsHeaders
         });
       }
 
@@ -70,10 +61,7 @@ export default {
       if (!turnstileResponse.success) {
         return new Response(JSON.stringify({ error: 'Invalid verification token' }), { 
           status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-          }
+          headers: corsHeaders
         });
       }
 
@@ -85,18 +73,29 @@ export default {
         timestamp: new Date().toISOString()
       };
 
-      // Save to Google Sheets
-      await saveToGoogleSheets(submission, env);
+      // Save to KV first (more reliable)
+      const submissionId = crypto.randomUUID();
+      await env.SIGNUPS.put(submissionId, JSON.stringify(submission));
+
+      try {
+        // Try to save to Google Sheets
+        await saveToGoogleSheets(submission, env);
+      } catch (error) {
+        console.error('Google Sheets error:', error);
+        // Don't fail the submission if Google Sheets fails
+      }
       
       // Send notification email
-      await sendNotificationEmail(submission, env);
+      try {
+        await sendNotificationEmail(submission, env);
+      } catch (error) {
+        console.error('Email notification error:', error);
+        // Don't fail the submission if email fails
+      }
 
       return new Response(JSON.stringify({ success: true }), { 
         status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-        }
+        headers: corsHeaders
       });
 
     } catch (error) {
@@ -105,10 +104,7 @@ export default {
         error: 'An error occurred while processing your submission. Please try again.' 
       }), { 
         status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
-        }
+        headers: corsHeaders
       });
     }
   }
@@ -146,14 +142,18 @@ async function verifyTurnstileToken(token, secret) {
 
 async function saveToGoogleSheets(submission, env) {
   const doc = new GoogleSpreadsheet(env.GOOGLE_SHEET_ID);
+  
+  // Auth with service account
   await doc.useServiceAccountAuth({
     client_email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: env.GOOGLE_PRIVATE_KEY,
+    private_key: env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
   });
   
+  // Load the sheet
   await doc.loadInfo();
   const sheet = doc.sheetsByIndex[0];
   
+  // Add the row
   await sheet.addRow({
     Timestamp: submission.timestamp,
     Email: submission.email,

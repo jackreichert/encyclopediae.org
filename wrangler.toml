@@ -20,6 +20,10 @@ GOOGLE_SERVICE_ACCOUNT_EMAIL = "encyclopediae-sheets@encyclopediae-initiative.ia
 name = "EMAIL"
 type = "send_email"
 
+[[env.signup.kv_namespaces]]
+binding = "SIGNUPS"
+id = "2f13b43b3d4a41e89973a2ca7204b626"
+
 [env.email]
 name = "email-worker"
 main = "email-worker/worker.js"
