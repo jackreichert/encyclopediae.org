@@ -66,7 +66,7 @@ export default {
         });
       }
 
-      const turnstileResponse = await verifyTurnstileToken(token, env.TURNSTILE_SECRET);
+      const turnstileResponse = await verifyTurnstileToken(token, env.TURNSTILE_SECRET_KEY);
       if (!turnstileResponse.success) {
         return new Response(JSON.stringify({ error: 'Invalid verification token' }), { 
           status: 400,
