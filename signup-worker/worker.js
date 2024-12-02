@@ -25,29 +25,63 @@ export default {
     try {
       const formData = await request.formData();
       
+      // Get form fields
+      const email = formData.get('email');
+      const name = formData.get('name') || '';
+      const hasMessage = formData.get('has-message') === 'on';
+      const message = hasMessage ? (formData.get('message') || '') : '';
+      const token = formData.get('cf-turnstile-response');
+
+      // Validate required fields
+      if (!email) {
+        return new Response(JSON.stringify({ error: 'Email is required' }), { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+          }
+        });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return new Response(JSON.stringify({ error: 'Invalid email format' }), { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+          }
+        });
+      }
+
       // Verify Turnstile token
-      const token = formData.get('token');
+      if (!token) {
+        return new Response(JSON.stringify({ error: 'Please complete the verification challenge' }), { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+          }
+        });
+      }
+
       const turnstileResponse = await verifyTurnstileToken(token, env.TURNSTILE_SECRET);
       if (!turnstileResponse.success) {
-        return new Response('Invalid token', { status: 400 });
-      }
-
-      // Add input validation
-      if (!formData.get('email')) {
-        return new Response('Email is required', { status: 400 });
-      }
-
-      // Optional: validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.get('email'))) {
-        return new Response('Invalid email format', { status: 400 });
+        return new Response(JSON.stringify({ error: 'Invalid verification token' }), { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+          }
+        });
       }
 
       // Prepare submission data
       const submission = {
-        email: formData.get('email'),
-        name: formData.get('name') || '',
-        message: formData.get('message') || '',
+        email,
+        name,
+        message,
         timestamp: new Date().toISOString()
       };
 
@@ -57,25 +91,25 @@ export default {
       // Send notification email
       await sendNotificationEmail(submission, env);
 
-      const response = new Response('Success', { 
+      return new Response(JSON.stringify({ success: true }), { 
         status: 200,
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': 'https://encyclopediae.org',
         }
       });
-      response.headers.set('Access-Control-Allow-Origin', 'https://encyclopediae.org');
-      return response;
 
     } catch (error) {
       console.error('Submission error:', error);
-      if (error.message.includes('Google')) {
-        return new Response('Unable to save submission. Please try again later.', { status: 500 });
-      }
-      if (error.message.includes('email')) {
-        return new Response('Email notification failed. Please try again later.', { status: 500 });
-      }
-      return new Response('Internal error', { status: 500 });
+      return new Response(JSON.stringify({ 
+        error: 'An error occurred while processing your submission. Please try again.' 
+      }), { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'https://encyclopediae.org',
+        }
+      });
     }
   }
 };

@@ -37,6 +37,7 @@ async function handleFormSubmit(event) {
   event.preventDefault();
   const form = event.target;
   const button = form.querySelector('button');
+  const errorElement = form.querySelector('.error-message') || createErrorElement(form);
   
   try {
     // Check if we have a valid token
@@ -45,16 +46,21 @@ async function handleFormSubmit(event) {
     }
 
     button.classList.add('loading');
+    errorElement.textContent = ''; // Clear any previous errors
     
     const formData = new FormData(form);
-    formData.append('token', window.turnstileToken);
+    formData.append('cf-turnstile-response', window.turnstileToken);
 
     const response = await fetch('/signup', {
       method: 'POST',
       body: formData
     });
 
-    if (!response.ok) throw new Error('Submission failed');
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Submission failed');
+    }
 
     // Clear token after successful use
     window.turnstileToken = null;
@@ -64,14 +70,19 @@ async function handleFormSubmit(event) {
 
     button.classList.remove('loading');
     button.classList.add('success');
-    form.reset();
 
-    setTimeout(() => {
-      button.classList.remove('success');
-    }, 3000);
+    // Replace form with success message
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success-message';
+    successMessage.innerHTML = `
+      <h3>Thank you for signing up!</h3>
+      <p>We'll keep you updated about the Encyclopediae Initiative.</p>
+    `;
+    form.parentNode.replaceChild(successMessage, form);
 
   } catch (error) {
     console.error('Form submission error:', error);
+    errorElement.textContent = error.message || 'An error occurred. Please try again.';
     button.classList.remove('loading');
     button.classList.add('error');
     
@@ -84,6 +95,13 @@ async function handleFormSubmit(event) {
       button.classList.remove('error');
     }, 3000);
   }
+}
+
+function createErrorElement(form) {
+  const errorElement = document.createElement('div');
+  errorElement.className = 'error-message';
+  form.insertBefore(errorElement, form.querySelector('button'));
+  return errorElement;
 }
 
 // Handle message checkbox toggle
