@@ -39,12 +39,14 @@
     font-size: 6rem;
     font-weight: 900;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(20px);
     transition: all 1.2s $transition-bezier;
     color: rgba(255, 255, 255, 0.9);
 
     &.visible {
       opacity: 1;
+      visibility: visible;
       transform: translateY(0);
     }
   }

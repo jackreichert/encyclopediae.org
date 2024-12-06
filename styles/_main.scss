@@ -534,9 +534,19 @@ body:not(.animation-page) {
   background-position: center;
   color: white;
   
+  @media (orientation: landscape) and (min-height: 500px) {
+    height: 80vh;      // Taller in landscape for larger devices
+    margin-top: 4rem;
+  }
+  
+  @media (orientation: landscape) and (max-height: 500px) {
+    height: 110vh;     // Full height for very short landscape views
+    margin-top: 4rem;  // Space for navbar
+  }
+  
   @media (max-width: 768px) {
-    height: 40vh;      // Existing media query
-    margin-top: 6rem;  // Add space for the fixed header on mobile
+    height: 40vh;
+    margin-top: 6rem;  // Space for mobile header
   }
   
   .overlay {
