@@ -1,54 +1,343 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO meta tags -->
-    <meta name="description" content="Discover why multiple academic encyclopedias are better than a single centralized knowledge source. Join universities worldwide in creating diverse, expert-driven knowledge repositories.">
-    <meta name="keywords" content="encyclopedia, Wikipedia alternative, academic knowledge, institutional diversity, knowledge decentralization">
-    <meta name="author" content="encyclopediae.org">
-    
-    <!-- Open Graph tags -->
-    <meta property="og:title" content="What's Better Than Wikipedia? - Encyclopediae.org">
-    <meta property="og:description" content="Discover why multiple academic encyclopedias create better knowledge than a single source. Join the academic knowledge revolution.">
-    <meta property="og:image" content="https://encyclopediae.org/path/to/your/social-share-image.jpg">
-    <meta property="og:url" content="https://encyclopediae.org/">
-    
-    <!-- Twitter Card tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="What's Better Than Wikipedia? - Encyclopediae.org">
-    <meta name="twitter:description" content="Discover why multiple academic encyclopedias create better knowledge than a single source.">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://encyclopediae.org/">
-    
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://challenges.cloudflare.com; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';">
-    <title>What's Better Than Wikipedia? - Encyclopediae.org</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@900&display=swap" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="styles.css?v=1709230625">
-    <link rel="preload" href="/images/trinity.jpg" as="image">
-    <link rel="preload" href="/images/john-work-garrett-libarary-reading-room.jpg" as="image">
-    <link rel="preload" href="/images/royal-portuguese-reading-room.jpg" as="image">
-    <style>
-        .main-text {
-            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-        }
-    </style>
-</head>
-<body class="animation-page">
-    <div class="content-container">
-        <div class="content-wrapper">
-            <h1 class="main-text">What's better than Wikipedia?</h1>
-            <div class="answer-text">All of them.</div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- SEO meta tags -->
+        <meta
+            name="description"
+            content="Discover why multiple academic encyclopedias are better than a single centralized knowledge source. Join universities worldwide in creating diverse, expert-driven knowledge repositories."
+        />
+        <meta
+            name="keywords"
+            content="encyclopedia, Wikipedia alternative, academic knowledge, institutional diversity, knowledge decentralization"
+        />
+        <meta name="author" content="encyclopediae.org" />
+
+        <!-- Open Graph tags -->
+        <meta property="og:title" content="What's Better Than Wikipedia? - Encyclopediae.org" />
+        <meta
+            property="og:description"
+            content="Discover why multiple academic encyclopedias create better knowledge than a single source. Join the academic knowledge revolution."
+        />
+        <meta property="og:image" content="https://encyclopediae.org/path/to/your/social-share-image.jpg" />
+        <meta property="og:url" content="https://encyclopediae.org/" />
+
+        <!-- Twitter Card tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="What's Better Than Wikipedia? - Encyclopediae.org" />
+        <meta
+            name="twitter:description"
+            content="Discover why multiple academic encyclopedias create better knowledge than a single source."
+        />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://encyclopediae.org/" />
+
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://challenges.cloudflare.com; script-src 'self' https://challenges.cloudflare.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline';"
+        />
+        <title>What's Better Than Wikipedia? - Encyclopediae.org</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@900&display=swap"
+            as="style"
+        />
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap"
+            as="style"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600;900&display=swap"
+            rel="stylesheet"
+            media="print"
+            onload="this.media='all'"
+        />
+        <link rel="stylesheet" href="styles.css?v=1709230625" />
+        <link rel="preload" href="/images/trinity.jpg" as="image" />
+        <link rel="preload" href="/images/john-work-garrett-libarary-reading-room.jpg" as="image" />
+        <link rel="preload" href="/images/royal-portuguese-reading-room.jpg" as="image" />
+        <style>
+            .main-text {
+                font-family:
+                    'Source Sans Pro',
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    'Segoe UI',
+                    Roboto,
+                    Arial,
+                    sans-serif;
+            }
+        </style>
+    </head>
+    <body class="animation-page">
+        <div class="content-container">
+            <div class="content-wrapper">
+                <h1 class="main-text">What's better than Wikipedia?</h1>
+                <div class="answer-text">All of them.</div>
+            </div>
+            <div class="institutions"></div>
+            <div id="institutions-data" class="seo-content">
+                <h2>Academic Encyclopedias</h2>
+                <ul>
+                    <li
+                        data-name="Encyclopedia of Oxford"
+                        data-strength="Pioneering research in humanities and social sciences since 1096"
+                    >
+                        <h3>Encyclopedia of Oxford</h3>
+                        <p>Pioneering research in humanities and social sciences since 1096</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Cambridge"
+                        data-strength="Leading mathematics and physics discoveries for centuries"
+                    >
+                        <h3>Encyclopedia of Cambridge</h3>
+                        <p>Leading mathematics and physics discoveries for centuries</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Harvard"
+                        data-strength="Shaping global leadership across disciplines"
+                    >
+                        <h3>Encyclopedia of Harvard</h3>
+                        <p>Shaping global leadership across disciplines</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Stanford"
+                        data-strength="Driving Silicon Valley innovation and entrepreneurship"
+                    >
+                        <h3>Encyclopedia of Stanford</h3>
+                        <p>Driving Silicon Valley innovation and entrepreneurship</p>
+                    </li>
+                    <li data-name="Encyclopedia of MIT" data-strength="Advancing technology and engineering frontiers">
+                        <h3>Encyclopedia of MIT</h3>
+                        <p>Advancing technology and engineering frontiers</p>
+                    </li>
+                    <li data-name="Encyclopedia of Yale" data-strength="Excellence in law, medicine, and arts">
+                        <h3>Encyclopedia of Yale</h3>
+                        <p>Excellence in law, medicine, and arts</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Princeton"
+                        data-strength="Theoretical physics and mathematical innovation"
+                    >
+                        <h3>Encyclopedia of Princeton</h3>
+                        <p>Theoretical physics and mathematical innovation</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Berkeley"
+                        data-strength="Revolutionary discoveries in chemistry and physics"
+                    >
+                        <h3>Encyclopedia of Berkeley</h3>
+                        <p>Revolutionary discoveries in chemistry and physics</p>
+                    </li>
+                    <li data-name="Encyclopedia of LSE" data-strength="Defining modern economics and social policy">
+                        <h3>Encyclopedia of LSE</h3>
+                        <p>Defining modern economics and social policy</p>
+                    </li>
+                    <li data-name="Encyclopedia of Chicago" data-strength="Pioneering economic theory and policy">
+                        <h3>Encyclopedia of Chicago</h3>
+                        <p>Pioneering economic theory and policy</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Columbia"
+                        data-strength="Leading journalism and international relations"
+                    >
+                        <h3>Encyclopedia of Columbia</h3>
+                        <p>Leading journalism and international relations</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Sorbonne"
+                        data-strength="Centuries of philosophical thought leadership"
+                    >
+                        <h3>Encyclopedia of Sorbonne</h3>
+                        <p>Centuries of philosophical thought leadership</p>
+                    </li>
+                    <li data-name="Encyclopedia of ETH Zürich" data-strength="Home to 21 Nobel laureates in sciences">
+                        <h3>Encyclopedia of ETH Zürich</h3>
+                        <p>Home to 21 Nobel laureates in sciences</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Tokyo University"
+                        data-strength="Advancing Asian technological innovation"
+                    >
+                        <h3>Encyclopedia of Tokyo University</h3>
+                        <p>Advancing Asian technological innovation</p>
+                    </li>
+                    <li data-name="Encyclopedia of Heidelberg" data-strength="Medieval studies and modern medicine">
+                        <h3>Encyclopedia of Heidelberg</h3>
+                        <p>Medieval studies and modern medicine</p>
+                    </li>
+                    <li data-name="Encyclopedia of Bologna" data-strength="World's oldest university, founded in 1088">
+                        <h3>Encyclopedia of Bologna</h3>
+                        <p>World's oldest university, founded in 1088</p>
+                    </li>
+                    <li data-name="Encyclopedia of Jagiellonian" data-strength="Where Copernicus studied in the 1490s">
+                        <h3>Encyclopedia of Jagiellonian</h3>
+                        <p>Where Copernicus studied in the 1490s</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Trinity College"
+                        data-strength="Literary giants and mathematical breakthroughs"
+                    >
+                        <h3>Encyclopedia of Trinity College</h3>
+                        <p>Literary giants and mathematical breakthroughs</p>
+                    </li>
+                    <li data-name="Encyclopedia of McGill" data-strength="Leading neuroscience and AI research">
+                        <h3>Encyclopedia of McGill</h3>
+                        <p>Leading neuroscience and AI research</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Peking"
+                        data-strength="Bridging Eastern and Western academic traditions"
+                    >
+                        <h3>Encyclopedia of Peking</h3>
+                        <p>Bridging Eastern and Western academic traditions</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Technion"
+                        data-strength="Israel's pioneering institute of technology and innovation"
+                    >
+                        <h3>Encyclopedia of Technion</h3>
+                        <p>Israel's pioneering institute of technology and innovation</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Tsinghua"
+                        data-strength="China's leading science and engineering institution"
+                    >
+                        <h3>Encyclopedia of Tsinghua</h3>
+                        <p>China's leading science and engineering institution</p>
+                    </li>
+                    <li data-name="Encyclopedia of UCL" data-strength="Pioneering research in medicine and astronomy">
+                        <h3>Encyclopedia of UCL</h3>
+                        <p>Pioneering research in medicine and astronomy</p>
+                    </li>
+                    <li data-name="Encyclopedia of Edinburgh" data-strength="Scottish Enlightenment to modern AI">
+                        <h3>Encyclopedia of Edinburgh</h3>
+                        <p>Scottish Enlightenment to modern AI</p>
+                    </li>
+                    <li data-name="Encyclopedia of Toronto" data-strength="Where insulin was discovered in 1921">
+                        <h3>Encyclopedia of Toronto</h3>
+                        <p>Where insulin was discovered in 1921</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of Melbourne"
+                        data-strength="Leading research in the Southern Hemisphere"
+                    >
+                        <h3>Encyclopedia of Melbourne</h3>
+                        <p>Leading research in the Southern Hemisphere</p>
+                    </li>
+                    <li data-name="Encyclopedia of TU Munich" data-strength="German engineering excellence">
+                        <h3>Encyclopedia of TU Munich</h3>
+                        <p>German engineering excellence</p>
+                    </li>
+                    <li data-name="Encyclopedia of Caltech" data-strength="Space exploration and quantum computing">
+                        <h3>Encyclopedia of Caltech</h3>
+                        <p>Space exploration and quantum computing</p>
+                    </li>
+                    <li data-name="Encyclopedia of NUS" data-strength="Asia's hub for interdisciplinary research">
+                        <h3>Encyclopedia of NUS</h3>
+                        <p>Asia's hub for interdisciplinary research</p>
+                    </li>
+                    <li data-name="Encyclopedia of Leiden" data-strength="Europe's oldest university outside Italy">
+                        <h3>Encyclopedia of Leiden</h3>
+                        <p>Europe's oldest university outside Italy</p>
+                    </li>
+                    <li data-name="Encyclopedia of Uppsala" data-strength="Nobel prizes and medieval manuscripts">
+                        <h3>Encyclopedia of Uppsala</h3>
+                        <p>Nobel prizes and medieval manuscripts</p>
+                    </li>
+                    <li data-name="Encyclopedia of KU Leuven" data-strength="Belgium's ancient center of learning">
+                        <h3>Encyclopedia of KU Leuven</h3>
+                        <p>Belgium's ancient center of learning</p>
+                    </li>
+                    <li
+                        data-name="Encyclopedia of TU Delft"
+                        data-strength="Dutch engineering and technology innovation"
+                    >
+                        <h3>Encyclopedia of TU Delft</h3>
+                        <p>Dutch engineering and technology innovation</p>
+                    </li>
+                    <li data-name="Encyclopedia of Humboldt" data-strength="Berlin's intellectual powerhouse">
+                        <h3>Encyclopedia of Humboldt</h3>
+                        <p>Berlin's intellectual powerhouse</p>
+                    </li>
+                    <li data-name="Encyclopedia of Copenhagen" data-strength="Quantum mechanics and philosophy">
+                        <h3>Encyclopedia of Copenhagen</h3>
+                        <p>Quantum mechanics and philosophy</p>
+                    </li>
+                    <li data-name="Encyclopedia of Padua" data-strength="Where Galileo taught mathematics">
+                        <h3>Encyclopedia of Padua</h3>
+                        <p>Where Galileo taught mathematics</p>
+                    </li>
+                    <li data-name="Encyclopedia of Vienna" data-strength="Psychology and quantum theory">
+                        <h3>Encyclopedia of Vienna</h3>
+                        <p>Psychology and quantum theory</p>
+                    </li>
+                    <li data-name="Encyclopedia of Kyoto" data-strength="Japan's cultural and scientific heritage">
+                        <h3>Encyclopedia of Kyoto</h3>
+                        <p>Japan's cultural and scientific heritage</p>
+                    </li>
+                    <li data-name="Encyclopedia of Seoul National" data-strength="Korea's technological advancement">
+                        <h3>Encyclopedia of Seoul National</h3>
+                        <p>Korea's technological advancement</p>
+                    </li>
+                    <li data-name="Encyclopedia of ANU" data-strength="Australia's national research university">
+                        <h3>Encyclopedia of ANU</h3>
+                        <p>Australia's national research university</p>
+                    </li>
+                    <li data-name="Encyclopedia of Utrecht" data-strength="Netherlands' largest public university">
+                        <h3>Encyclopedia of Utrecht</h3>
+                        <p>Netherlands' largest public university</p>
+                    </li>
+                    <li data-name="Encyclopedia of Warwick" data-strength="Mathematics and business innovation">
+                        <h3>Encyclopedia of Warwick</h3>
+                        <p>Mathematics and business innovation</p>
+                    </li>
+                    <li data-name="Encyclopedia of St Andrews" data-strength="Scotland's first university">
+                        <h3>Encyclopedia of St Andrews</h3>
+                        <p>Scotland's first university</p>
+                    </li>
+                    <li data-name="Encyclopedia of Amsterdam" data-strength="Dutch Golden Age to modern research">
+                        <h3>Encyclopedia of Amsterdam</h3>
+                        <p>Dutch Golden Age to modern research</p>
+                    </li>
+                    <li data-name="Encyclopedia of LMU Munich" data-strength="German research excellence">
+                        <h3>Encyclopedia of LMU Munich</h3>
+                        <p>German research excellence</p>
+                    </li>
+                    <li data-name="Encyclopedia of Göttingen" data-strength="Mathematics and natural sciences">
+                        <h3>Encyclopedia of Göttingen</h3>
+                        <p>Mathematics and natural sciences</p>
+                    </li>
+                    <li data-name="Encyclopedia of Helsinki" data-strength="Nordic research leadership">
+                        <h3>Encyclopedia of Helsinki</h3>
+                        <p>Nordic research leadership</p>
+                    </li>
+                    <li data-name="Encyclopedia of Aarhus" data-strength="Danish innovation hub">
+                        <h3>Encyclopedia of Aarhus</h3>
+                        <p>Danish innovation hub</p>
+                    </li>
+                    <li data-name="Encyclopedia of Zurich" data-strength="Swiss precision in research">
+                        <h3>Encyclopedia of Zurich</h3>
+                        <p>Swiss precision in research</p>
+                    </li>
+                    <li data-name="Encyclopedia of Stockholm" data-strength="Nobel prize heritage">
+                        <h3>Encyclopedia of Stockholm</h3>
+                        <p>Nobel prize heritage</p>
+                    </li>
+                    <li data-name="Encyclopedia of Lund" data-strength="Swedish academic excellence">
+                        <h3>Encyclopedia of Lund</h3>
+                        <p>Swedish academic excellence</p>
+                    </li>
+                </ul>
+            </div>
+            <a href="mission.html" class="learn-more-button">Learn More</a>
         </div>
-        <div class="institutions"></div>
-        <a href="mission.html" class="learn-more-button">Learn More</a>
-    </div>
-    <script src="/js/animation.js?v=1709230625"></script>
-</body>
-</html> 
+        <script src="/js/animation.js?v=1709230625"></script>
+    </body>
+</html>

@@ -22,19 +22,19 @@ $transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
 
 // Mixins
 @mixin mobile {
-  @media (max-width: $breakpoint-mobile) {
-    @content;
-  }
+    @media (max-width: $breakpoint-mobile) {
+        @content;
+    }
 }
 
 @mixin tablet {
-  @media (max-width: $breakpoint-tablet) {
-    @content;
-  }
+    @media (max-width: $breakpoint-tablet) {
+        @content;
+    }
 }
 
 @mixin desktop {
-  @media (max-width: $breakpoint-desktop) {
-    @content;
-  }
+    @media (max-width: $breakpoint-desktop) {
+        @content;
+    }
 }

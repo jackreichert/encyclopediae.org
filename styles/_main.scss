@@ -3,649 +3,659 @@
 
 // Essay page styles
 .essay-page {
-  color: $primary-color;
-  background: #fff;
+    color: $primary-color;
+    background: #fff;
 
-  .essay {
-    max-width: 800px;
-    margin: 4rem auto;
-    padding: 0 2rem;
-    font-family: $body-font;
-    line-height: 1.8;
-
-    p {
-      margin-bottom: 2rem;
-      font-size: 1.2rem;
-      font-weight: 200;
-    }
-
-    .intro {
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: $secondary-color;
-    }
-
-    h2 {
-      font-family: $body-font;
-      font-size: 2rem;
-      font-weight: 900;
-      margin: 3rem 0 1.5rem;
-      color: $primary-color;
-    }
-
-    .conclusion {
-      font-style: italic;
-      color: $secondary-color;
-      font-weight: 400;
-    }
-
-    .date {
-      margin-top: 4rem;
-      font-style: italic;
-      color: $accent-color;
-      text-align: right;
-      font-weight: 200;
-    }
-  }
-
-  @media (max-width: 768px) {
     .essay {
-      margin: 3rem auto;
-      
-      p {
-        font-size: 1.1rem;
-      }
-      
-      .intro {
-        font-size: 1.2rem;
-      }
-      
-      h2 {
-        font-size: 1.8rem;
-      }
+        max-width: 800px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+        font-family: $body-font;
+        line-height: 1.8;
+
+        p {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            font-weight: 200;
+        }
+
+        .intro {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: $secondary-color;
+        }
+
+        h2 {
+            font-family: $body-font;
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 3rem 0 1.5rem;
+            color: $primary-color;
+        }
+
+        .conclusion {
+            font-style: italic;
+            color: $secondary-color;
+            font-weight: 400;
+        }
+
+        .date {
+            margin-top: 4rem;
+            font-style: italic;
+            color: $accent-color;
+            text-align: right;
+            font-weight: 200;
+        }
     }
-  }
+
+    @media (max-width: 768px) {
+        .essay {
+            margin: 3rem auto;
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .intro {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    }
 }
 
 // Main site styles
 body:not(.animation-page) {
-  color: $primary-color;
-  background: #fff;
-  min-height: 100vh;
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: $body-font;
-    font-weight: 900;
-  }
-
-  // Header
-  header {
-    position: fixed;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #eee;
-    z-index: 1000;
-    top: 0;
-
-    nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      @media (max-width: 480px) {
-        flex-direction: column;  // Stack logo and nav vertically
-        gap: 0.75rem;           // Space between logo and nav
-        padding: 0.5rem 0;      // Add some vertical padding
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 900;
-        letter-spacing: 0.02em;
-        
-        @media (max-width: 480px) {
-          font-size: 1.3rem;
-        }
-        
-        a {
-          color: $primary-color;
-          text-decoration: none;
-        }
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        
-        @media (max-width: 768px) {
-          gap: 1.5rem;
-        }
-        
-        @media (max-width: 480px) {
-          gap: 1.25rem;         // Slightly reduce gap on mobile
-          justify-content: center; // Center the nav items
-          width: 100%;          // Full width for better spacing
-          padding: 0.25rem 0;   // Add some vertical padding
-        }
-        
-        a {
-          color: $primary-color;
-          text-decoration: none;
-          font-weight: 200;
-          position: relative;
-          padding-bottom: 2px;
-          white-space: nowrap;  // Prevent text wrapping
-          
-          @media (max-width: 480px) {
-            font-size: 0.95rem; // Slightly smaller font on mobile
-          }
-          
-          &:hover {
-            opacity: 0.7;
-          }
-
-          &.active {
-            font-weight: 400;
-            
-            &:after {
-              content: '';
-              position: absolute;
-              bottom: -2px;
-              left: 0;
-              width: 100%;
-              height: 2px;
-              background: $primary-color;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // Hero sections with adjusted mobile spacing
-  .hero-banner, .full-width-image {
-    @extend .hero-base;
-    // Add only specific overrides
-  }
-
-  // Background images
-  .hero-trinity {
-    background-image: url('images/trinity.jpg');
-  }
-
-  .john-work-garrett {
-    background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
-    position: relative;
-    z-index: 0;
-    min-height: fit-content;
-    padding: 4rem 2rem;
-  }
-
-  .royal-portuguese {
-    background-image: url('images/royal-portuguese-reading-room.jpg');
-  }
-
-  // Content sections
-  .concept {
-    width: 100%;
-    padding: 6rem 2rem;
-    background: #fff;
-    margin: 0;
     color: $primary-color;
-    position: relative;
-    z-index: 2;
+    background: #fff;
+    min-height: 100vh;
 
-    h2 {
-        text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      font-weight: 900;
-      text-transform: none;
-      letter-spacing: normal;
-      line-height: 1.2;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: $body-font;
+        font-weight: 900;
     }
 
-    p {
-      font-weight: 200;
-      font-size: 1.2rem;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.8;
+    // Header
+    header {
+        position: fixed;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #eee;
+        z-index: 1000;
+        top: 0;
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            @media (max-width: 480px) {
+                flex-direction: column; // Stack logo and nav vertically
+                gap: 0.75rem; // Space between logo and nav
+                padding: 0.5rem 0; // Add some vertical padding
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                font-weight: 900;
+                letter-spacing: 0.02em;
+
+                @media (max-width: 480px) {
+                    font-size: 1.3rem;
+                }
+
+                a {
+                    color: $primary-color;
+                    text-decoration: none;
+                }
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 2rem;
+
+                @media (max-width: 768px) {
+                    gap: 1.5rem;
+                }
+
+                @media (max-width: 480px) {
+                    gap: 1.25rem; // Slightly reduce gap on mobile
+                    justify-content: center; // Center the nav items
+                    width: 100%; // Full width for better spacing
+                    padding: 0.25rem 0; // Add some vertical padding
+                }
+
+                a {
+                    color: $primary-color;
+                    text-decoration: none;
+                    font-weight: 200;
+                    position: relative;
+                    padding-bottom: 2px;
+                    white-space: nowrap; // Prevent text wrapping
+
+                    @media (max-width: 480px) {
+                        font-size: 0.95rem; // Slightly smaller font on mobile
+                    }
+
+                    &:hover {
+                        opacity: 0.7;
+                    }
+
+                    &.active {
+                        font-weight: 400;
+
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            bottom: -2px;
+                            left: 0;
+                            width: 100%;
+                            height: 2px;
+                            background: $primary-color;
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    @media (max-width: 768px) {
-      padding: 4rem 1.5rem;
+    // Hero sections with adjusted mobile spacing
+    .hero-banner,
+    .full-width-image {
+        @extend .hero-base;
+        // Add only specific overrides
     }
-  }
 
-  // Benefits grid
-  .benefit-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    color: #fff;
-    position: relative;
-    z-index: 1;
+    // Background images
+    .hero-trinity {
+        background-image: url('images/trinity.jpg');
+    }
 
-    .benefit {
+    .john-work-garrett {
+        background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
+        position: relative;
+        z-index: 0;
+        min-height: fit-content;
+        padding: 4rem 2rem;
+    }
+
+    .royal-portuguese {
+        background-image: url('images/royal-portuguese-reading-room.jpg');
+    }
+
+    // Content sections
+    .concept {
+        width: 100%;
+        padding: 6rem 2rem;
+        background: #fff;
+        margin: 0;
+        color: $primary-color;
+        position: relative;
+        z-index: 2;
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            text-transform: none;
+            letter-spacing: normal;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        p {
+            font-weight: 200;
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            padding: 4rem 1.5rem;
+        }
+    }
+
+    // Benefits grid
+    .benefit-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 2rem;
-        border: 1px solid hsla(0, 0%, 100%, 0.2);
-        backdrop-filter: blur(5px);
-        background: rgba(0, 0, 0, 0.5);
-    }
+        color: #fff;
+        position: relative;
+        z-index: 1;
 
-    @media (min-width: 1200px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 1rem;
-        
         .benefit {
+            padding: 2rem;
+            border: 1px solid hsla(0, 0%, 100%, 0.2);
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+
+            .benefit {
+                padding: 1.5rem;
+            }
+        }
+    }
+
+    // Signup section
+    .signup {
+        width: 100%;
+        background: #fff;
+        padding: 6rem 2rem;
+        text-align: center;
+        margin: 0;
+        color: $primary-color;
+
+        h2 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        p {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+        }
+    }
+
+    // Form elements
+    form,
+    .success-message {
+        @extend .form-base;
+        // Add only specific overrides
+
+        .turnstile-wrapper {
+            width: 100%;
+            max-width: 300px;
+            margin: 1rem auto;
+            overflow: visible; // Changed from hidden to visible to show border
+
+            iframe {
+                max-width: 100%;
+                margin: 0 auto;
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            width: 100%;
+            max-width: 320px;
+            padding: 1.5rem;
+
+            .turnstile-wrapper {
+                transform: scale(0.9);
+                transform-origin: center;
+                margin: 1rem -15px; // Add negative margin to compensate for scaling
+            }
+        }
+
+        .success-message {
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+
+            h3 {
+                font-size: 1.4rem;
+                font-weight: 900;
+                margin-bottom: 0.5rem;
+                color: $primary-color;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: $secondary-color;
+                font-weight: 200;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        input[type='email'],
+        input[type='text'] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            font-family: $body-font;
+            font-weight: 200;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+            }
+
+            &::placeholder {
+                color: #999;
+            }
+        }
+
+        button {
+            @extend .button-base;
+            // Add only specific overrides
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: left;
+            min-height: 1.2em;
+            font-weight: 400;
+            transition: all 0.2s ease;
+            background: rgba(211, 47, 47, 0.05);
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-bottom: -0.5rem;
+        }
+
+        @media (max-width: 480px) {
+            width: 320px;
             padding: 1.5rem;
         }
+
+        // Footer
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: $primary-color;
+            color: white;
+        }
+
+        // Media queries for main site
+        @media (max-width: 1200px) {
+            .hero-banner,
+            .full-width-image {
+                h1 {
+                    font-size: 4rem;
+                    padding: 0 2rem;
+                }
+                h2 {
+                    font-size: 1.6rem;
+                    padding: 0 2rem;
+                }
+            }
+
+            .concept {
+                h2 {
+                    font-size: 3rem;
+                    padding: 0 2rem;
+                }
+                p {
+                    font-size: 1.1rem;
+                    padding: 0 2rem;
+                }
+            }
+
+            .benefit-grid {
+                .benefit {
+                    flex: 0 1 calc(50% - 1rem);
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner,
+            .full-width-image {
+                h1 {
+                    font-size: 3rem;
+                }
+                h2 {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .concept {
+                h2 {
+                    font-size: 2.5rem;
+                }
+                p {
+                    font-size: 1rem;
+                }
+            }
+
+            .benefit-grid {
+                padding: 0 1.5rem;
+                gap: 1.5rem;
+
+                .benefit {
+                    flex: 0 1 100%;
+                    max-width: 500px;
+
+                    h3 {
+                        font-size: 1.8rem;
+                    }
+                    p {
+                        font-size: 1rem;
+                    }
+                }
+            }
+
+            .signup {
+                h2 {
+                    font-size: 2.5rem;
+                }
+            }
+
+            header {
+                .logo {
+                    font-size: 1.2rem;
+                }
+                .nav-links a {
+                    font-size: 0.9rem;
+                    margin-left: 1rem;
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-banner,
+            .full-width-image {
+                h1 {
+                    font-size: 2.5rem;
+                }
+                h2 {
+                    font-size: 1.2rem;
+                }
+            }
+
+            .concept {
+                padding: 4rem 1rem;
+                h2 {
+                    font-size: 2rem;
+                }
+            }
+
+            .signup {
+                padding: 4rem 1.5rem;
+
+                h2 {
+                    font-size: 2.5rem;
+                }
+            }
+
+            form {
+                width: 280px;
+                padding: 1.5rem;
+
+                input[type='email'],
+                input[type='text'] {
+                    font-size: 0.9rem;
+                }
+
+                button {
+                    font-size: 0.85rem;
+                }
+            }
+        }
     }
-  }
-
-  // Signup section
-  .signup {
-    width: 100%;
-    background: #fff;
-    padding: 6rem 2rem;
-    text-align: center;
-    margin: 0;
-    color: $primary-color;
-
-    h2 {
-      font-size: 3.2rem;
-      font-weight: 900;
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    p {
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 2rem;
-    }
-  }
-
-  // Form elements
-  form, .success-message {
-    @extend .form-base;
-    // Add only specific overrides
-
-    .turnstile-wrapper {
-      width: 100%;
-      max-width: 300px;      
-      margin: 1rem auto;     
-      overflow: visible;     // Changed from hidden to visible to show border
-      
-      iframe {
-        max-width: 100%;     
-        margin: 0 auto;      
-        display: block;      
-      }
-    }
-
-    @media (max-width: 480px) {
-      width: 100%;          
-      max-width: 320px;     
-      padding: 1.5rem;
-      
-      .turnstile-wrapper {
-        transform: scale(0.9);  
-        transform-origin: center;
-        margin: 1rem -15px;    // Add negative margin to compensate for scaling
-      }
-    }
-
-    .success-message {
-      text-align: center;
-      animation: fadeIn 0.5s ease-out;
-
-      h3 {
-        font-size: 1.4rem;
-        font-weight: 900;
-        margin-bottom: 0.5rem;
-        color: $primary-color;
-      }
-
-      p {
-        font-size: 1.1rem;
-        color: $secondary-color;
-        font-weight: 200;
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    input[type="email"],
-    input[type="text"] {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: white;
-      font-family: $body-font;
-      font-weight: 200;
-      font-size: 1rem;
-      border-radius: 4px;
-      transition: border-color 0.2s ease;
-      
-      &:focus {
-        outline: none;
-        border-color: $primary-color;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
-      }
-
-      &::placeholder {
-        color: #999;
-      }
-    }
-
-    button {
-      @extend .button-base;
-      // Add only specific overrides
-    }
-
-    .error-message {
-      color: #d32f2f;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      text-align: left;
-      min-height: 1.2em;
-      font-weight: 400;
-      transition: all 0.2s ease;
-      background: rgba(211, 47, 47, 0.05);
-      border-radius: 4px;
-      padding: 0.5rem;
-      margin-bottom: -0.5rem;
-    }
-
-    @media (max-width: 480px) {
-      width: 320px;
-      padding: 1.5rem;
-    }
-
-    // Footer
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: $primary-color;
-      color: white;
-    }
-
-    // Media queries for main site
-    @media (max-width: 1200px) {
-      .hero-banner, .full-width-image {
-        h1 {
-          font-size: 4rem;
-          padding: 0 2rem;
-        }
-        h2 {
-          font-size: 1.6rem;
-          padding: 0 2rem;
-        }
-      }
-
-      .concept {
-        h2 {
-          font-size: 3rem;
-          padding: 0 2rem;
-        }
-        p {
-          font-size: 1.1rem;
-          padding: 0 2rem;
-        }
-      }
-
-      .benefit-grid {
-        .benefit {
-          flex: 0 1 calc(50% - 1rem);
-        }
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-banner, .full-width-image {
-        h1 {
-          font-size: 3rem;
-        }
-        h2 {
-          font-size: 1.4rem;
-        }
-      }
-
-      .concept {
-        h2 {
-          font-size: 2.5rem;
-        }
-        p {
-          font-size: 1rem;
-        }
-      }
-
-      .benefit-grid {
-        padding: 0 1.5rem;
-        gap: 1.5rem;
-
-        .benefit {
-          flex: 0 1 100%;
-          max-width: 500px;
-
-          h3 {
-            font-size: 1.8rem;
-          }
-          p {
-            font-size: 1rem;
-          }
-        }
-      }
-
-      .signup {
-        h2 {
-          font-size: 2.5rem;
-        }
-      }
-
-      header {
-        .logo {
-          font-size: 1.2rem;
-        }
-        .nav-links a {
-          font-size: 0.9rem;
-          margin-left: 1rem;
-        }
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-banner, .full-width-image {
-        h1 {
-          font-size: 2.5rem;
-        }
-        h2 {
-          font-size: 1.2rem;
-        }
-      }
-
-      .concept {
-        padding: 4rem 1rem;
-        h2 {
-          font-size: 2rem;
-        }
-      }
-
-      .signup {
-        padding: 4rem 1.5rem;
-        
-        h2 {
-          font-size: 2.5rem;
-        }
-      }
-
-      form {
-        width: 280px;
-        padding: 1.5rem;
-        
-        input[type="email"],
-        input[type="text"] {
-          font-size: 0.9rem;
-        }
-        
-        button {
-          font-size: 0.85rem;
-        }
-      }
-    }
-  }
 }
 
 // Hero banners
 .hero-banner {
-  position: relative;
-  height: 60vh;
-  background-size: cover;
-  background-position: center;
-  color: white;
-  
-  @media (orientation: landscape) and (min-height: 500px) {
-    height: 80vh;      // Taller in landscape for larger devices
-    margin-top: 4rem;
-  }
-  
-  @media (orientation: landscape) and (max-height: 500px) {
-    height: 110vh;     // Full height for very short landscape views
-    margin-top: 4rem;  // Space for navbar
-  }
-  
-  @media (max-width: 768px) {
-    height: 40vh;
-    margin-top: 6rem;  // Space for mobile header
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 2rem;
+    position: relative;
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    color: white;
 
-    h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      font-weight: 900;
+    @media (orientation: landscape) and (min-height: 500px) {
+        height: 80vh; // Taller in landscape for larger devices
+        margin-top: 4rem;
     }
 
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 200;
+    @media (orientation: landscape) and (max-height: 500px) {
+        height: 110vh; // Full height for very short landscape views
+        margin-top: 4rem; // Space for navbar
     }
 
     @media (max-width: 768px) {
-      padding-top: 6rem;    // Extra padding only on mobile
+        height: 40vh;
+        margin-top: 6rem; // Space for mobile header
     }
-  }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 200;
+        }
+
+        @media (max-width: 768px) {
+            padding-top: 6rem; // Extra padding only on mobile
+        }
+    }
 }
 
 // Background images
 .royal-portuguese {
-  background-image: url('images/royal-portuguese-reading-room.jpg');
+    background-image: url('images/royal-portuguese-reading-room.jpg');
 }
 
 .mission {
-  background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
+    background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
 }
 
 // Mission page specific styles
 .mission-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
 
-  section {
-    margin-bottom: 4rem;
+    section {
+        margin-bottom: 4rem;
 
-    h1 {
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      margin-bottom: 2rem;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      margin-bottom: 1.5rem;
-      font-weight: 900;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      font-weight: 200;
-    }
-  }
-
-  .goals {
-    ul {
-      list-style: none;
-      padding: 0;
-
-      li {
-        font-size: 1.2rem;
-        margin: 1rem 0;
-        padding-left: 1.5rem;
-        position: relative;
-        font-weight: 200;
-
-        &:before {
-          content: "•";
-          position: absolute;
-          left: 0;
-          color: $primary-color;
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 2rem;
+            font-weight: 900;
+            line-height: 1.2;
         }
-      }
+
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            font-weight: 200;
+        }
     }
-  }
+
+    .goals {
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                font-size: 1.2rem;
+                margin: 1rem 0;
+                padding-left: 1.5rem;
+                position: relative;
+                font-weight: 200;
+
+                &:before {
+                    content: '•';
+                    position: absolute;
+                    left: 0;
+                    color: $primary-color;
+                }
+            }
+        }
+    }
 }
 
 // Responsive adjustments
 @media (max-width: 768px) {
-  .hero-banner {
-    height: 40vh;
-  }
+    .hero-banner {
+        height: 40vh;
+    }
 }
 
 .cta-funnel {
@@ -654,7 +664,7 @@ body:not(.animation-page) {
     display: flex;
     gap: 2rem;
     text-align: center;
-    
+
     .cta-step {
         flex: 1;
         p {
@@ -679,19 +689,19 @@ body:not(.animation-page) {
     border-radius: 4px;
     font-weight: 600;
     transition: transform 0.2s ease;
-    
+
     &:hover {
         transform: translateY(-2px);
     }
 }
 
 .learn-more-button {
-  @extend .button-base;
-  // Add only specific overrides
+    @extend .button-base;
+    // Add only specific overrides
 }
 
 .clearfix::after {
-  content: "";
-  display: table;
-  clear: both;
-} 
+    content: '';
+    display: table;
+    clear: both;
+}

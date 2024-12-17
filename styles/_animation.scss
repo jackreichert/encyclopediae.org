@@ -1,204 +1,220 @@
 @use 'variables' as *;
 
 .animation-page {
-  background: #000;
-  color: #fff;
-  height: 100vh;
-  overflow: hidden;
-
-  .content-container {
-    position: relative;
+    background: #000;
+    color: #fff;
     height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    overflow: hidden;
 
-  .content-wrapper {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-  }
-
-  .main-text {
-    font-size: 4rem;
-    font-weight: 900;
-    text-align: center;
-    opacity: 1;
-    transition: all 1.2s $transition-bezier;
-    margin-bottom: 1rem;
-    transform: translateY(0);
-
-    &.shifted {
-      transform: translateY(-40px);
-    }
-  }
-
-  .answer-text {
-    font-size: 6rem;
-    font-weight: 900;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 1.2s $transition-bezier;
-    color: rgba(255, 255, 255, 0.9);
-
-    &.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-  }
-
-  .institutions {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-  }
-
-  .institution {
-    position: absolute;
-    opacity: 0;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 200;
-    transform: translate(-50%, -50%) scale(0.8);
-    transition: all 0.8s $transition-bezier;
-    cursor: pointer;
-    padding: 10px;
-    font-family: $playfair-font;
-    text-align: center;
-    z-index: 3;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-
-    &.visible {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
+    .content-container {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    &:hover, &:active, &:focus {
-      color: rgba(255, 255, 255, 0.9);
-      transform: translate(-50%, -50%) scale(1.1);
-      z-index: 1000;
+    .content-wrapper {
+        text-align: center;
+        position: relative;
+        z-index: 2;
     }
 
-    .tooltip {
-      position: absolute;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 10px;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      width: max-content;
-      max-width: 200px;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-top: 5px;
-      z-index: 1000;
-      display: none;
-      pointer-events: none;
+    .main-text {
+        font-size: 4rem;
+        font-weight: 900;
+        text-align: center;
+        opacity: 1;
+        transition: all 1.2s $transition-bezier;
+        margin-bottom: 1rem;
+        transform: translateY(0);
 
-      &.active {
-        display: block;
-      }
+        &.shifted {
+            transform: translateY(-40px);
+        }
     }
 
-    &:hover .tooltip {
-      display: block;
+    .answer-text {
+        font-size: 6rem;
+        font-weight: 900;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 1.2s $transition-bezier;
+        color: rgba(255, 255, 255, 0.9);
+
+        &.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
     }
 
-    &:active .tooltip,
-    &.touched .tooltip {
-      display: block !important;
+    .institutions {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
     }
 
-    @media (hover: none) and (pointer: coarse) {
-      &:hover .tooltip {
-        display: none;
-      }
+    .institution {
+        position: absolute;
+        opacity: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 200;
+        transform: translate(-50%, -50%) scale(0.8);
+        transition: all 0.8s $transition-bezier;
+        cursor: pointer;
+        padding: 10px;
+        font-family: $playfair-font;
+        text-align: center;
+        z-index: 3;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+
+        &.visible {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: rgba(255, 255, 255, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+            z-index: 1000;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: max-content;
+            max-width: 200px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 5px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+
+            &.active {
+                display: block;
+            }
+        }
+
+        &:hover .tooltip {
+            display: block;
+        }
+
+        &:active .tooltip,
+        &.touched .tooltip {
+            display: block !important;
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            &:hover .tooltip {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.7rem;
+            padding: 3px;
+            line-height: 1.1;
+
+            &.visible {
+                transform: translate(-50%, -50%) scale(0.6);
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                transform: translate(-50%, -50%) scale(0.7);
+            }
+        }
+    }
+
+    .question-mark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20vw;
+        color: rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .learn-more-button {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 1rem 2rem;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: $body-font;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        opacity: 0;
+        z-index: 1001;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.95);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        &.visible {
+            opacity: 1;
+        }
     }
 
     @media (max-width: 768px) {
-      font-size: 0.7rem;
-      padding: 3px;
-      line-height: 1.1;
+        .main-text {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
 
-      &.visible {
-        transform: translate(-50%, -50%) scale(0.6);
-      }
+        .answer-text {
+            font-size: 2rem;
+        }
 
-      &:hover, &:active, &:focus {
-        transform: translate(-50%, -50%) scale(0.7);
-      }
-    }
-  }
+        .institution .tooltip {
+            width: 100px;
+            font-size: 0.6rem;
+            padding: 4px;
+        }
 
-  .question-mark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20vw;
-    color: rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .learn-more-button {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.85);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: $body-font;
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    opacity: 0;
-    z-index: 1001;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.95);
-      transform: translateX(-50%) translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        .content-wrapper {
+            transform: scale(0.85);
+            margin-top: -15vh;
+        }
     }
 
-    &.visible {
-      opacity: 1;
+    .seo-content {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
     }
-  }
-
-  @media (max-width: 768px) {
-    .main-text {
-      font-size: 1.5rem;
-      margin-bottom: 0.2rem;
-    }
-    
-    .answer-text {
-      font-size: 2rem;
-    }
-    
-    .institution .tooltip {
-      width: 100px;
-      font-size: 0.6rem;
-      padding: 4px;
-    }
-    
-    .content-wrapper {
-      transform: scale(0.85);
-      margin-top: -15vh;
-    }
-  }
-} 
+}
