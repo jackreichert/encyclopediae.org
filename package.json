@@ -11,7 +11,8 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,html}\"",
-        "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,html}\""
+        "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,html}\"",
+        "cleanup": "bun run format && bun run lint:fix"
     },
     "devDependencies": {
         "eslint": "^8.57.0",
