@@ -66,6 +66,25 @@ function isPositionValid(el, left, top) {
   return !overlaps;
 }
 
+// Add this function near the top with other helper functions
+function randomTooltipAnimation() {
+  const institutions = document.querySelectorAll('.institution');
+  
+  setInterval(() => {    
+    // Clear any existing random tooltips
+    document.querySelectorAll('.tooltip.random-active').forEach(tooltip => {
+      tooltip.classList.remove('random-active');
+    });
+    
+    // Select random institutions
+    const shuffled = Array.from(institutions).sort(() => 0.5 - Math.random());
+    shuffled.slice(0, 1).forEach(institution => {
+      const tooltip = institution.querySelector('.tooltip');
+      tooltip.classList.add('random-active');
+    });
+  }, 2000); // Trigger every 2 seconds
+}
+
 // Animation sequence
 function startAnimation() {
   const institutionEls = document.querySelectorAll('.institution');
@@ -89,6 +108,8 @@ function startAnimation() {
             // Show Learn More button after a longer delay
             setTimeout(() => {
               learnMoreButton.classList.add('visible');
+              // Start random tooltip animations after everything is visible
+              randomTooltipAnimation();
             }, 2000);
           }, 800);
         }, 800);

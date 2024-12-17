@@ -107,6 +107,11 @@
             &.active {
                 display: block;
             }
+
+            &.random-active {
+                display: block;
+                animation: fadeInOut 2s ease-in-out forwards;
+            }
         }
 
         &:hover .tooltip {
@@ -217,4 +222,11 @@
         white-space: nowrap;
         border: 0;
     }
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
 }
