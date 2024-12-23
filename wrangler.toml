@@ -11,30 +11,12 @@ pattern = "encyclopediae.org/signup*"
 zone_name = "encyclopediae.org"
 
 [env.signup.vars]
-NOTIFICATION_EMAIL = "notifications@encyclopediae.org"
-SENDING_DOMAIN = "encyclopediae.org"
 GOOGLE_SHEET_ID = "15JGiLaUTWdV5nyoXNmTJA42GnegQdaARNM4Dnk_flMk"
 GOOGLE_SERVICE_ACCOUNT_EMAIL = "encyclopediae-sheets@encyclopediae-initiative.iam.gserviceaccount.com"
-
-[[env.signup.bindings]]
-name = "EMAIL"
-type = "send_email"
 
 [[env.signup.kv_namespaces]]
 binding = "SIGNUPS"
 id = "2f13b43b3d4a41e89973a2ca7204b626"
-
-[env.email]
-name = "email-worker"
-main = "email-worker/worker.js"
-compatibility_date = "2023-01-01"
-
-[env.email.vars]
-SENDING_DOMAIN = "encyclopediae.org"
-
-[[env.email.bindings]]
-name = "EMAIL"
-type = "send_email"
 
 [observability.logs]
 enabled = true

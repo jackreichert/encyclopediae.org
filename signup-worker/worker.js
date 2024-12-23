@@ -84,13 +84,6 @@ export default {
       //   console.error('Google Sheets error:', error);
       // }
 
-      // Send notification email
-      try {
-        await sendNotificationEmail(submission, env);
-      } catch (error) {
-        console.error('Email notification error:', error);
-      }
-
       return new Response(
         JSON.stringify({
           success: true,
@@ -162,26 +155,4 @@ async function saveToGoogleSheets(submission, env) {
     Name: submission.name,
     Message: submission.message,
   });
-}
-
-async function sendNotificationEmail(submission, env) {
-  const email = {
-    to: env.NOTIFICATION_EMAIL,
-    from: `notifications@${env.SENDING_DOMAIN}`,
-    subject: 'New Signup on Encyclopediae',
-    text: `
-      New signup received:
-      Email: ${submission.email}
-      Name: ${submission.name}
-      Message: ${submission.message}
-      Time: ${submission.timestamp}
-    `,
-  };
-
-  if (env.EMAIL && typeof env.EMAIL.send === 'function') {
-    await env.EMAIL.send(email);
-  } else {
-    console.error('Email binding not available');
-    throw new Error('Email service not configured');
-  }
 }
