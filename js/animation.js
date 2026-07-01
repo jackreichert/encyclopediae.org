@@ -77,7 +77,7 @@ function randomTooltipAnimation() {
     });
     
     // Select random institutions
-    const shuffled = Array.from(institutions).sort(() => 0.5 - Math.random());
+    const shuffled = shuffleArray(Array.from(institutions));
     shuffled.slice(0, 1).forEach(institution => {
       const tooltip = institution.querySelector('.tooltip');
       tooltip.classList.add('random-active');

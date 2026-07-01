@@ -1,0 +1,266 @@
+@use 'variables' as *;
+
+// ── Section label ──────────────────────────────────────────────────────────
+.section-label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: #999;
+    margin-bottom: 0.75rem;
+}
+
+// ── Callout (full-bleed black banner) ──────────────────────────────────────
+.callout {
+    background: $primary-color;
+    color: #fff;
+    padding: 5rem 2rem;
+    text-align: center;
+
+    h2 {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.25;
+    }
+
+    p {
+        font-size: 1.15rem;
+        font-weight: 200;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+// ── Tension block (pull-quote) ─────────────────────────────────────────────
+.tension-block {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    border-left: 3px solid $primary-color;
+
+    p {
+        font-size: 1.2rem;
+        font-weight: 200;
+        line-height: 1.8;
+        margin: 0;
+    }
+}
+
+// ── Stat grid ──────────────────────────────────────────────────────────────
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 960px;
+    margin: 3rem auto;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 2rem auto;
+    }
+}
+
+.stat-block {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+
+    .number {
+        font-size: 2.8rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 0.75rem;
+    }
+
+    .label {
+        font-size: 0.95rem;
+        font-weight: 200;
+        color: #555;
+        line-height: 1.5;
+    }
+}
+
+// ── Cost table ─────────────────────────────────────────────────────────────
+.cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1rem;
+
+    th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        border-bottom: 2px solid $primary-color;
+        font-weight: 900;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    td {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        font-weight: 200;
+        vertical-align: top;
+        line-height: 1.6;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr.highlight td {
+        font-weight: 400;
+        background: rgba(0, 0, 0, 0.025);
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.88rem;
+
+        th,
+        td {
+            padding: 0.6rem 0.5rem;
+        }
+    }
+}
+
+// ── Phase list (launch roadmap) ────────────────────────────────────────────
+.phase-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.phase-item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 2rem;
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 2rem 0;
+    }
+}
+
+.phase-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.1);
+    padding-top: 0.15rem;
+    user-select: none;
+
+    @media (max-width: 768px) {
+        font-size: 2rem;
+    }
+}
+
+.phase-content {
+    .phase-meta {
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #999;
+        margin-bottom: 0.75rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-bottom: 0.75rem;
+    }
+
+    p {
+        font-weight: 200;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+
+        li {
+            font-weight: 200;
+            font-size: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+
+            &::before {
+                content: '—';
+                position: absolute;
+                left: 0;
+                color: #bbb;
+            }
+        }
+    }
+}
+
+// ── Hamburger button ───────────────────────────────────────────────────────
+.nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    margin-left: auto;
+
+    span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: $primary-color;
+        transition:
+            transform 0.25s ease,
+            opacity 0.2s ease;
+        transform-origin: center;
+    }
+
+    &[aria-expanded='true'] {
+        span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        display: flex;
+    }
+}

@@ -64,14 +64,21 @@
     </head>
     <body class="how-it-works-page">
         <header>
-            <nav>
+            <nav aria-label="Main navigation">
                 <div class="logo">
                     <a href="index.html">encyclopediae.org</a>
                 </div>
+                <button class="nav-burger" aria-label="Open navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="nav-links">
                     <a href="mission.html">Our Mission</a>
                     <a href="wikipedia.html">Why Change?</a>
                     <a href="how-it-works.html" class="active">How It Works</a>
+                    <a href="endowment.html">The Endowment Model</a>
+                    <a href="launch.html">How It Starts</a>
                 </div>
             </nav>
         </header>
@@ -198,6 +205,25 @@
             </div>
         </article>
 
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <a href="index.html">encyclopediae.org</a>
+                    <p>Restoring diversity to the world's knowledge infrastructure.</p>
+                </div>
+                <nav class="footer-links" aria-label="Footer navigation">
+                    <a href="mission.html">Our Mission</a>
+                    <a href="wikipedia.html">Why Change?</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="endowment.html">The Endowment Model</a>
+                    <a href="launch.html">How It Starts</a>
+                </nav>
+            </div>
+            <div class="footer-base">
+                <p>© 2024 encyclopediae.org</p>
+            </div>
+        </footer>
+
         <!-- Add Turnstile script -->
         <script
             src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
@@ -205,5 +231,6 @@
             defer
         ></script>
         <script src="/js/turnstile-form.js?v=1709230626"></script>
+        <script src="/js/nav.js"></script>
     </body>
 </html>

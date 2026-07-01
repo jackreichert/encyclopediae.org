@@ -1,5 +1,3 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
-
 export default {
   async fetch(request, env) {
     const allowedOrigins = ['https://encyclopediae.org', 'https://www.encyclopediae.org'];
@@ -77,13 +75,6 @@ export default {
       const submissionId = crypto.randomUUID();
       await env.SIGNUPS.put(submissionId, JSON.stringify(submission));
 
-      // Google Sheets temporarily disabled
-      // try {
-      //   await saveToGoogleSheets(submission, env);
-      // } catch (error) {
-      //   console.error('Google Sheets error:', error);
-      // }
-
       return new Response(
         JSON.stringify({
           success: true,
@@ -135,24 +126,3 @@ async function verifyTurnstileToken(token, secret) {
   return outcome;
 }
 
-async function saveToGoogleSheets(submission, env) {
-  const doc = new GoogleSpreadsheet(env.GOOGLE_SHEET_ID);
-
-  // Auth with service account
-  await doc.useServiceAccountAuth({
-    client_email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: env.GOOGLE_PRIVATE_KEY ? env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n') : '',
-  });
-
-  // Load the sheet
-  await doc.loadInfo();
-  const sheet = doc.sheetsByIndex[0];
-
-  // Add the row
-  await sheet.addRow({
-    Timestamp: submission.timestamp,
-    Email: submission.email,
-    Name: submission.name,
-    Message: submission.message,
-  });
-}

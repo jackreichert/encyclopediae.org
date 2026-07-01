@@ -87,11 +87,13 @@ body:not(.animation-page) {
     header {
         position: fixed;
         width: 100%;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.97);
+        padding: 0.75rem 1.5rem;
         border-bottom: 1px solid #eee;
         z-index: 1000;
         top: 0;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
 
         nav {
             max-width: 1200px;
@@ -99,21 +101,13 @@ body:not(.animation-page) {
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            @media (max-width: 480px) {
-                flex-direction: column; // Stack logo and nav vertically
-                gap: 0.75rem; // Space between logo and nav
-                padding: 0.5rem 0; // Add some vertical padding
-            }
+            flex-wrap: wrap;
 
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 font-weight: 900;
                 letter-spacing: 0.02em;
-
-                @media (max-width: 480px) {
-                    font-size: 1.3rem;
-                }
+                flex-shrink: 0;
 
                 a {
                     color: $primary-color;
@@ -123,39 +117,47 @@ body:not(.animation-page) {
 
             .nav-links {
                 display: flex;
-                gap: 2rem;
+                gap: 1.75rem;
+                align-items: center;
 
                 @media (max-width: 768px) {
-                    gap: 1.5rem;
-                }
+                    display: none;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0;
+                    padding: 0.5rem 0 0.75rem;
+                    margin-top: 0.5rem;
+                    border-top: 1px solid #eee;
 
-                @media (max-width: 480px) {
-                    gap: 1.25rem; // Slightly reduce gap on mobile
-                    justify-content: center; // Center the nav items
-                    width: 100%; // Full width for better spacing
-                    padding: 0.25rem 0; // Add some vertical padding
+                    &.open {
+                        display: flex;
+                    }
                 }
 
                 a {
                     color: $primary-color;
                     text-decoration: none;
                     font-weight: 200;
+                    font-size: 0.95rem;
                     position: relative;
                     padding-bottom: 2px;
-                    white-space: nowrap; // Prevent text wrapping
-
-                    @media (max-width: 480px) {
-                        font-size: 0.95rem; // Slightly smaller font on mobile
-                    }
+                    white-space: nowrap;
 
                     &:hover {
                         opacity: 0.7;
                     }
 
-                    &.active {
-                        font-weight: 400;
+                    &:focus-visible {
+                        outline: 2px solid $primary-color;
+                        outline-offset: 3px;
+                        border-radius: 2px;
+                    }
 
-                        &:after {
+                    &.active {
+                        font-weight: 600;
+
+                        &::after {
                             content: '';
                             position: absolute;
                             bottom: -2px;
@@ -163,6 +165,18 @@ body:not(.animation-page) {
                             width: 100%;
                             height: 2px;
                             background: $primary-color;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        padding: 0.7rem 0;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                        width: 100%;
+                        font-size: 1rem;
+                        white-space: normal;
+
+                        &:last-child {
+                            border-bottom: none;
                         }
                     }
                 }
@@ -399,138 +413,201 @@ body:not(.animation-page) {
             padding: 1.5rem;
         }
 
-        // Footer
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: $primary-color;
-            color: white;
-        }
+    }
 
-        // Media queries for main site
-        @media (max-width: 1200px) {
-            .hero-banner,
-            .full-width-image {
-                h1 {
-                    font-size: 4rem;
-                    padding: 0 2rem;
-                }
-                h2 {
-                    font-size: 1.6rem;
-                    padding: 0 2rem;
-                }
-            }
+    // Footer
+    footer {
+        background: $primary-color;
+        color: white;
 
-            .concept {
-                h2 {
-                    font-size: 3rem;
-                    padding: 0 2rem;
-                }
-                p {
-                    font-size: 1.1rem;
-                    padding: 0 2rem;
-                }
-            }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3.5rem 2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 4rem;
 
-            .benefit-grid {
-                .benefit {
-                    flex: 0 1 calc(50% - 1rem);
-                }
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 2.5rem 1.5rem 1.5rem;
             }
         }
 
-        @media (max-width: 768px) {
-            .hero-banner,
-            .full-width-image {
-                h1 {
-                    font-size: 3rem;
-                }
-                h2 {
-                    font-size: 1.4rem;
-                }
+        .footer-brand {
+            a {
+                color: white;
+                text-decoration: none;
+                font-weight: 900;
+                font-size: 1.1rem;
+                display: block;
+                margin-bottom: 0.5rem;
             }
 
-            .concept {
-                h2 {
-                    font-size: 2.5rem;
+            p {
+                font-weight: 200;
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.45);
+                line-height: 1.6;
+                max-width: 220px;
+                margin: 0;
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+
+            a {
+                color: rgba(255, 255, 255, 0.55);
+                text-decoration: none;
+                font-weight: 200;
+                font-size: 0.9rem;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: white;
+                }
+
+                &:focus-visible {
+                    outline: 1px solid rgba(255, 255, 255, 0.5);
+                    outline-offset: 3px;
+                    border-radius: 2px;
+                }
+            }
+        }
+
+        .footer-base {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.25rem 2rem;
+
+            p {
+                max-width: 1200px;
+                margin: 0 auto;
+                font-size: 0.8rem;
+                color: rgba(255, 255, 255, 0.3);
+                font-weight: 200;
+            }
+        }
+    }
+
+    // Media queries for main site
+    @media (max-width: 1200px) {
+        .hero-banner,
+        .full-width-image {
+            h1 {
+                font-size: 4rem;
+                padding: 0 2rem;
+            }
+            h2 {
+                font-size: 1.6rem;
+                padding: 0 2rem;
+            }
+        }
+
+        .concept {
+            h2 {
+                font-size: 3rem;
+                padding: 0 2rem;
+            }
+            p {
+                font-size: 1.1rem;
+                padding: 0 2rem;
+            }
+        }
+
+        .benefit-grid {
+            .benefit {
+                flex: 0 1 calc(50% - 1rem);
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-banner,
+        .full-width-image {
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        .concept {
+            h2 {
+                font-size: 2.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .benefit-grid {
+            padding: 0 1.5rem;
+            gap: 1.5rem;
+
+            .benefit {
+                flex: 0 1 100%;
+                max-width: 500px;
+
+                h3 {
+                    font-size: 1.8rem;
                 }
                 p {
                     font-size: 1rem;
                 }
             }
+        }
 
-            .benefit-grid {
-                padding: 0 1.5rem;
-                gap: 1.5rem;
-
-                .benefit {
-                    flex: 0 1 100%;
-                    max-width: 500px;
-
-                    h3 {
-                        font-size: 1.8rem;
-                    }
-                    p {
-                        font-size: 1rem;
-                    }
-                }
-            }
-
-            .signup {
-                h2 {
-                    font-size: 2.5rem;
-                }
-            }
-
-            header {
-                .logo {
-                    font-size: 1.2rem;
-                }
-                .nav-links a {
-                    font-size: 0.9rem;
-                    margin-left: 1rem;
-                }
+        .signup {
+            h2 {
+                font-size: 2.5rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero-banner,
-            .full-width-image {
-                h1 {
-                    font-size: 2.5rem;
-                }
-                h2 {
-                    font-size: 1.2rem;
-                }
+    }
+
+    @media (max-width: 480px) {
+        .hero-banner,
+        .full-width-image {
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .concept {
+            padding: 4rem 1rem;
+            h2 {
+                font-size: 2rem;
+            }
+        }
+
+        .signup {
+            padding: 4rem 1.5rem;
+
+            h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        form {
+            width: 280px;
+            padding: 1.5rem;
+
+            input[type='email'],
+            input[type='text'] {
+                font-size: 0.9rem;
             }
 
-            .concept {
-                padding: 4rem 1rem;
-                h2 {
-                    font-size: 2rem;
-                }
-            }
-
-            .signup {
-                padding: 4rem 1.5rem;
-
-                h2 {
-                    font-size: 2.5rem;
-                }
-            }
-
-            form {
-                width: 280px;
-                padding: 1.5rem;
-
-                input[type='email'],
-                input[type='text'] {
-                    font-size: 0.9rem;
-                }
-
-                button {
-                    font-size: 0.85rem;
-                }
+            button {
+                font-size: 0.85rem;
             }
         }
     }
@@ -595,68 +672,7 @@ body:not(.animation-page) {
     background-image: url('images/royal-portuguese-reading-room.jpg');
 }
 
-.mission {
-    background-image: url('images/john-work-garrett-libarary-reading-room.jpg');
-}
 
-// Mission page specific styles
-.mission-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-
-    section {
-        margin-bottom: 4rem;
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            margin-bottom: 2rem;
-            font-weight: 900;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 1.5rem;
-            font-weight: 900;
-        }
-
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            font-weight: 200;
-        }
-    }
-
-    .goals {
-        ul {
-            list-style: none;
-            padding: 0;
-
-            li {
-                font-size: 1.2rem;
-                margin: 1rem 0;
-                padding-left: 1.5rem;
-                position: relative;
-                font-weight: 200;
-
-                &:before {
-                    content: '•';
-                    position: absolute;
-                    left: 0;
-                    color: $primary-color;
-                }
-            }
-        }
-    }
-}
-
-// Responsive adjustments
-@media (max-width: 768px) {
-    .hero-banner {
-        height: 40vh;
-    }
-}
 
 .cta-funnel {
     max-width: 800px;
@@ -700,8 +716,3 @@ body:not(.animation-page) {
     // Add only specific overrides
 }
 
-.clearfix::after {
-    content: '';
-    display: table;
-    clear: both;
-}
