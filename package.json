@@ -8,6 +8,7 @@
         "sass:build": "sass styles.scss:styles.css --style compressed",
         "build": "npm run sass:build",
         "start": "npm run sass",
+        "deploy:signup": "set -a && [ -f .env ] && . ./.env && set +a && npx wrangler deploy --env signup",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,html}\"",

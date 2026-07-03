@@ -1,0 +1,5 @@
+# Copy this file to .dev.vars for local wrangler dev usage.
+# Do not commit real secrets.
+
+# Cloudflare Turnstile secret used by signup-worker/worker.js to verify tokens.
+TURNSTILE_SECRET_KEY=replace_with_your_turnstile_secret_key

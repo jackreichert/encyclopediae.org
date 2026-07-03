@@ -1,5 +1,7 @@
 # Root wrangler.toml (wrangler v3.88.0^)
 
+name = "encyclopediae-worker"
+
 [env.signup]
 name = "signup-worker"
 main = "signup-worker/worker.js"
