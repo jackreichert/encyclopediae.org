@@ -1,0 +1,29 @@
+name: Deploy Cloudflare
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "signup-worker/**"
+      - "wrangler.toml"
+      - ".github/workflows/deploy-cloudflare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-signup-worker:
+    name: Deploy signup Worker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker (env.signup)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env signup
