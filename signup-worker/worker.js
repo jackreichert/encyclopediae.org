@@ -139,7 +139,11 @@ function toBase64Url(input) {
 }
 
 function pemToArrayBuffer(pem) {
-  const base64 = pem.replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
+  const normalizedPem = normalizePrivateKey(pem);
+  const base64 = normalizedPem
+    .replace(/-----BEGIN PRIVATE KEY-----/, '')
+    .replace(/-----END PRIVATE KEY-----/, '')
+    .replace(/\s+/g, '');
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
 
@@ -148,6 +152,22 @@ function pemToArrayBuffer(pem) {
   }
 
   return bytes.buffer;
+}
+
+function normalizePrivateKey(rawValue) {
+  let value = String(rawValue || '').trim();
+
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith('\'') && value.endsWith('\''))
+  ) {
+    value = value.slice(1, -1);
+  }
+
+  // Support secrets provided with escaped newlines (\n) instead of real line breaks.
+  value = value.replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+
+  return value;
 }
 
 async function getGoogleAccessToken(env) {
