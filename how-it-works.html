@@ -79,6 +79,7 @@
                     <a href="how-it-works.html" class="active">How It Works</a>
                     <a href="endowment.html">The Endowment Model</a>
                     <a href="launch.html">How It Starts</a>
+                    <a href="signup.html">Get In Touch</a>
                 </div>
             </nav>
         </header>
@@ -153,57 +154,15 @@
                         contact the Encyclopediae Initiative. We welcome discussions with university administrators,
                         department heads, and faculty members.
                     </p>
-
-                    <form id="signup-form" class="signup-form">
-                        <h3>Stay Updated</h3>
-                        <p class="form-description">
-                            Join our mailing list to receive updates about the Encyclopediae Initiative.
-                        </p>
-
-                        <div class="form-group required">
-                            <label for="email">Academic Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                                placeholder="your.name@university.edu"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="name">Name (optional)</label>
-                            <input type="text" id="name" name="name" placeholder="Your name" />
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="has-message" name="has-message" />
-                                I have a question
-                            </label>
-                        </div>
-
-                        <div class="form-group message-group" style="display: none">
-                            <label for="message">Your Message</label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                placeholder="Ask a question or tell us about your interest in the project"
-                            ></textarea>
-                        </div>
-
-                        <div class="turnstile-wrapper" id="turnstile-wrapper"></div>
-
-                        <button type="submit" class="submit-button">
-                            <span class="default">Sign up for updates</span>
-                            <span class="loading">Sending...</span>
-                            <span class="success">✓ Thank you!</span>
-                            <span class="error">Please try again</span>
-                        </button>
-                    </form>
+                    <a href="signup.html" class="cta-button">Get In Touch</a>
                 </section>
             </div>
         </article>
+
+        <div style="background: #f9f9f9; padding: 2.5rem 2rem; text-align: center;">
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Questions or institutional interest?</p>
+            <a href="signup.html" class="cta-button">Get In Touch</a>
+        </div>
 
         <footer>
             <div class="footer-inner">
@@ -217,6 +176,7 @@
                     <a href="how-it-works.html">How It Works</a>
                     <a href="endowment.html">The Endowment Model</a>
                     <a href="launch.html">How It Starts</a>
+                    <a href="signup.html">Get In Touch</a>
                 </nav>
             </div>
             <div class="footer-base">
@@ -224,13 +184,6 @@
             </div>
         </footer>
 
-        <!-- Add Turnstile script -->
-        <script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
-            async
-            defer
-        ></script>
-        <script src="/js/turnstile-form.js?v=1709230626"></script>
         <script src="/js/nav.js"></script>
     </body>
 </html>

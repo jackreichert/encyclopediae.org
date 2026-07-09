@@ -208,7 +208,7 @@ function extractPrivateKeyFromJson(input) {
     if (parsed && typeof parsed.private_key === 'string') {
       return parsed.private_key;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 
