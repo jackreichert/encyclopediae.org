@@ -9,7 +9,7 @@ compatibility_date = "2024-01-01"
 
 # Add routes for signup worker
 [[env.signup.routes]]
-pattern = "encyclopediae.org/signup*"
+pattern = "encyclopediae.org/api/signup*"
 zone_name = "encyclopediae.org"
 
 [env.signup.vars]
