@@ -16,7 +16,8 @@
         "cleanup": "bun run format && bun run lint:fix"
     },
     "devDependencies": {
-        "eslint": "^8.57.0",
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.6.0",
         "prettier": "^3.4.2",
         "sass": "^1.69.5"
     },

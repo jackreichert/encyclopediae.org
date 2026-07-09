@@ -3,3 +3,11 @@
 
 # Cloudflare Turnstile secret used by signup-worker/worker.js to verify tokens.
 TURNSTILE_SECRET_KEY=replace_with_your_turnstile_secret_key
+
+# Google Sheets sink for signups.
+GOOGLE_SHEET_ID=replace_with_your_google_sheet_id
+GOOGLE_SERVICE_ACCOUNT_EMAIL=replace_with_your_service_account_email
+GOOGLE_SHEET_RANGE=A:D
+
+# Service account private key (PEM). For local .dev.vars, keep the escaped \n form.
+GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nreplace_with_key\n-----END PRIVATE KEY-----\n"

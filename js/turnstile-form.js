@@ -2,13 +2,8 @@
 
 let widgetId = null;
 
-function countWords(str) {
-  return str.trim().split(/\s+/).length;
-}
-
 // Initialize Turnstile widget
 function initTurnstile() {
-  console.log('Initializing Turnstile widget...');
   if (widgetId) {
     turnstile.remove(widgetId);
   }
@@ -19,11 +14,9 @@ function initTurnstile() {
     retry: 'never',
     refresh_expired: 'manual',
     callback: function (token) {
-      console.log('Turnstile callback received');
       window.turnstileToken = token;
     },
     'expired-callback': function () {
-      console.log('Token expired');
       window.turnstileToken = null;
     },
     'error-callback': function (error) {
@@ -37,7 +30,12 @@ async function handleFormSubmit(event) {
   event.preventDefault();
   const form = event.target;
   const button = form.querySelector('button');
-  const errorElement = form.querySelector('.error-message') || createErrorElement(form);
+  const existingErrorElement = form.querySelector('.error-message');
+
+  if (existingErrorElement) {
+    existingErrorElement.textContent = '';
+    existingErrorElement.style.display = 'none';
+  }
 
   try {
     // Check if we have a valid token
@@ -46,7 +44,6 @@ async function handleFormSubmit(event) {
     }
 
     button.classList.add('loading');
-    errorElement.textContent = ''; // Clear any previous errors
 
     const formData = new FormData(form);
     formData.append('cf-turnstile-response', window.turnstileToken);
@@ -81,6 +78,8 @@ async function handleFormSubmit(event) {
     form.parentNode.replaceChild(successMessage, form);
   } catch (error) {
     console.error('Form submission error:', error);
+    const errorElement = form.querySelector('.error-message') || createErrorElement(form);
+    errorElement.style.display = 'block';
     errorElement.textContent = error.message || 'An error occurred. Please try again.';
     button.classList.remove('loading');
     button.classList.add('error');

@@ -75,14 +75,33 @@ export default {
       const submissionId = crypto.randomUUID();
       await env.SIGNUPS.put(submissionId, JSON.stringify(submission));
 
+      const storageWarnings = [];
+
+      // Write to Google Sheets when configured.
+      if (canWriteToGoogleSheet(env)) {
+        try {
+          await appendSubmissionToGoogleSheet(env, submission);
+        } catch (sheetError) {
+          console.error('Google Sheets write failed after storing signup:', sheetError);
+          storageWarnings.push('Signup stored, but Google Sheet write failed.');
+        }
+      } else {
+        console.warn('Google Sheets env vars not configured; skipping sheet write.');
+        storageWarnings.push('Signup stored, but Google Sheets is not configured in Worker environment.');
+      }
+
       return new Response(
         JSON.stringify({
           success: true,
           message: 'Submission saved successfully',
+          warnings: storageWarnings,
         }),
         {
           status: 200,
-          headers: corsHeaders,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
         }
       );
     } catch (error) {
@@ -93,12 +112,141 @@ export default {
         }),
         {
           status: 500,
-          headers: corsHeaders,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+          },
         }
       );
     }
   },
 };
+
+function canWriteToGoogleSheet(env) {
+  return Boolean(
+    env.GOOGLE_SHEET_ID && env.GOOGLE_SERVICE_ACCOUNT_EMAIL && env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+  );
+}
+
+function toBase64Url(input) {
+  const bytes = input instanceof Uint8Array ? input : new TextEncoder().encode(input);
+  let binary = '';
+  for (const b of bytes) {
+    binary += String.fromCharCode(b);
+  }
+
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+function pemToArrayBuffer(pem) {
+  const base64 = pem.replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+async function getGoogleAccessToken(env) {
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const claimSet = {
+    iss: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
+    aud: 'https://oauth2.googleapis.com/token',
+    exp: nowSeconds + 3600,
+    iat: nowSeconds,
+  };
+
+  const encodedHeader = toBase64Url(JSON.stringify(header));
+  const encodedClaimSet = toBase64Url(JSON.stringify(claimSet));
+  const unsignedJwt = `${encodedHeader}.${encodedClaimSet}`;
+
+  const privateKey = await crypto.subtle.importKey(
+    'pkcs8',
+    pemToArrayBuffer(env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY),
+    {
+      name: 'RSASSA-PKCS1-v1_5',
+      hash: 'SHA-256',
+    },
+    false,
+    ['sign']
+  );
+
+  const signature = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', privateKey, new TextEncoder().encode(unsignedJwt));
+  const signedJwt = `${unsignedJwt}.${toBase64Url(new Uint8Array(signature))}`;
+
+  const tokenRequestBody = new URLSearchParams({
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    assertion: signedJwt,
+  });
+
+  const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+    body: tokenRequestBody.toString(),
+  });
+
+  if (!tokenResponse.ok) {
+    const tokenError = await tokenResponse.text();
+    throw new Error(`Google token request failed: ${tokenResponse.status} ${tokenError}`);
+  }
+
+  const tokenJson = await tokenResponse.json();
+  if (!tokenJson.access_token) {
+    throw new Error('Google token response missing access_token');
+  }
+
+  return tokenJson.access_token;
+}
+
+async function appendSubmissionToGoogleSheet(env, submission) {
+  const accessToken = await getGoogleAccessToken(env);
+  const requestedRange = env.GOOGLE_SHEET_RANGE || 'A:D';
+  const rowValues = [[submission.timestamp, submission.email, submission.name || '', submission.message || '']];
+
+  const firstAttempt = await appendRow(accessToken, env.GOOGLE_SHEET_ID, requestedRange, rowValues);
+  if (firstAttempt.ok) {
+    return;
+  }
+
+  const firstAttemptError = await firstAttempt.text();
+  const shouldFallbackToDefaultRange =
+    requestedRange !== 'A:D' && firstAttempt.status === 400 && firstAttemptError.includes('Unable to parse range');
+
+  if (shouldFallbackToDefaultRange) {
+    console.warn(`Configured GOOGLE_SHEET_RANGE failed (${requestedRange}); retrying with default A:D.`);
+    const fallbackAttempt = await appendRow(accessToken, env.GOOGLE_SHEET_ID, 'A:D', rowValues);
+    if (fallbackAttempt.ok) {
+      return;
+    }
+
+    const fallbackError = await fallbackAttempt.text();
+    throw new Error(`Google Sheets append failed after fallback: ${fallbackAttempt.status} ${fallbackError}`);
+  }
+
+  throw new Error(`Google Sheets append failed: ${firstAttempt.status} ${firstAttemptError}`);
+}
+
+async function appendRow(accessToken, sheetId, valueRange, rowValues) {
+  const encodedRange = encodeURIComponent(valueRange);
+  return fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodedRange}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ values: rowValues }),
+    }
+  );
+}
 
 async function verifyTurnstileToken(token, secret) {
   let formData = new URLSearchParams();
@@ -114,7 +262,7 @@ async function verifyTurnstileToken(token, secret) {
   });
 
   const outcome = await result.json();
-  console.log('Turnstile verification response:', outcome);
+  console.warn('Turnstile verification response:', outcome);
 
   if (!outcome.success) {
     console.error('Turnstile verification failed:', {

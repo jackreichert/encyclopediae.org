@@ -21,6 +21,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate required secrets
+        run: |
+          test -n "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          test -n "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          test -n "${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}"
+
+      - name: Sync Worker secrets (env.signup)
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          secrets: |
+            GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+          environment: signup
+        env:
+          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+
       - name: Deploy Worker (env.signup)
         uses: cloudflare/wrangler-action@v3.14.1
         with:
