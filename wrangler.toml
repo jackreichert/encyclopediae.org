@@ -15,6 +15,7 @@ zone_name = "encyclopediae.org"
 [env.signup.vars]
 GOOGLE_SHEET_ID = "15JGiLaUTWdV5nyoXNmTJA42GnegQdaARNM4Dnk_flMk"
 GOOGLE_SERVICE_ACCOUNT_EMAIL = "encyclopediae-sheets@encyclopediae-initiative.iam.gserviceaccount.com"
+GOOGLE_SHEET_RANGE = "A:D"
 
 [[env.signup.kv_namespaces]]
 binding = "SIGNUPS"
