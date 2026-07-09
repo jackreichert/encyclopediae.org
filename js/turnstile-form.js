@@ -33,8 +33,7 @@ async function handleFormSubmit(event) {
   const existingErrorElement = form.querySelector('.error-message');
 
   if (existingErrorElement) {
-    existingErrorElement.textContent = '';
-    existingErrorElement.style.display = 'none';
+    existingErrorElement.remove();
   }
 
   try {
@@ -98,6 +97,7 @@ async function handleFormSubmit(event) {
 function createErrorElement(form) {
   const errorElement = document.createElement('div');
   errorElement.className = 'error-message';
+  errorElement.style.display = 'none';
   form.insertBefore(errorElement, form.querySelector('button'));
   return errorElement;
 }
