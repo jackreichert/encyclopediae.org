@@ -140,6 +140,12 @@ function toBase64Url(input) {
 
 function pemToArrayBuffer(pem) {
   const normalizedPem = normalizePrivateKey(pem);
+  if (!normalizedPem.includes('BEGIN PRIVATE KEY')) {
+    throw new Error(
+      'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY must contain a PEM private key (or a JSON object with private_key).'
+    );
+  }
+
   const base64 = normalizedPem
     .replace(/-----BEGIN PRIVATE KEY-----/, '')
     .replace(/-----END PRIVATE KEY-----/, '')
@@ -166,6 +172,18 @@ function normalizePrivateKey(rawValue) {
 
   // Support secrets provided with escaped newlines (\n) instead of real line breaks.
   value = value.replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+
+  // Support secrets stored as the entire service-account JSON blob.
+  if (value.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed && typeof parsed.private_key === 'string') {
+        value = parsed.private_key;
+      }
+    } catch {
+      // Keep original value if it's not valid JSON.
+    }
+  }
 
   return value;
 }
