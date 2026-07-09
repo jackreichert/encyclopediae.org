@@ -140,16 +140,28 @@ function toBase64Url(input) {
 
 function pemToArrayBuffer(pem) {
   const normalizedPem = normalizePrivateKey(pem);
-  if (!normalizedPem.includes('BEGIN PRIVATE KEY')) {
+  const hasPkcs8Header = normalizedPem.includes('BEGIN PRIVATE KEY');
+  const hasPkcs1Header = normalizedPem.includes('BEGIN RSA PRIVATE KEY');
+
+  if (!hasPkcs8Header && !hasPkcs1Header) {
     throw new Error(
       'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY must contain a PEM private key (or a JSON object with private_key).'
     );
   }
 
-  const base64 = normalizedPem
-    .replace(/-----BEGIN PRIVATE KEY-----/, '')
-    .replace(/-----END PRIVATE KEY-----/, '')
+  let base64 = normalizedPem
+    .replace(/-----BEGIN (?:RSA )?PRIVATE KEY-----/, '')
+    .replace(/-----END (?:RSA )?PRIVATE KEY-----/, '')
     .replace(/\s+/g, '');
+
+  // Tolerate escaped or URL-safe variants that can appear in copied secrets.
+  base64 = base64.replace(/-/g, '+').replace(/_/g, '/').replace(/[^A-Za-z0-9+/=]/g, '');
+
+  // Ensure proper Base64 padding for atob().
+  while (base64.length % 4 !== 0) {
+    base64 += '=';
+  }
+
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
 
@@ -170,22 +182,37 @@ function normalizePrivateKey(rawValue) {
     value = value.slice(1, -1);
   }
 
-  // Support secrets provided with escaped newlines (\n) instead of real line breaks.
-  value = value.replace(/\\n/g, '\n').replace(/\\r/g, '\r');
-
   // Support secrets stored as the entire service-account JSON blob.
-  if (value.startsWith('{')) {
-    try {
-      const parsed = JSON.parse(value);
-      if (parsed && typeof parsed.private_key === 'string') {
-        value = parsed.private_key;
-      }
-    } catch {
-      // Keep original value if it's not valid JSON.
-    }
+  // Parse before newline unescaping to avoid invalidating JSON strings.
+  let parsedKey = extractPrivateKeyFromJson(value);
+  if (!parsedKey && value.includes('\\"')) {
+    parsedKey = extractPrivateKeyFromJson(value.replace(/\\"/g, '"'));
+  }
+  if (parsedKey) {
+    value = parsedKey;
   }
 
+  // Support secrets provided with escaped newlines (\n) instead of real line breaks.
+  value = value.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+
   return value;
+}
+
+function extractPrivateKeyFromJson(input) {
+  if (!input.startsWith('{')) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(input);
+    if (parsed && typeof parsed.private_key === 'string') {
+      return parsed.private_key;
+    }
+  } catch (error) {
+    return null;
+  }
+
+  return null;
 }
 
 async function getGoogleAccessToken(env) {
