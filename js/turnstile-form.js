@@ -47,7 +47,7 @@ async function handleFormSubmit(event) {
     const formData = new FormData(form);
     formData.append('cf-turnstile-response', window.turnstileToken);
 
-    const response = await fetch('https://encyclopediae.org/api/signup', {
+    const response = await fetch('/api/signup', {
       method: 'POST',
       body: formData,
     });
@@ -71,8 +71,8 @@ async function handleFormSubmit(event) {
     const successMessage = document.createElement('div');
     successMessage.className = 'success-message';
     successMessage.innerHTML = `
-      <h3>Thank you for signing up!</h3>
-      <p>We'll keep you updated about the Encyclopediae Initiative.</p>
+      <h3>Message received.</h3>
+      <p>Thank you for reaching out to the Encyclopediae Initiative.</p>
     `;
     form.parentNode.replaceChild(successMessage, form);
   } catch (error) {
