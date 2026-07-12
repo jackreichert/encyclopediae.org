@@ -1,0 +1,20 @@
+<header>
+    <nav aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html">encyclopediae.org</a>
+        </div>
+        <button class="nav-burger" aria-label="Open navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links">
+            <a href="mission.html"{% if page.url == '/mission.html' %} class="active"{% endif %}>Our Mission</a>
+            <a href="wikipedia.html"{% if page.url == '/wikipedia.html' %} class="active"{% endif %}>Why Change?</a>
+            <a href="how-it-works.html"{% if page.url == '/how-it-works.html' %} class="active"{% endif %}>How It Works</a>
+            <a href="endowment.html"{% if page.url == '/endowment.html' %} class="active"{% endif %}>The Endowment Model</a>
+            <a href="launch.html"{% if page.url == '/launch.html' %} class="active"{% endif %}>How It Starts</a>
+            <a href="join-the-initiative.html"{% if page.url == '/join-the-initiative.html' %} class="active"{% endif %}>Join the Initiative</a>
+        </div>
+    </nav>
+</header>
