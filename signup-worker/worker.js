@@ -1,69 +1,57 @@
+const MAX_EMAIL_LENGTH = 254;
+const MAX_NAME_LENGTH = 200;
+const MAX_MESSAGE_LENGTH = 5000;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALLOWED_ORIGINS = ['https://encyclopediae.org', 'https://www.encyclopediae.org'];
+
 export default {
   async fetch(request, env) {
-    const allowedOrigins = ['https://encyclopediae.org', 'https://www.encyclopediae.org'];
-    const origin = request.headers.get('Origin') || 'https://encyclopediae.org';
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
+    const corsHeaders = buildCorsHeaders(request);
 
-    // Handle CORS preflight requests
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
 
     if (request.method !== 'POST') {
-      return new Response('Method not allowed', {
-        status: 405,
-        headers: corsHeaders,
-      });
+      return jsonResponse({ error: 'Method not allowed' }, 405, corsHeaders);
     }
 
     try {
       const formData = await request.formData();
 
-      // Get form fields
-      const email = formData.get('email');
-      const name = formData.get('name') || '';
+      const email = String(formData.get('email') || '')
+        .trim()
+        .toLowerCase();
+      const name = String(formData.get('name') || '').trim();
       const hasMessage = formData.get('has-message') === 'on';
-      const message = hasMessage ? formData.get('message') || '' : '';
+      const message = hasMessage ? String(formData.get('message') || '').trim() : '';
       const token = formData.get('cf-turnstile-response');
 
-      // Validate required fields
       if (!email) {
-        return new Response(JSON.stringify({ error: 'Email is required' }), {
-          status: 400,
-          headers: corsHeaders,
-        });
+        return jsonResponse({ error: 'Email is required' }, 400, corsHeaders);
       }
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return new Response(JSON.stringify({ error: 'Invalid email format' }), {
-          status: 400,
-          headers: corsHeaders,
-        });
+      if (email.length > MAX_EMAIL_LENGTH || !EMAIL_REGEX.test(email)) {
+        return jsonResponse({ error: 'Invalid email format' }, 400, corsHeaders);
       }
 
-      // Verify Turnstile token
+      if (name.length > MAX_NAME_LENGTH) {
+        return jsonResponse({ error: 'Name is too long' }, 400, corsHeaders);
+      }
+
+      if (message.length > MAX_MESSAGE_LENGTH) {
+        return jsonResponse({ error: 'Message is too long' }, 400, corsHeaders);
+      }
+
       if (!token) {
-        return new Response(JSON.stringify({ error: 'Please complete the verification challenge' }), {
-          status: 400,
-          headers: corsHeaders,
-        });
+        return jsonResponse({ error: 'Please complete the verification challenge' }, 400, corsHeaders);
       }
 
-      const turnstileResponse = await verifyTurnstileToken(token, env.TURNSTILE_SECRET_KEY);
-      if (!turnstileResponse.success) {
-        return new Response(JSON.stringify({ error: 'Invalid verification token' }), {
-          status: 400,
-          headers: corsHeaders,
-        });
+      const turnstileResult = await verifyTurnstileToken(token, env.TURNSTILE_SECRET_KEY);
+      if (!turnstileResult.success) {
+        return jsonResponse({ error: 'Invalid verification token' }, 400, corsHeaders);
       }
 
-      // Prepare submission data
       const submission = {
         email,
         name,
@@ -71,13 +59,12 @@ export default {
         timestamp: new Date().toISOString(),
       };
 
-      // Save to KV first (more reliable)
+      // Persist to KV first (more reliable than Sheets alone).
       const submissionId = crypto.randomUUID();
       await env.SIGNUPS.put(submissionId, JSON.stringify(submission));
 
       const storageWarnings = [];
 
-      // Write to Google Sheets when configured.
       if (canWriteToGoogleSheet(env)) {
         try {
           await appendSubmissionToGoogleSheet(env, submission);
@@ -90,42 +77,49 @@ export default {
         storageWarnings.push('Signup stored, but Google Sheets is not configured in Worker environment.');
       }
 
-      return new Response(
-        JSON.stringify({
+      return jsonResponse(
+        {
           success: true,
           message: 'Submission saved successfully',
           warnings: storageWarnings,
-        }),
-        {
-          status: 200,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
+        },
+        200,
+        corsHeaders
       );
     } catch (error) {
       console.error('Submission error:', error);
-      return new Response(
-        JSON.stringify({
-          error: 'An error occurred while processing your submission. Please try again.',
-        }),
+      return jsonResponse(
         {
-          status: 500,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
+          error: 'An error occurred while processing your submission. Please try again.',
+        },
+        500,
+        corsHeaders
       );
     }
   },
 };
 
+function buildCorsHeaders(request) {
+  const origin = request.headers.get('Origin') || ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+}
+
+function jsonResponse(body, status, corsHeaders) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
 function canWriteToGoogleSheet(env) {
-  return Boolean(
-    env.GOOGLE_SHEET_ID && env.GOOGLE_SERVICE_ACCOUNT_EMAIL && env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
-  );
+  return Boolean(env.GOOGLE_SHEET_ID && env.GOOGLE_SERVICE_ACCOUNT_EMAIL && env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY);
 }
 
 function toBase64Url(input) {
@@ -155,7 +149,10 @@ function pemToArrayBuffer(pem) {
     .replace(/\s+/g, '');
 
   // Tolerate escaped or URL-safe variants that can appear in copied secrets.
-  base64 = base64.replace(/-/g, '+').replace(/_/g, '/').replace(/[^A-Za-z0-9+/=]/g, '');
+  base64 = base64
+    .replace(/-/g, '+')
+    .replace(/_/g, '/')
+    .replace(/[^A-Za-z0-9+/=]/g, '');
 
   // Ensure proper Base64 padding for atob().
   while (base64.length % 4 !== 0) {
@@ -175,10 +172,10 @@ function pemToArrayBuffer(pem) {
 function normalizePrivateKey(rawValue) {
   let value = String(rawValue || '').trim();
 
-  if (
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith('\'') && value.endsWith('\''))
-  ) {
+  // Strip wrapping quotes from secrets that were copied with shell quoting.
+  const first = value[0];
+  const last = value[value.length - 1];
+  if ((first === '"' || first === String.fromCharCode(39)) && first === last) {
     value = value.slice(1, -1);
   }
 
@@ -193,7 +190,10 @@ function normalizePrivateKey(rawValue) {
   }
 
   // Support secrets provided with escaped newlines (\n) instead of real line breaks.
-  value = value.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+  value = value
+    .replace(/\\r\\n/g, '\n')
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r');
 
   return value;
 }
@@ -313,8 +313,12 @@ async function appendRow(accessToken, sheetId, valueRange, rowValues) {
   );
 }
 
+/**
+ * Verifies a Turnstile token. Returns { success } and never throws on a
+ * failed challenge — callers map that to HTTP 400. Network/parse failures throw.
+ */
 async function verifyTurnstileToken(token, secret) {
-  let formData = new URLSearchParams();
+  const formData = new URLSearchParams();
   formData.append('secret', secret);
   formData.append('response', token);
 
@@ -326,16 +330,17 @@ async function verifyTurnstileToken(token, secret) {
     body: formData.toString(),
   });
 
+  if (!result.ok) {
+    throw new Error(`Turnstile siteverify HTTP ${result.status}`);
+  }
+
   const outcome = await result.json();
-  console.warn('Turnstile verification response:', outcome);
 
   if (!outcome.success) {
     console.error('Turnstile verification failed:', {
       error_codes: outcome['error-codes'],
     });
-    throw new Error(outcome['error-codes']?.join(', ') || 'Invalid verification token');
   }
 
   return outcome;
 }
-
