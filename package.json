@@ -6,7 +6,9 @@
     "scripts": {
         "sass": "sass styles.scss:styles.css --watch",
         "sass:build": "sass styles.scss:styles.css --style compressed",
-        "build": "npm run sass:build",
+        "site:build": "eleventy",
+        "site:serve": "eleventy --serve",
+        "build": "npm run sass:build && npm run site:build",
         "start": "npm run sass",
         "deploy:signup": "set -a && [ -f .env ] && . ./.env && set +a && npx wrangler deploy --env signup",
         "lint": "eslint .",
@@ -16,6 +18,7 @@
         "cleanup": "bun run format && bun run lint:fix"
     },
     "devDependencies": {
+        "@11ty/eleventy": "^3.1.6",
         "@eslint/js": "^10.0.1",
         "eslint": "^10.6.0",
         "prettier": "^3.4.2",

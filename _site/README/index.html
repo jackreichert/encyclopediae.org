@@ -1,0 +1,98 @@
+<h1>Encyclopediae</h1>
+<h2>Static Site Generation (Eleventy)</h2>
+<p>This site now uses Eleventy so shared layout pieces stay consistent across pages.</p>
+<ul>
+<li>Shared nav include: <code>_includes/nav.njk</code></li>
+<li>Shared footer include: <code>_includes/footer.njk</code></li>
+<li>Eleventy config: <code>.eleventy.js</code></li>
+<li>Output directory: <code>_site/</code></li>
+</ul>
+<h3>Commands</h3>
+<ul>
+<li><code>npm run site:serve</code> - run Eleventy dev server</li>
+<li><code>npm run site:build</code> - build static site into <code>_site</code></li>
+<li><code>npm run build</code> - compile CSS and build static site</li>
+</ul>
+<p>For content pages, edit the page files directly. Header and footer updates should be made once in the include files.</p>
+<h2>Cloudflare Deployment (GitHub Actions)</h2>
+<p>This repo includes a workflow at <code>.github/workflows/deploy-cloudflare.yml</code> that deploys the Worker defined in <code>wrangler.toml</code> under <code>env.signup</code>.</p>
+<h3>Required GitHub Secrets</h3>
+<ul>
+<li><code>CLOUDFLARE_API_TOKEN</code></li>
+<li><code>CLOUDFLARE_ACCOUNT_ID</code></li>
+<li><code>GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY</code></li>
+</ul>
+<p>The API token must include all of these permissions:</p>
+<ul>
+<li>Account: <code>Workers Scripts:Edit</code></li>
+<li>Account: <code>Workers KV Storage:Edit</code> (for KV bindings used by this Worker)</li>
+<li>Zone: <code>Workers Routes:Edit</code> (if deploying/updating routes from <code>wrangler.toml</code>)</li>
+<li>Zone: <code>Zone:Read</code></li>
+</ul>
+<p>And scope it to:</p>
+<ul>
+<li>The exact account in <code>CLOUDFLARE_ACCOUNT_ID</code></li>
+<li>The exact zone <code>encyclopediae.org</code></li>
+</ul>
+<p><code>GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY</code> should be the full <code>private_key</code> value from your Google service account JSON, including begin/end lines.</p>
+<h3>Triggers</h3>
+<ul>
+<li>Push to <code>main</code> when files in <code>signup-worker/**</code> or <code>wrangler.toml</code> change.</li>
+<li>Manual run from the Actions tab via <code>workflow_dispatch</code>.</li>
+</ul>
+<h2>Local Dev Secrets Template</h2>
+<p>Use <code>.dev.vars.example</code> as a template for local Worker secrets:</p>
+<ol>
+<li>Copy <code>.dev.vars.example</code> to <code>.dev.vars</code></li>
+<li>Fill in your real <code>TURNSTILE_SECRET_KEY</code></li>
+<li>Fill in your Google Sheets values:
+<ul>
+<li><code>GOOGLE_SHEET_ID</code></li>
+<li><code>GOOGLE_SERVICE_ACCOUNT_EMAIL</code></li>
+<li><code>GOOGLE_SHEET_RANGE</code> (for example <code>Signups!A:D</code>)</li>
+<li><code>GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY</code></li>
+</ul>
+</li>
+</ol>
+<p><code>.dev.vars</code> is gitignored and should never be committed.</p>
+<h2>Free Signup Notification Setup (Google Sheets)</h2>
+<p>The signup worker stores submissions in KV and appends each signup to a Google Sheet.
+You can then use Google notification rules on that sheet to get alerts.</p>
+<ol>
+<li>In Google Cloud, enable the Google Sheets API for your project.</li>
+<li>Create a service account and generate a JSON key.</li>
+<li>Share your destination Google Sheet with the service account email as Editor.</li>
+<li>Set Worker config values in <code>wrangler.toml</code>:
+<ul>
+<li><code>GOOGLE_SHEET_ID</code></li>
+<li><code>GOOGLE_SERVICE_ACCOUNT_EMAIL</code></li>
+<li><code>GOOGLE_SHEET_RANGE</code> (default <code>A:D</code>; use <code>SheetTab!A:D</code> only if that tab exists)</li>
+</ul>
+</li>
+<li>Store the private key as a Worker secret:
+<ul>
+<li><code>npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY --env signup</code></li>
+</ul>
+</li>
+<li>Deploy the worker:
+<ul>
+<li><code>npm run deploy:signup</code></li>
+</ul>
+</li>
+<li>In Google Sheets, enable notifications:
+<ul>
+<li><code>Tools</code> -&gt; <code>Notification rules</code></li>
+<li>Choose <code>Any changes are made</code></li>
+<li>Choose email frequency (<code>right away</code> is typical)</li>
+</ul>
+</li>
+</ol>
+<p>If Google configuration is missing, signups are still saved to KV as a fallback.</p>
+<h2>Local Deploy Auth Template</h2>
+<p>Use <code>.env.example</code> as a template for local deploy auth variables:</p>
+<ol>
+<li>Copy <code>.env.example</code> to <code>.env</code></li>
+<li>Fill in your real <code>CLOUDFLARE_API_TOKEN</code> and <code>CLOUDFLARE_ACCOUNT_ID</code></li>
+<li>Run <code>npm run deploy:signup</code></li>
+</ol>
+<p><code>.env</code> is gitignored and should never be committed.</p>

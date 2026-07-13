@@ -1,5 +1,22 @@
 # Encyclopediae
 
+## Static Site Generation (Eleventy)
+
+This site now uses Eleventy so shared layout pieces stay consistent across pages.
+
+- Shared nav include: `_includes/nav.njk`
+- Shared footer include: `_includes/footer.njk`
+- Eleventy config: `.eleventy.js`
+- Output directory: `_site/`
+
+### Commands
+
+- `npm run site:serve` - run Eleventy dev server
+- `npm run site:build` - build static site into `_site`
+- `npm run build` - compile CSS and build static site
+
+For content pages, edit the page files directly. Header and footer updates should be made once in the include files.
+
 ## Cloudflare Deployment (GitHub Actions)
 
 This repo includes a workflow at `.github/workflows/deploy-cloudflare.yml` that deploys the Worker defined in `wrangler.toml` under `env.signup`.
