@@ -15,7 +15,7 @@
 .callout {
     background: $primary-color;
     color: #fff;
-    padding: 5rem 2rem;
+    padding: $section-spacing 2rem;
     text-align: center;
 
     h2 {
@@ -145,7 +145,7 @@
     display: grid;
     grid-template-columns: 72px 1fr;
     gap: 2rem;
-    padding: 3rem 0;
+    padding: 2.5rem 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
     &:last-child {
@@ -232,6 +232,9 @@
     border: none;
     cursor: pointer;
     padding: 6px 4px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
     margin-left: auto;
 
     span {
@@ -262,5 +265,10 @@
 
     @media (max-width: 768px) {
         display: flex;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $primary-color;
+        outline-offset: 2px;
     }
 }

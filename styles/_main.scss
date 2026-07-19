@@ -95,6 +95,10 @@ body:not(.animation-page) {
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
 
+        @media (max-width: 768px) {
+            padding: 0.5rem 1rem;
+        }
+
         nav {
             max-width: 1200px;
             margin: 0 auto;
@@ -170,6 +174,9 @@ body:not(.animation-page) {
 
                     @media (max-width: 768px) {
                         padding: 0.7rem 0;
+                        min-height: 44px;
+                        display: flex;
+                        align-items: center;
                         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                         width: 100%;
                         font-size: 1rem;
@@ -211,7 +218,7 @@ body:not(.animation-page) {
     // Content sections
     .concept {
         width: 100%;
-        padding: 6rem 2rem;
+        padding: $section-spacing 2rem;
         background: #fff;
         margin: 0;
         color: $primary-color;
@@ -241,7 +248,49 @@ body:not(.animation-page) {
         }
 
         @media (max-width: 768px) {
-            padding: 4rem 1.5rem;
+            padding-inline: 1.5rem;
+        }
+    }
+
+    .concept--continuation {
+        padding-top: 0;
+    }
+
+    .concept--muted {
+        background: #f9f9f9;
+    }
+
+    .content-band {
+        padding: $section-spacing 2rem;
+
+        &--muted {
+            background: #f9f9f9;
+        }
+
+        &--compact {
+            padding-block: $section-spacing-compact;
+        }
+
+        &--constrained {
+            max-width: 900px;
+            margin-inline: auto;
+        }
+
+        .content-band__inner {
+            max-width: 800px;
+            margin: 0 auto;
+
+            &--wide {
+                max-width: 900px;
+            }
+        }
+
+        .content-band__header {
+            margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            padding-inline: 1.5rem;
         }
     }
 
@@ -283,7 +332,7 @@ body:not(.animation-page) {
     .signup {
         width: 100%;
         background: #fff;
-        padding: 6rem 2rem;
+        padding: $section-spacing 2rem;
         text-align: center;
         margin: 0;
         color: $primary-color;
@@ -583,14 +632,14 @@ body:not(.animation-page) {
         }
 
         .concept {
-            padding: 4rem 1rem;
+            padding-inline: 1rem;
             h2 {
                 font-size: 2rem;
             }
         }
 
         .signup {
-            padding: 4rem 1.5rem;
+            padding-inline: 1.5rem;
 
             h2 {
                 font-size: 2.5rem;
@@ -633,7 +682,7 @@ body:not(.animation-page) {
 
     @media (max-width: 768px) {
         height: 40vh;
-        margin-top: 6rem; // Space for mobile header
+        margin-top: 3.75rem;
     }
 
     .overlay {
@@ -662,7 +711,7 @@ body:not(.animation-page) {
         }
 
         @media (max-width: 768px) {
-            padding-top: 6rem; // Extra padding only on mobile
+            padding-top: 2rem;
         }
     }
 }
@@ -676,7 +725,7 @@ body:not(.animation-page) {
 
 .cta-funnel {
     max-width: 800px;
-    margin: 3rem auto;
+    margin: 2.5rem auto 0;
     display: flex;
     gap: 2rem;
     text-align: center;
